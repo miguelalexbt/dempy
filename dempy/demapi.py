@@ -1,6 +1,6 @@
 from .dataset import DatasetsService
 # from .acquisition import AcquisitionsService
-# from .organization import OrganizationsService
+from .organization import OrganizationsService
 from .user import UsersService
 from .helpers import *
 
@@ -11,5 +11,5 @@ class DemAPI:
 
         self.datasets = DatasetsService(api)
         # self.acquisitions = AcquisitionsService(api)
-        # self.organizations = OrganizationsService(api)
+        self.organizations = OrganizationsService(api)
         self.users = UsersService(api)
