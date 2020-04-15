@@ -1,5 +1,5 @@
 class Sensor:
-    def __init__(self, type = "Sensor", id = "", manufacturer = "", modelName = "", serialNumber = "", syncOffset = None, timeUnit = "", sensorType = "", metadata = object(), tags = []):
+    def __init__(self, type = "Sensor", id = "", manufacturer = "", modelName = "", serialNumber = "", syncOffset = None, timeUnit = "SECONDS", sensorType = "", metadata ={}, tags = []):
         self.id = id
         self.manufacturer = manufacturer
         self.modelName = modelName
@@ -9,6 +9,10 @@ class Sensor:
         self.sensorType = sensorType
         self.metadata = metadata
         self.tags = tags
+
+        #[MICROSECONDS, MILISECONDS, SECONDS, NANOSECONDS]
+
+
 
     def keys(self):
         return self.__dict__.keys()

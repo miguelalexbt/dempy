@@ -3,6 +3,9 @@ import json
 from typing import Union, List
 from .acquisition import Acquisition
 from .. import _api_calls
+from .devices.device import Device
+from .devices.sensor import Sensor
+from .subject.subject import Subject
 
 _ENDPOINT = "api/acquisitions/"
 
@@ -14,8 +17,7 @@ def get(acquisitionId = None, datasetId = None, tags = []) -> Union[Acquisition,
 
 class CustomEncoder(json.JSONEncoder):
     def default(self, obj):
-        # if isinstance(obj, (Acquisition, Subject, Device, Sensor)):
-        if isinstance(obj, (Acquisition)):
+        if isinstance(obj, (Acquisition, Subject, Device, Sensor)):
             return {**obj}
         else:
             return super().default(obj)
@@ -32,14 +34,11 @@ class CustomDecoder(json.JSONDecoder):
 
         if type == "Acquisition":
             return Acquisition(**obj)
-        elif type == "HumanSubject":
-            pass
-            # return Subject(**obj)
+        elif type.endswith("Subject"):
+            return Subject(**obj)
         elif type == "Device":
-            pass
-            # return Device(**obj)
+            return Device(**obj)
         elif type == "Sensor":
-            pass
-            # return Sensor(**obj)
+            return Sensor(**obj)
         else:
             return obj

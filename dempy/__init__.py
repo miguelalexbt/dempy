@@ -4,9 +4,11 @@ from . import acquisitions
 from . import organizations
 from . import users
 from .datasets import Dataset
-from .acquisitions import Acquisition
 from .organizations import Organization
 from .users import User
+from .acquisitions import Acquisition
+from .acquisitions.subject.subject import Subject
+from .acquisitions.devices.device import Device
 
 __all__ = [
     "config",
@@ -17,5 +19,6 @@ __all__ = [
     "Dataset",
     "Acquisition",
     "Organization",
-    "User"
+    "User",
+    "Subject",
 ]

@@ -1,5 +1,5 @@
 class Device:
-    def __init__(self, type = "Device", id = "", serialNumber = "", manufacturer = "", modelName = "", syncOffset = None, timeUnit = "", metadata = object(), sensors = [], tags = []):
+    def __init__(self, type = "Device", id = "", serialNumber = "", manufacturer = "", modelName = "", syncOffset = None, timeUnit = "SECONDS", metadata = {}, sensors = [], tags = []):
         self.id = id
         self.serialNumber = serialNumber
         self.manufacturer = manufacturer
@@ -10,6 +10,7 @@ class Device:
         self.sensors = sensors
         self.tags = tags
 
+        # [MICROSECONDS, MILISECONDS, SECONDS, NANOSECONDS]
     def keys(self):
         return self.__dict__.keys()
 
@@ -17,4 +18,4 @@ class Device:
         return getattr(self, key)
     
     def __repr__(self):
-        return f"<Device id=\"{self.id}\">"
+        return f"<Device id=\"{self.id}\" manufacturer=\"{self.manufacturer}\" modelName=\"{self.modelName}\">"

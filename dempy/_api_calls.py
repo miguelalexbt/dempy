@@ -14,6 +14,7 @@ def request(endpoint, method, **args):
         #     session.auth = (user, password)
 
         result = session.request(method, uri, **args)
+        #print(result._content)
         result.raise_for_status()
 
         return result

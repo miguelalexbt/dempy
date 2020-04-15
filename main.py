@@ -40,7 +40,7 @@ def main():
 
     """ Acquisitions """
 
-    ## TODO
+    all_datasets = dempy.datasets.get()
 
     """ Organizations """
 
