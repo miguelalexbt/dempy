@@ -8,7 +8,32 @@ def main():
 
     acquisition = dempy.acquisitions.get("9485e3e0-7ee1-4b84-8d27-34cc2b9cf82f")
 
-    testDevices(acquisition)
+    testImageSamples(acquisition)
+
+def testImageSamples(acquisition):
+    """ Samples """
+    timeseriessamples = acquisition.timeSeriesSamples.get()
+    timeseriessamples_count = acquisition.timeSeriesSamples.count()
+    print(timeseriessamples[-1])
+    print(timeseriessamples_count)
+
+    videoSamples = acquisition.videoSamples.get()
+    videoSamples_count = acquisition.videoSamples.count()
+    print(videoSamples)
+    print(videoSamples_count)
+
+    imageSamples = acquisition.imageSamples.get()
+    imageSamples_count = acquisition.imageSamples.count()
+    print(imageSamples)
+    print(imageSamples_count)
+
+    annotations = acquisition.annotations.get()
+    annotations_count = acquisition.annotations.count()
+    print(annotations)
+    print(annotations_count)
+
+    """ End """
+
 
 def testDevices(acquisition):
     """ Devices """
@@ -57,6 +82,7 @@ def testDevices(acquisition):
 
 
     """ End Devices """
+
 
 def testSubject(acquisition):
     """ Subject """

@@ -5,6 +5,7 @@ from .acquisition import Acquisition
 from .. import _api_calls
 from .devices.device import Device
 from .devices.sensor import Sensor
+from .annotation.annotation import Annotation
 from .subject.subject import Subject
 
 _ENDPOINT = "api/acquisitions/"

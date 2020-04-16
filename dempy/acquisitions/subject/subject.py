@@ -1,6 +1,3 @@
-import json
-
-
 class Subject:
     def __init__(self, type="HumanSubject", id="", description="", metadata={}, tags=[], firstName="", lastName="", birthdateTimestamp=0):
         self.id = id
