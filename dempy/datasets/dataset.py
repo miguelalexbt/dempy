@@ -33,6 +33,8 @@ class Dataset:
 
         return inner()
 
+    # TODO check where to put this
+
     def delete(self):
         _delete_dataset(self.id)
 

@@ -1,6 +1,7 @@
+import os
+
 from .. import _api_calls
 from ..acquisitions import interface as acquisitions_interface
-import os
 
 _DATASET_ENDPOINT = "api/datasets/{datasetId}/"
 _ACQUISITIONS_ENDPOINT = "api/datasets/{datasetId}/acquisitions/"

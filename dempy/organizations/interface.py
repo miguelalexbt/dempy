@@ -1,6 +1,7 @@
 from typing import Union, List
-from .organization import Organization
+
 from .. import _api_calls
+from .organization import Organization
 
 _ENDPOINT = "api/organizations/"
 

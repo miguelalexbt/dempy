@@ -1,13 +1,15 @@
 from .details import (
-    _delete_subject, _create_subject, _get_device, _create_device, _get_device_usage, _delete_device,
-    _get_timeseries_samples, _get_video_samples, _get_image_samples, _get_image_samples_count, _get_video_samples_count,
-    _get_timeseries_samples_count, _get_annotations, _get_annotations_count
+    _create_subject, _delete_subject, 
+    _get_device, _create_device, _delete_device, _get_device_usage,
+    _get_image_samples, _get_image_samples_count,
+    _get_video_samples, _get_video_samples_count,
+    _get_timeseries_samples, _get_timeseries_samples_count, 
+    _get_annotations, _get_annotations_count
 )
-
 
 class Acquisition:
     def __init__(self, type="Acquisition", id="", creationTimestamp=0, syncOffset=None, timeUnit="", ownerId="",
-                 creatorId="", datasetId="", subject=object(), devices=[], metadata=object(), tags=[],
+                 creatorId="", datasetId="", subject=object(), devices=[], metadata={}, tags=[],
                  hasTimeSeriesSamples=False, hasImageSamples=False, hasVideoSamples=False):
         self.id = id
         self.creationTimestamp = creationTimestamp
@@ -26,6 +28,25 @@ class Acquisition:
         self._timeSeriesSamplesData = []
 
     @property
+    def subject(self):
+        class inner:
+            @staticmethod
+            def get():
+                return self._subjectData
+
+            @staticmethod
+            def create(subject):
+                self._subjectData = _create_subject(self.id, subject)
+                return self._subjectData
+
+            @staticmethod
+            def delete():
+                _delete_subject(self.id, self._subjectData.id)
+                self._subjectData = None
+
+        return inner()
+
+    @property
     def devices(self):
         class inner:
             @staticmethod
@@ -34,10 +55,6 @@ class Acquisition:
                     return self._devicesData
                 else:
                     return _get_device(self.id, deviceId)  # TODO: verificar isto
-
-            @staticmethod
-            def count():
-                return len(self._devicesData)
 
             @staticmethod
             def create(device):
@@ -63,37 +80,22 @@ class Acquisition:
             def usage():
                 return _get_device_usage(self.id)
 
-        return inner()
-
-    @property
-    def subject(self):
-        class inner:
             @staticmethod
-            def get():
-                return self._subjectData
-
-            @staticmethod
-            def delete():
-                _delete_subject(self.id, self._subjectData.id)
-                self._subjectData = None
-
-            @staticmethod
-            def create(subject):
-                self._subjectData = _create_subject(self.id, subject)
-                return self._subjectData
+            def count():
+                return len(self._devicesData)
 
         return inner()
 
     @property
-    def timeSeriesSamples(self):
+    def imageSamples(self):
         class inner:
             @staticmethod
             def get():
-                return _get_timeseries_samples(self.id) \
+                return _get_image_samples(self.id)
 
             @staticmethod
             def count():
-                return _get_timeseries_samples_count(self.id)
+                return _get_image_samples_count(self.id)
 
         return inner()
 
@@ -110,18 +112,17 @@ class Acquisition:
         return inner()
 
     @property
-    def imageSamples(self):
+    def timeSeriesSamples(self):
         class inner:
             @staticmethod
             def get():
-                return _get_image_samples(self.id)
+                return _get_timeseries_samples(self.id) \
 
             @staticmethod
             def count():
-                return _get_image_samples_count(self.id)
+                return _get_timeseries_samples_count(self.id)
 
         return inner()
-
 
     @property
     def annotations(self):
