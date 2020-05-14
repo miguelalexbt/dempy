@@ -14,20 +14,20 @@ _ENDPOINT = "api/acquisitions/"
 
 def get(acquisitionId = None, datasetId = None, tags = []) -> Union[Acquisition, List[Acquisition]]:
     if acquisitionId is None:
-        try:
-            return _get_cached_acquisitions(datasetId, tags)
-        except Exception as e:
-            acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": datasetId, "tags": tags}).json(cls=CustomDecoder)
-            for acquisition in acquisitions:
-                _cache_acquisition(acquisition)
-            return acquisitions
+        # try:
+        #     return _get_cached_acquisitions(datasetId, tags)
+        # except Exception as e:
+        acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": datasetId, "tags": tags}).json(cls=CustomDecoder)
+            # for acquisition in acquisitions:
+            #     _cache_acquisition(acquisition)
+        return acquisitions
     else:
-        try:
-            return _get_cached_acquisition(acquisitionId)
-        except Exception:
-            acquisition = _api_calls.get(_ENDPOINT + acquisitionId).json(cls=CustomDecoder)
-            _cache_acquisition(acquisition)
-            return acquisition
+        # try:
+        #     return _get_cached_acquisition(acquisitionId)
+        # except Exception:
+        acquisition = _api_calls.get(_ENDPOINT + acquisitionId).json(cls=CustomDecoder)
+            # _cache_acquisition(acquisition)
+        return acquisition
 
 # TODO Create
 

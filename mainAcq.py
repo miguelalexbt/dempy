@@ -7,8 +7,9 @@ def main():
     """ Acquisitions """
 
     acquisition = dempy.acquisitions.get("9485e3e0-7ee1-4b84-8d27-34cc2b9cf82f")
-
-    testImageSamples(acquisition)
+    timeSeriesSamples = acquisition.timeSeriesSamples.get()
+    print(timeSeriesSamples[0])
+    print(timeSeriesSamples.by_device("56fcf530-69bd-4365-b250-dd75ad40ef07"))
 
 def testImageSamples(acquisition):
     """ Samples """
