@@ -1,7 +1,7 @@
 import json
 
 from typing import List
-
+from ..DempyList import DempyList
 from .. import _api_calls
 from .subjects.subject import Subject
 from .devices.sensor import Sensor
@@ -74,7 +74,7 @@ def _get_video_samples_count(acquisitionId) -> int:
 # TODO count video samples for datasets (maybe useful?, maybe create node video samples in root?)
 
 # TODO add query parameters
-def _get_timeseries_samples(acquisitionId) -> List[TimeSeriesSample]:
+def _get_timeseries_samples(acquisitionId) -> DempyList:
     return _api_calls.get(_TIMESERIES_SAMPLE_ENDPOINT.format(acquisitionId=acquisitionId)).json(cls=CustomDecoder)
 
 def _get_timeseries_samples_count(acquisitionId) -> int:
@@ -88,8 +88,17 @@ def _get_annotations_count(acquisitionId) -> int:
     return _api_calls.get(_ANNOTATIONS_ENDPOINT.format(acquisitionId=acquisitionId) + "count").json()
 
 class CustomDecoder(json.JSONDecoder):
-    def __init__(self, *args, **kwargs):
-        super().__init__(object_hook=self.object_hook, *args, **kwargs)
+    def __init__(self, list_type=DempyList, *args,  **kwargs):
+        super().__init__(object_hook=self.object_hook, *args,  **kwargs)
+        # Use the custom JSONArray
+        self.parse_array = self.JSONArray
+        # Use the python implemenation of the scanner
+        self.scan_once = json.scanner.py_make_scanner(self)
+        self.list_type = list_type
+
+    def JSONArray(self, s_and_end, scan_once, **kwargs):
+        values, end = json.decoder.JSONArray(s_and_end, scan_once, **kwargs)
+        return self.list_type(values), end
 
     def object_hook(self, obj):
         if "type" not in obj:
