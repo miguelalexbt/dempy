@@ -21,4 +21,4 @@ class ImageSample:
         return getattr(self, key)
 
     def __repr__(self):
-        return f"<ImageSample id=\"{self.id}\" timestamp=\"{self.timestamp}\" imageSource=\"{self.imageSource}\">"
+        return f"<ImageSample id=\"{self.id}\" deviceId=\"{self.deviceId}\">"

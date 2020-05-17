@@ -7,9 +7,14 @@ def main():
     """ Acquisitions """
 
     acquisition = dempy.acquisitions.get("9485e3e0-7ee1-4b84-8d27-34cc2b9cf82f")
-    timeSeriesSamples = acquisition.timeSeriesSamples.get()
-    print(timeSeriesSamples[0])
-    print(timeSeriesSamples.by_device("56fcf530-69bd-4365-b250-dd75ad40ef07"))
+    # timeSeriesSamples = acquisition.timeSeriesSamples.get()
+    # for tss in timeSeriesSamples:
+    #     print(tss)
+    # print("\n")
+    # print(timeSeriesSamples[0])
+    # print("\n")
+    # print(timeSeriesSamples.by_device("18f30887-9d81-48d7-af70-8363ed74b7a3"))
+    print(acquisition.annotations.get().by_device())
 
 def testImageSamples(acquisition):
     """ Samples """
