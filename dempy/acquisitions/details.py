@@ -1,7 +1,8 @@
 import json
 
 from typing import List
-from ..DempyList import DempyList
+from ..SampleList import SampleList
+from ..SampleList import AnnotationList
 from .. import _api_calls
 from .subjects.subject import Subject
 from .devices.sensor import Sensor
@@ -74,21 +75,21 @@ def _get_video_samples_count(acquisitionId) -> int:
 # TODO count video samples for datasets (maybe useful?, maybe create node video samples in root?)
 
 # TODO add query parameters
-def _get_timeseries_samples(acquisitionId) -> DempyList:
-    return _api_calls.get(_TIMESERIES_SAMPLE_ENDPOINT.format(acquisitionId=acquisitionId)).json(cls=CustomDecoder)
+def _get_timeseries_samples(acquisitionId) -> SampleList:
+    return _api_calls.get(_TIMESERIES_SAMPLE_ENDPOINT.format(acquisitionId=acquisitionId)).json(cls=CustomDecoder, list_type=SampleList)
 
 def _get_timeseries_samples_count(acquisitionId) -> int:
     return _api_calls.get(_TIMESERIES_SAMPLE_ENDPOINT.format(acquisitionId=acquisitionId) + "count").json()
 
 # TODO get annotation id?
 def _get_annotations(acquisitionId) -> List[Annotation]:
-    return _api_calls.get(_ANNOTATIONS_ENDPOINT.format(acquisitionId=acquisitionId)).json(cls=CustomDecoder)
+    return _api_calls.get(_ANNOTATIONS_ENDPOINT.format(acquisitionId=acquisitionId)).json(cls=CustomDecoder, list_type=AnnotationList)
 
 def _get_annotations_count(acquisitionId) -> int:
     return _api_calls.get(_ANNOTATIONS_ENDPOINT.format(acquisitionId=acquisitionId) + "count").json()
 
 class CustomDecoder(json.JSONDecoder):
-    def __init__(self, list_type=DempyList, *args,  **kwargs):
+    def __init__(self, list_type=list, *args, **kwargs):
         super().__init__(object_hook=self.object_hook, *args,  **kwargs)
         # Use the custom JSONArray
         self.parse_array = self.JSONArray

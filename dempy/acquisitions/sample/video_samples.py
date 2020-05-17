@@ -19,4 +19,4 @@ class VideoSample:
         return getattr(self, key)
 
     def __repr__(self):
-        return f"<VideoSample id=\"{self.id}\" timestamp=\"{self.timestamp}\" videoSource=\"{self.videoSource}\">"
+        return f"<VideoSample id=\"{self.id}\" deviceId=\"{self.deviceId}\">"

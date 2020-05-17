@@ -35,4 +35,4 @@ class TimeSeriesSample:
             point.append(self.u)
         if hasattr(self, 'w'):
             point.append(self.w)
-        return f"<TimeSeriesSample id=\"{self.id}\" point=\"{point}\" timestamp=\"{self.timestamp}\">"
+        return f"<TimeSeriesSample id=\"{self.id}\" deviceId=\"{self.deviceId}\">"
