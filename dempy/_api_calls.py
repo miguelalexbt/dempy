@@ -1,6 +1,6 @@
+import requests
 from functools import partial
 from . import config
-import requests
 
 def request(endpoint, method, **args):
     uri = f"{config.base_url}{endpoint}"
@@ -14,7 +14,6 @@ def request(endpoint, method, **args):
         #     session.auth = (user, password)
 
         result = session.request(method, uri, **args)
-        #print(result._content)
         result.raise_for_status()
 
         return result

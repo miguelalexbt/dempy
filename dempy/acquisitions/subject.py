@@ -1,5 +1,6 @@
 class Subject:
     def __init__(self, type="HumanSubject", id="", description="", metadata={}, tags=[], firstName="", lastName="", birthdateTimestamp=0):
+        self.type = type
         self.id = id
         self.type = type
         self.description = description

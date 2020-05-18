@@ -4,6 +4,19 @@ def main():
 
     dempy.config.use_default()
 
+    acq = dempy.acquisitions.get(acquisition_id="8affbb99-830c-4cb2-a545-0fac1052dc57")
+    # print(dempy.acquisitions.count())
+    subj = acq.subject.get()
+    print(subj)
+
+
+    # print(acq.subject.get())
+
+    # acquisition = dempy.acquisitions.get(acquisition_id="8affbb99-830c-4cb2-a545-0fac1052dc57")
+    # print(acquisition.subject.get())
+
+    return
+
     """ Acquisitions """
 
     acquisition = dempy.acquisitions.get("9485e3e0-7ee1-4b84-8d27-34cc2b9cf82f")

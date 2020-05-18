@@ -1,5 +1,6 @@
 class Sensor:
     def __init__(self, type = "Sensor", id = "", manufacturer = "", modelName = "", serialNumber = "", syncOffset = None, timeUnit = "SECONDS", sensorType = "", metadata ={}, tags = []):
+        self.type = type
         self.id = id
         self.manufacturer = manufacturer
         self.modelName = modelName

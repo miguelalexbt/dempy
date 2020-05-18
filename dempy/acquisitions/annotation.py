@@ -1,5 +1,6 @@
 class Annotation:
     def __init__(self, type : str= "WholeImageAnnotation", id : str = "", acquisitionId : str = "", metadata = {}, annotationObject = {}, creatorId : str = "", color : str = "", notes : str = "", tags = [], annotatedSampleId : str = ""):
+        self.type = type
         self.id = id
         self.type = type
         self.acquisitionId = acquisitionId
