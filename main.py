@@ -4,6 +4,15 @@ def main():
 
     dempy.config.use_default()
 
+    
+
+
+
+
+
+    # adicionar objecto devices / sensors
+    # devices de um certa annotation
+
     """ Datasets """
 
     ## Get all datasets
@@ -20,7 +29,7 @@ def main():
 
     ## Create dataset
 
-    dataset = dempy.datasets.create(dempy.Dataset(name = "Teste"))
+    dataset = dempy.datasets.create(name = "Teste")  #suportar ambos
     
     ## Get dataset
 

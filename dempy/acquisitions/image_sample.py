@@ -1,6 +1,7 @@
-class VideoSample:
+class ImageSample:
     def __init__(self, type: str = "TriaxialSample", id: str = "", acquisitionId: str = "", metadata={}, timestamp=int,
-                 deviceId: str = "", sensorId: str = "", tags=[], mediaType : str = "", videoSource : str = ""):
+                 deviceId: str = "", sensorId: str = "", tags=[], mediaType : str = "", imageSource : str = "", hasRotationMetadata : bool = False):
+        self.type = type
         self.id = id
         self.type = type
         self.acquisitionId = acquisitionId
@@ -10,7 +11,9 @@ class VideoSample:
         self.metadata = metadata
         self.tags = tags
         self.mediaType = mediaType
-        self.videoSource = videoSource
+        self.imageSource = imageSource
+        self.hasRotationMetadata = hasRotationMetadata
+
 
     def keys(self):
         return self.__dict__.keys()
@@ -19,4 +22,4 @@ class VideoSample:
         return getattr(self, key)
 
     def __repr__(self):
-        return f"<VideoSample id=\"{self.id}\" deviceId=\"{self.deviceId}\">"
+        return f"<ImageSample id=\"{self.id}\" deviceId=\"{self.deviceId}\">"

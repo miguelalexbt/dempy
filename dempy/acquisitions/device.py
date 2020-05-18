@@ -1,5 +1,6 @@
 class Device:
     def __init__(self, type = "Device", id = "", serialNumber = "", manufacturer = "", modelName = "", syncOffset = None, timeUnit = "SECONDS", metadata = {}, sensors = [], tags = []):
+        self.type = type
         self.id = id
         self.serialNumber = serialNumber
         self.manufacturer = manufacturer

@@ -1,24 +1,9 @@
-from .acquisition import Acquisition
-from .subjects import Subject
-from .devices import Device, Sensor
-from .sample import ImageSample, VideoSample, TimeSeriesSample
-from .annotations import Annotation
-from .interface import (
-    get,
-    #create,
-    count
-)
+from .acquisition import Acquisition, get, create, delete, count
+from .subject import Subject
+from .device import Device
+from .sensor import Sensor
+from .image_sample import ImageSample
+from .video_sample import VideoSample
+from .timeseries_sample import TimeSeriesSample
+from .annotation import Annotation
 
-__all__ = [
-    "Acquisition",
-    "Subject",
-    "Device",
-    "Sensor",
-    "ImageSample",
-    "VideoSample",
-    "TimeSeriesSample",
-    "Annotation",
-    "get",
-    # "create",
-    "count"
-]
