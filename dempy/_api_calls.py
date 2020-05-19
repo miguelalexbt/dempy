@@ -2,6 +2,7 @@ import requests
 from functools import partial
 from . import config
 
+
 def request(endpoint, method, **args):
     uri = f"{config.base_url}{endpoint}"
 
@@ -17,6 +18,7 @@ def request(endpoint, method, **args):
         result.raise_for_status()
 
         return result
+
 
 get = partial(request, method="GET")
 post = partial(request, method="POST")

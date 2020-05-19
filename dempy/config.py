@@ -3,7 +3,7 @@ import os
 base_url = "http://localhost/"
 user = ""
 password = ""
-cache_dir="./.dempy.cache"
+cache_dir=".dempy.cache"
 
 # TODO read from file
 

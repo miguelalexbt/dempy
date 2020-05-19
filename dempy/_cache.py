@@ -5,8 +5,8 @@ import os
 from . import config
 
 
-def create_cache_dir(dir):
-    cache_dir = os.path.join(config.cache_dir, dir)
+def create_cache_dir(data_dir):
+    cache_dir = os.path.join(config.cache_dir, data_dir)
 
     try:
         os.makedirs(cache_dir)
@@ -16,29 +16,29 @@ def create_cache_dir(dir):
     return cache_dir
 
 
-def cache_data(dir, data, **kwargs):
-    cache_dir = create_cache_dir(dir)
-    data_file = os.path.join(cache_dir, data.id)
+def cache_data(data_dir, data_file, data, **kwargs):
+    cache_dir = create_cache_dir(data_dir)
+    cache_file = os.path.join(cache_dir, data_file)
 
-    with io.open(data_file, "w", encoding="utf8") as fp:
+    with io.open(cache_file, "w", encoding="utf-8") as fp:
         json.dump(data, fp, **kwargs)
 
 
-def get_cached_data(dir, data_id = None, **kwargs):
-    cache_dir = create_cache_dir(dir)
+def get_cached_data(data_dir, data_file=None, **kwargs):
+    cache_dir = create_cache_dir(data_dir)
 
-    if data_id == None:
-        data_files = os.listdir(cache_dir)
+    if data_file is None:
+        cache_files = os.listdir(cache_dir)
 
-        if len(data_files) == 0:
+        if len(cache_files) == 0:
             raise Exception()
         
-        return [get_cached_data(dir, data_file, **kwargs) for data_file in data_files]
+        return [get_cached_data(dir, cache_file, **kwargs) for cache_file in cache_files]
     else:
-        data_file = os.path.join(cache_dir, data_id)
+        cache_file = os.path.join(cache_dir, data_file)
 
         try:
-            with io.open(data_file, "r", encoding="utf8") as fp:
+            with io.open(cache_file, "r", encoding="utf-8") as fp:
                 data = json.load(fp, **kwargs)
             return data
         except (IOError, OSError):

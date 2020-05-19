@@ -1,10 +1,22 @@
 import dempy
 import time
+import json
+
 
 def main():
+
+    dempy.config.use_default()
+
     start_time = time.time()
 
     acq = dempy.acquisitions.get(acquisition_id="9e4096d5-099d-443f-a0d1-65a2bd95213d")
+
+    # x = acq.devices.get(device_id="89715d20-faf3-49a6-ae71-c557cddb5315")
+    # print(x)
+
+    #
+    # print(acq.devices.usage())
+    #
     acq.timeseries_samples.get()
 
     print("--- ", time.time() - start_time, " ---")
@@ -36,4 +48,6 @@ def main():
     # dataset.acquisitions.get()
     # dataset.acquisitions.count()
 
-main()
+
+if __name__ == "__main__":
+    main()

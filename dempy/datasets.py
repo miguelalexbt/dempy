@@ -5,7 +5,7 @@ from .acquisitions import Acquisition, get as _get_acquisition
 
 class Dataset(_base.Entity):
     def __init__(self, type: str = "Dataset", id: str = "", name: str = "", description: str = "",
-                 creator_id: str = None, owner_id: str = None, tags: List = []):
+                 creator_id: str = None, owner_id: str = None, tags: List[str] = []):
         super().__init__(type, id)
         self.name = name
         self.description = description

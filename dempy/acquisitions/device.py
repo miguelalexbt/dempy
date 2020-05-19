@@ -1,3 +1,4 @@
+import json
 from typing import List, Dict, Any
 from .. import _base
 from .sensor import Sensor
@@ -33,7 +34,7 @@ class Device(_base.Entity):
             "syncOffset": obj.sync_offset,
             "timeUnit": obj.time_unit,
             "metadata": obj.metadata,
-            "sensors": obj.sensors,
+            "sensors": [Sensor.to_json(sensor) for sensor in obj.sensors],
             "tags": obj.tags
         }
 
