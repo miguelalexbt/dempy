@@ -1,6 +1,9 @@
-import io, os, json
+import io
+import json
+import os
 
-from . import config, _utils
+from . import config
+
 
 def create_cache_dir(dir):
     cache_dir = os.path.join(config.cache_dir, dir)
@@ -12,12 +15,14 @@ def create_cache_dir(dir):
 
     return cache_dir
 
+
 def cache_data(dir, data, **kwargs):
     cache_dir = create_cache_dir(dir)
     data_file = os.path.join(cache_dir, data.id)
 
     with io.open(data_file, "w", encoding="utf8") as fp:
-        json.dump({**data}, fp, **kwargs)
+        json.dump(data, fp, **kwargs)
+
 
 def get_cached_data(dir, data_id = None, **kwargs):
     cache_dir = create_cache_dir(dir)
@@ -38,6 +43,7 @@ def get_cached_data(dir, data_id = None, **kwargs):
             return data
         except (IOError, OSError):
             raise Exception()
+
 
 def del_cached_data(dir, data_id):
     cache_dir = create_cache_dir(dir)
