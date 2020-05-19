@@ -14,3 +14,6 @@ class Entity:
 
     def __eq__(self, other):
         return self.type == other.type and self.id == other.id
+
+    def __repr__(self):
+        return f"<{self.type} id=\"{self.id}\">"

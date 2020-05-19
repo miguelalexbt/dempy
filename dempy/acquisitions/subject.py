@@ -37,6 +37,3 @@ class Subject(_base.Entity):
                 obj["firstName"], obj["lastName"], obj["birthdateTimestamp"]
             )
         return obj
-
-    def __repr__(self):
-        return f"<Subject id=\"{self.id}\">"

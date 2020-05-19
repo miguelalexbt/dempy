@@ -62,9 +62,6 @@ class Organization(_base.Entity):
             )
         return obj
 
-    def __repr__(self):
-        return f"<Organization id=\"{self.id}\">"
-
 
 _ENDPOINT = "api/organizations/"
 

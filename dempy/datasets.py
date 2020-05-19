@@ -69,9 +69,6 @@ class Dataset(_base.Entity):
             )
         return obj
 
-    def __repr__(self):
-        return f"<Dataset id=\"{self.id}\">"
-
 
 _ENDPOINT = "api/datasets/"
 

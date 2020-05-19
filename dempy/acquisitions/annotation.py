@@ -1,22 +1,55 @@
-class Annotation:
-    def __init__(self, type : str= "WholeImageAnnotation", id : str = "", acquisitionId : str = "", metadata = {}, annotationObject = {}, creatorId : str = "", color : str = "", notes : str = "", tags = [], annotatedSampleId : str = ""):
-        self.type = type
-        self.id = id
-        self.type = type
-        self.acquisitionId = acquisitionId
-        self.annotationObject = annotationObject
-        self.creatorId = creatorId
+from typing import List, Dict, Any
+from .. import _base
+
+
+class Annotation(_base.Entity):
+    def __init__(self, type: str = "WholeImageAnnotation", id: str = "", acquisition_id: str = "",
+                 metadata: Dict[str, Any] = {}, annotation_object: Dict[str, Any] = {}, creator_id: str = "",
+                 color: str = "", notes: str = "", tags: List[str] = [], annotated_sample_id: str = ""):
+        super().__init__(type, id)
+        self.acquisition_id = acquisition_id
+        self.annotation_object = annotation_object
+        self.creator_id = creator_id
         self.color = color
         self.notes = notes
         self.metadata = metadata
         self.tags = tags
-        self.annotatedSampleId = annotatedSampleId
+        self.annotated_sample_id = annotated_sample_id
 
-    def keys(self):
-        return self.__dict__.keys()
+    @staticmethod
+    def to_json(obj):
+        if not isinstance(obj, Annotation):
+            raise TypeError()
 
-    def __getitem__(self, key):
-        return getattr(self, key)
+        return {
+                "type": obj.type,
+                "id": obj.id,
+                "acquisitionId": obj.acquisition_id,
+                "metadata": obj.metadata,
+                "annotationObject": obj.annotation_object,
+                "creatorId": obj.creator_id,
+                "color": obj.color,
+                "notes": obj.notes,
+                "tags": obj.tags,
+                "annotatedSampleId": obj.annotated_sample_id
+        }
 
-    def __repr__(self):
-        return f"<Annotation id=\"{self.id}\" type=\"{self.type}\" sample=\"{self.annotatedSampleId}\">"
+    @staticmethod
+    def from_json(obj: Dict[str, Any]):
+        if not isinstance(obj, Dict):
+            raise TypeError()
+
+        if "type" in obj and obj["type"].endswith("Annotation"):
+            return Annotation(
+                type=obj["type"],
+                id=obj["id"],
+                acquisition_id=obj["acquisitionId"],
+                metadata=obj["metadata"],
+                annotation_object=obj["annotationObject"],
+                creator_id=obj["creatorId"],
+                color=obj["color"],
+                notes=obj["notes"],
+                tags=obj["tags"],
+                annotated_sample_id=obj["annotatedSampleId"]
+            )
+        return obj

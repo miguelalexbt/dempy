@@ -1,6 +1,7 @@
 from typing import Union, List, Dict, Any
 
-from .. import _base, _api_calls, _cache, _utils
+from .. import _base, _api_calls, _cache
+from .._utils import SampleList, AnnotationList
 from .subject import Subject
 from .device import Device
 from .image_sample import ImageSample
@@ -34,8 +35,7 @@ class Acquisition(_base.Entity):
 
             @staticmethod
             def get() -> Subject:
-                return _api_calls.get(Inner._SUBJECT_ENDPOINT)\
-                    .json(object_hook=Subject.from_json)
+                return _api_calls.get(Inner._SUBJECT_ENDPOINT).json(object_hook=Subject.from_json)
 
             @staticmethod
             def create(subject: Subject) -> Subject:
@@ -62,11 +62,9 @@ class Acquisition(_base.Entity):
                     raise TypeError()
 
                 if device_id is None:
-                    return _api_calls.get(Inner._DEVICES_ENDPOINT)\
-                        .json(object_hook=Device.from_json)
+                    return _api_calls.get(Inner._DEVICES_ENDPOINT).json(object_hook=Device.from_json)
                 else:
-                    return _api_calls.get(Inner._DEVICES_ENDPOINT + device_id)\
-                        .json(object_hook=Device.from_json)
+                    return _api_calls.get(Inner._DEVICES_ENDPOINT + device_id).json(object_hook=Device.from_json)
 
             @staticmethod
             def create(device: Device) -> Device:
@@ -152,13 +150,16 @@ class Acquisition(_base.Entity):
             @staticmethod
             def get() -> List[TimeSeriesSample]:
                 try:
-                    samples = _cache.get_cached_data("samples/{}/timeseries/".format(self.id), object_hook=lambda o: TimeSeriesSample(**o))
-                except Exception:
+                    samples = _cache.get_cached_data("samples/{}/timeseries/".format(self.id),
+                                                     object_hook=TimeSeriesSample.from_json)
+                except:
                     print("Not cached")
-                    samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT).json(cls=CustomDecoder, list_type=_utils.SampleList)
+                    samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT)\
+                        .json(object_hook=TimeSeriesSample.from_json)
                     for sample in samples:
-                        _cache.cache_data("samples/{}/timeseries/".format(self.id), sample)
-                return samples
+                        _cache.cache_data("samples/{}/timeseries/".format(self.id), sample,
+                                          default=TimeSeriesSample.to_json)
+                return SampleList(samples)
 
             # TODO create
             # TODO delete
@@ -171,18 +172,19 @@ class Acquisition(_base.Entity):
 
     @property
     def annotations(self):
-        class inner:
+        class Inner:
             _ANNOTATIONS_ENDPOINT = _ENDPOINT + "{}/annotations/".format(self.id)
 
             @staticmethod
-            def get() -> List[Annotation]:
-                return _api_calls.get(inner._ANNOTATIONS_ENDPOINT).json(cls=CustomDecoder, list_type=_utils.AnnotationList)
+            def get() -> AnnotationList:
+                annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT).json(object_hook=Annotation.from_json)
+                return AnnotationList(annotations)
 
             @staticmethod
             def count() -> int:
-                return _api_calls.get(inner._ANNOTATIONS_ENDPOINT + "count").json()
+                return _api_calls.get(Inner._ANNOTATIONS_ENDPOINT + "count").json()
 
-        return inner()
+        return Inner()
 
     @staticmethod
     def to_json(obj):
@@ -219,9 +221,6 @@ class Acquisition(_base.Entity):
                 obj["hasTimeSeriesSamples"], obj["hasImageSamples"], obj["hasVideoSamples"]
             )
         return obj
-
-    def __repr__(self):
-        return f"<Acquisition id=\"{self.id}\">"
 
 
 _ENDPOINT = "api/acquisitions/"

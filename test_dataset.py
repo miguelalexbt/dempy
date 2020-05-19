@@ -1,9 +1,13 @@
 import dempy
+import time
 
 def main():
-    acq = dempy.acquisitions.get()[0]
+    start_time = time.time()
 
-    print(acq.devices.get()[0].sensors)
+    acq = dempy.acquisitions.get(acquisition_id="9e4096d5-099d-443f-a0d1-65a2bd95213d")
+    acq.timeseries_samples.get()
+
+    print("--- ", time.time() - start_time, " ---")
 
 
     # user = dempy.users.create(dempy.User())

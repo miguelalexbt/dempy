@@ -1,12 +1,16 @@
-class TimeSeriesSample:
-    def __init__(self, type : str= "TriaxialSample", id : str = "", acquisitionId : str = "", metadata = {}, timestamp = int, deviceId : str = "", sensorId : str = "", tags = [], x : int = 0, y : int = None, z : int = None, u : int = None, w : int = None):
-        self.type = type
-        self.id = id
-        self.type = type
-        self.acquisitionId = acquisitionId
+from typing import List, Dict, Any
+from .. import _base
+
+
+class TimeSeriesSample(_base.Entity):
+    def __init__(self, type: str = "TriaxialSample", id: str = "", acquisition_id: str = "",
+                 metadata: Dict[str, Any] = {}, timestamp: int = 0, device_id: str = "", sensor_id: str = "",
+                 tags: List[str] = [], x: int = None, y: int = None, z: int = None, u: int = None, w: int = None):
+        super().__init__(type, id)
+        self.acquisition_id = acquisition_id
         self.timestamp = timestamp
-        self.deviceId = deviceId
-        self.sensorId = sensorId
+        self.device_id = device_id
+        self.sensor_id = sensor_id
         self.metadata = metadata
         self.tags = tags
         self.x = x
@@ -15,15 +19,46 @@ class TimeSeriesSample:
         self.u = u
         self.w = w
 
-    def __init__(self,**o):
-        for k,v in o.items():
-            setattr(self, k, v)
+    @staticmethod
+    def to_json(obj):
+        if not isinstance(obj, TimeSeriesSample):
+            raise TypeError()
 
-    def keys(self):
-        return self.__dict__.keys()
+        return {
+            "type": obj.type,
+            "id": obj.id,
+            "acquisitionId": obj.acquisition_id,
+            "metadata": obj.metadata,
+            "timestamp": obj.timestamp,
+            "deviceId": obj.device_id,
+            "sensorId": obj.sensor_id,
+            "tags": obj.tags,
+            "x": obj.x,
+            "y": obj.y,
+            "z": obj.z,
+            "u": obj.u,
+            "w": obj.w
+        }
 
-    def __getitem__(self, key):
-        return getattr(self, key)
+    @staticmethod
+    def from_json(obj: Dict[str, Any]):
+        if not isinstance(obj, Dict):
+            raise TypeError()
 
-    def __repr__(self):
-        return f"<TimeSeriesSample id=\"{self.id}\">"
+        if "type" in obj and obj["type"].endswith("axialSample"):
+            return TimeSeriesSample(
+                type=obj["type"],
+                id=obj["id"],
+                acquisition_id=obj["acquisitionId"],
+                metadata=obj["metadata"],
+                timestamp=obj["timestamp"],
+                device_id=obj["deviceId"],
+                sensor_id=obj["sensorId"],
+                tags=obj["tags"],
+                x=obj["x"],
+                y=obj["y"],
+                z=obj["z"],
+                u=obj["u"] if "u" in obj else None,
+                w=obj["w"] if "w" in obj else None
+            )
+        return obj
