@@ -45,9 +45,6 @@ class User(_base.Entity):
             )
         return obj
 
-    def __repr__(self):
-        return f"<User id=\"{self.id}\">"
-
 
 _ENDPOINT = "api/users/"
 

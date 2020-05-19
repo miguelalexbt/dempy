@@ -53,6 +53,3 @@ class Device(_base.Entity):
             else:
                 raise TypeError()
         return obj
-    
-    def __repr__(self):
-        return f"<Device id=\"{self.id}\">"

@@ -47,6 +47,3 @@ class Sensor(_base.Entity):
                 obj["syncOffset"], obj["timeUnit"], obj["sensorType"], obj["metadata"], obj["tags"]
             )
         return obj
-
-    def __repr__(self):
-        return f"<Sensor id=\"{self.id}\">"
