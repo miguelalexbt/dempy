@@ -15,6 +15,9 @@ def main():
 
     acq.timeseries_samples.visualize(device_id=acq.devices.get()[0].id, sensor_id=acq.devices.get()[0].sensors.get()[0].id)
 
+    print(acq.image_samples.get_raw("0d89828a-34f9-4f3c-8fb1-8e2caafe3958"))
+    acq.image_samples.visualize("0d89828a-34f9-4f3c-8fb1-8e2caafe3958")
+
     print("--- ", time.time() - start_time, " ---")
 
 

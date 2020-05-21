@@ -138,8 +138,13 @@ class Acquisition(_base.Entity):
                 if not isinstance(sample_id, str):
                     raise TypeError
                 image_binary = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw").content
-                Image.open(BytesIO(image_binary)).show()
                 return image_binary
+
+            @staticmethod
+            def visualize(sample_id: str) -> None:
+                image_binary = self.image_samples.get_raw(sample_id)
+                Image.open(BytesIO(image_binary)).show()
+
             # TODO count image samples for datasets (maybe useful?, maybe create node image samples in root?)
 
         return Inner()
