@@ -11,13 +11,9 @@ def main():
 
     acq = dempy.acquisitions.get(acquisition_id="9e4096d5-099d-443f-a0d1-65a2bd95213d")
 
-    # x = acq.devices.get(device_id="89715d20-faf3-49a6-ae71-c557cddb5315")
-    # print(x)
+    acq.timeseries_samples.visualize(device_id=acq.devices.get()[0].id)
 
-    #
-    # print(acq.devices.usage())
-    #
-    acq.timeseries_samples.get()
+    acq.timeseries_samples.visualize(device_id=acq.devices.get()[0].id, sensor_id=acq.devices.get()[0].sensors.get()[0].id)
 
     print("--- ", time.time() - start_time, " ---")
 

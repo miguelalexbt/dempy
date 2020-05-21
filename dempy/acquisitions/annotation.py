@@ -3,9 +3,9 @@ from .. import _base
 
 
 class Annotation(_base.Entity):
-    def __init__(self, type: str = "WholeImageAnnotation", id: str = "", acquisition_id: str = "",
-                 metadata: Dict[str, Any] = {}, annotation_object: Dict[str, Any] = {}, creator_id: str = "",
-                 color: str = "", notes: str = "", tags: List[str] = [], annotated_sample_id: str = ""):
+    def __init__(self, type: str, id: str, acquisition_id: str,
+                 metadata: Dict[str, Any], annotation_object: Dict[str, Any], creator_id: str,
+                 color: str, notes: str, tags: List[str], annotated_sample_id: str):
         super().__init__(type, id)
         self.acquisition_id = acquisition_id
         self.annotation_object = annotation_object

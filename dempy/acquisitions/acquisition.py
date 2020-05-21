@@ -1,3 +1,4 @@
+import matplotlib as mpt
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from itertools import chain
@@ -11,6 +12,7 @@ from .image_sample import ImageSample
 from .video_sample import VideoSample
 from .timeseries_sample import TimeSeriesSample
 from .annotation import Annotation
+mpt.use("TkAgg")
 
 
 class Acquisition(_base.Entity):
@@ -173,28 +175,44 @@ class Acquisition(_base.Entity):
                 def visualize_sensor_samples(axis, sensor, sensor_samples):
                     timestamps = [s.timestamp for s in sensor_samples]
 
-                    # Sample x, y, z
-                    samples_x = [s.x for s in sensor_samples]
-                    samples_y = [s.y for s in sensor_samples]
-                    samples_z = [s.z for s in sensor_samples]
+                    # Sample x, y, z, u, w
+                    samples_x = [s.x for s in sensor_samples if s.x is not None]
+                    samples_y = [s.y for s in sensor_samples if s.y is not None]
+                    samples_z = [s.z for s in sensor_samples if s.z is not None]
+                    samples_u = [s.u for s in sensor_samples if s.u is not None]
+                    samples_w = [s.w for s in sensor_samples if s.w is not None]
 
                     axis.set_title(f"{sensor.sensor_type}\n{sensor.id}", loc="left")
                     axis.set_xlabel(sensor.time_unit if sensor.time_unit is not None else device_time_unit)
 
                     # Axis limit
                     axis.set_xlim([0, timestamps[-1]])
-                    axis.set_ylim([min(chain(samples_x, samples_y, samples_z)), max(chain(samples_x, samples_y, samples_z))])
+                    axis.set_ylim([min(chain(samples_x, samples_y, samples_z, samples_u, samples_w)), max(chain(samples_x, samples_y, samples_z, samples_u, samples_w))])
 
                     # Axis formatter
                     axis.xaxis.set_major_formatter(ticker.FormatStrFormatter("%.0f"))
                     axis.yaxis.set_major_formatter(ticker.FormatStrFormatter("%.0f"))
 
                     # Axis plot
-                    axis.plot(timestamps, samples_x, color="cornflowerblue")
-                    axis.plot(timestamps, samples_y, color="mediumseagreen")
-                    axis.plot(timestamps, samples_z, color="indianred")
+                    labels = []
 
-                    axis.legend(labels=("x", "y", "z"), loc="upper right")
+                    if len(samples_x) > 0:
+                        axis.plot(timestamps, samples_x, color="cornflowerblue")
+                        labels.append("x")
+                    if len(samples_y) > 0:
+                        axis.plot(timestamps, samples_y, color="mediumseagreen")
+                        labels.append("y")
+                    if len(samples_z) > 0:
+                        axis.plot(timestamps, samples_z, color="indianred")
+                        labels.append("z")
+                    if len(samples_u) > 0:
+                        axis.plot(timestamps, samples_u, color="mediumorchid")
+                        labels.append("u")
+                    if len(samples_w) > 0:
+                        axis.plot(timestamps, samples_w, color="slategray")
+                        labels.append("w")
+
+                    axis.legend(labels=labels, loc="upper right")
 
                 if not isinstance(device_id, str) or (sensor_id is not None and not isinstance(sensor_id, str)):
                     raise TypeError
