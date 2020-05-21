@@ -1,6 +1,8 @@
 import matplotlib as mpt
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+from PIL import Image
+from io import BytesIO
 from itertools import chain
 from typing import Union, List, Dict, Any
 from .. import _base, _api_calls, _cache
@@ -118,14 +120,26 @@ class Acquisition(_base.Entity):
             _IMAGE_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/images/".format(self.id)
 
             @staticmethod
-            def get() -> List[ImageSample]:
-                return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(cls=CustomDecoder)
+            def get(sample_id: str = None) -> SampleList:
+                if sample_id is not None and not isinstance(sample_id, str):
+                    raise TypeError
+                if sample_id is None:
+                    samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(object_hook=ImageSample.from_json)
+                    return SampleList(samples)
+                else:
+                    return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id).json(object_hook=ImageSample.from_json)
 
             @staticmethod
             def count() -> int:
                 return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + "count").json()
 
-            # TODO get actual image raw
+            @staticmethod
+            def get_raw(sample_id: str):
+                if not isinstance(sample_id, str):
+                    raise TypeError
+                image_binary = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw").content
+                Image.open(BytesIO(image_binary)).show()
+                return image_binary
             # TODO count image samples for datasets (maybe useful?, maybe create node image samples in root?)
 
         return Inner()
