@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+from itertools import chain
 from typing import Union, List, Dict, Any
 from .. import _base, _api_calls, _cache
 from .._utils import SampleList, AnnotationList
@@ -119,7 +122,7 @@ class Acquisition(_base.Entity):
             @staticmethod
             def count() -> int:
                 return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + "count").json()
-            
+
             # TODO get actual image raw
             # TODO count image samples for datasets (maybe useful?, maybe create node image samples in root?)
 
@@ -152,17 +155,68 @@ class Acquisition(_base.Entity):
             _TIMESERIES_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/timeseries/".format(self.id)
 
             @staticmethod
-            def get() -> List[TimeSeriesSample]:
+            def get() -> SampleList:
                 try:
                     samples = _cache.get_cached_data("samples/{}/".format(self.id), "timeseries", object_hook=TimeSeriesSample.from_json)
                 except:
                     samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT).json(object_hook=TimeSeriesSample.from_json)
+                    samples.sort(key=lambda sample: sample.timestamp)
                     _cache.cache_data("samples/{}/".format(self.id), "timeseries", samples, default=TimeSeriesSample.to_json)
                 return SampleList(samples)
 
             @staticmethod
             def count() -> int:
                 return _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT + "count").json()
+
+            @staticmethod
+            def visualize(device_id: str, sensor_id: str = None) -> None:
+                def visualize_sensor_samples(axis, sensor, sensor_samples):
+                    timestamps = [s.timestamp for s in sensor_samples]
+
+                    # Sample x, y, z
+                    samples_x = [s.x for s in sensor_samples]
+                    samples_y = [s.y for s in sensor_samples]
+                    samples_z = [s.z for s in sensor_samples]
+
+                    axis.set_title(f"{sensor.sensor_type}\n{sensor.id}", loc="left")
+                    axis.set_xlabel(sensor.time_unit if sensor.time_unit is not None else device_time_unit)
+
+                    # Axis limit
+                    axis.set_xlim([0, timestamps[-1]])
+                    axis.set_ylim([min(chain(samples_x, samples_y, samples_z)), max(chain(samples_x, samples_y, samples_z))])
+
+                    # Axis formatter
+                    axis.xaxis.set_major_formatter(ticker.FormatStrFormatter("%.0f"))
+                    axis.yaxis.set_major_formatter(ticker.FormatStrFormatter("%.0f"))
+
+                    # Axis plot
+                    axis.plot(timestamps, samples_x, color="cornflowerblue")
+                    axis.plot(timestamps, samples_y, color="mediumseagreen")
+                    axis.plot(timestamps, samples_z, color="indianred")
+
+                    axis.legend(labels=("x", "y", "z"), loc="upper right")
+
+                if not isinstance(device_id, str) or (sensor_id is not None and not isinstance(sensor_id, str)):
+                    raise TypeError
+
+                device = self.devices.get(device_id=device_id)
+                device_time_unit = device.time_unit if device.time_unit is not None else self.time_unit
+
+                if sensor_id is None:
+                    fig, axs = plt.subplots(nrows=device.sensors.count(), figsize=(15, 10), dpi=80, constrained_layout=True)
+                    fig.suptitle(f"{device.model_name} ({device.manufacturer})\n{device.id}", wrap=True)
+
+                    device_samples = self.timeseries_samples.get().by_device(device_id=device.id)
+
+                    for i, sensor in enumerate(device.sensors.get()):
+                        visualize_sensor_samples(axs[i], sensor, device_samples.by_sensor(sensor.id))
+                else:
+                    fig, ax = plt.subplots(nrows=1, figsize=(10, 4), dpi=80, constrained_layout=True)
+                    fig.suptitle(f"{device.model_name} ({device.manufacturer})\n{device.id}", wrap=True)
+
+                    visualize_sensor_samples(ax, device.sensors.get(sensor_id=sensor_id), self.timeseries_samples.get().by_sensor(sensor_id))
+
+                plt.show()
 
         return Inner()
 
@@ -243,12 +297,15 @@ class Acquisition(_base.Entity):
 _ENDPOINT = "api/acquisitions/"
 
 
-def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []) -> Union[Acquisition, List[Acquisition]]:
-    if (acquisition_id is not None and not isinstance(acquisition_id, str)) or (dataset_id is not None and not isinstance(dataset_id, str)):
+def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []) -> Union[
+    Acquisition, List[Acquisition]]:
+    if (acquisition_id is not None and not isinstance(acquisition_id, str)) or (
+            dataset_id is not None and not isinstance(dataset_id, str)):
         raise TypeError
 
     if acquisition_id is None:
-        acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags}).json(object_hook=Acquisition.from_json)
+        acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags}).json(
+            object_hook=Acquisition.from_json)
         for acquisition in acquisitions:
             _cache.cache_data("acquisitions", acquisition.id, acquisition, default=Acquisition.to_json)
         return acquisitions

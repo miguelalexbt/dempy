@@ -1,13 +1,11 @@
-import json
-from typing import List, Dict, Any
+from typing import List, Union, Dict, Any
 from .. import _base
 from .sensor import Sensor
 
 
 class Device(_base.Entity):
-    def __init__(self, type: str = "Device", id: str = "", serial_number: str = "",
-                 manufacturer: str = "", model_name: str = "", sync_offset: int = None, time_unit: str = "SECONDS",
-                 metadata: Dict[str, Any] = {}, sensors: List[Sensor] = [], tags: List[str] = []):
+    def __init__(self, type: str, id: str, serial_number: str, manufacturer: str, model_name: str,
+                 sync_offset: int, time_unit: str, metadata: Dict[str, Any], sensors: List[Sensor], tags: List[str]):
         super().__init__(type, id)
         self.serial_number = serial_number
         self.manufacturer = manufacturer
@@ -15,10 +13,29 @@ class Device(_base.Entity):
         self.sync_offset = sync_offset
         self.time_unit = time_unit
         self.metadata = metadata
-        self.sensors = sensors
         self.tags = tags
 
-        # [MICROSECONDS, MILISECONDS, SECONDS, NANOSECONDS]
+        self._sensors = sensors
+
+    @property
+    def sensors(self):
+        class Inner:
+
+            @staticmethod
+            def get(sensor_id: str = None) -> Union[Sensor, List[Sensor]]:
+                if sensor_id is not None and not isinstance(sensor_id, str):
+                    raise TypeError
+
+                if sensor_id is None:
+                    return self._sensors
+                else:
+                    return next((sensor for sensor in self._sensors if sensor.id == sensor_id), None)
+
+            @staticmethod
+            def count() -> int:
+                return len(self._sensors)
+
+        return Inner()
 
     @staticmethod
     def to_json(obj):
@@ -34,7 +51,7 @@ class Device(_base.Entity):
             "syncOffset": obj.sync_offset,
             "timeUnit": obj.time_unit,
             "metadata": obj.metadata,
-            "sensors": [Sensor.to_json(sensor) for sensor in obj.sensors],
+            "sensors": [Sensor.to_json(sensor) for sensor in obj._sensors],
             "tags": obj.tags
         }
 
@@ -46,8 +63,16 @@ class Device(_base.Entity):
         if "type" in obj:
             if obj["type"] == "Device":
                 return Device(
-                    obj["type"], obj["id"], obj["serialNumber"], obj["manufacturer"], obj["modelName"],
-                    obj["syncOffset"], obj["timeUnit"], obj["metadata"], obj["sensors"], obj["tags"]
+                    type=obj["type"],
+                    id=obj["id"],
+                    serial_number=obj["serialNumber"],
+                    manufacturer=obj["manufacturer"],
+                    model_name=obj["modelName"],
+                    sync_offset=obj["syncOffset"],
+                    time_unit=obj["timeUnit"],
+                    metadata=obj["metadata"],
+                    sensors=obj["sensors"],
+                    tags=obj["tags"]
                 )
             elif obj["type"] == "Sensor":
                 return Sensor.from_json(obj)
