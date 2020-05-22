@@ -1,51 +1,21 @@
 import dempy
-import time
-import json
-
 
 def main():
 
     dempy.config.use_default()
 
-    start_time = time.time()
+    print("Testing - Acquisitions")
+    dempy.acquisitions.get()
+    acq = dempy.acquisitions.get("9e4096d5-099d-443f-a0d1-65a2bd95213d")
+    print("Subject:", acq.subject.get())
+    print(f"Devices [{acq.devices.count()}]:", f"cached {len(acq.devices.get())}")
+    print(f"Timeseries samples [{acq.timeseries_samples.count()}]:", f"cached {len(acq.timeseries_samples.get())}")
+    print(f"Image samples [{acq.image_samples.count()}]:", f"cached {len(acq.image_samples.get())}")
+    print(f"Video samples [{acq.video_samples.count()}]:", f"cached {len(acq.video_samples.get())}")
 
-    acq = dempy.acquisitions.get(acquisition_id="9e4096d5-099d-443f-a0d1-65a2bd95213d")
-
-    acq.timeseries_samples.visualize(device_id=acq.devices.get()[0].id)
-
-    acq.timeseries_samples.visualize(device_id=acq.devices.get()[0].id, sensor_id=acq.devices.get()[0].sensors.get()[0].id)
-
-    print(acq.image_samples.get_raw("0d89828a-34f9-4f3c-8fb1-8e2caafe3958"))
-    acq.image_samples.visualize("0d89828a-34f9-4f3c-8fb1-8e2caafe3958")
-
-    print("--- ", time.time() - start_time, " ---")
-
-
-    # user = dempy.users.create(dempy.User())
-    # dempy.organizations.create(dempy.Organization())
-    # org = dempy.organizations.get()[0]
-    # org.users.add(user.id)
-    # org.users.remove(user.id)
-    # dempy.users.delete(user.id)
-    # dempy.organizations.delete(org.id)
-
-    # Datasets
-    # users = dempy.users.get()
-    # user = dempy.users.create(dempy.User())
-    # dempy.users.delete("8bb67598-f9cb-4f40-ac63-784df20d185b")
-
-    # datasets = dempy.datasets.get()
-    #
-    # print(datasets)
-
-    # dataset = dempy.datasets.create(dempy.Dataset())
-    # dataset = dempy.datasets.get(dataset_id=dataset.id)
-    # dempy.datasets.delete(dataset.id)
-    # dempy.datasets.count()
-
-    # dataset = dempy.datasets.get(dataset_id="0ef20ae6-b0d6-4452-8f52-f5dff8c7cdfd")
-    # dataset.acquisitions.get()
-    # dataset.acquisitions.count()
+    acq.timeseries_samples.visualize("89715d20-faf3-49a6-ae71-c557cddb5315")
+    acq.image_samples.visualize("a62478fe-5874-4ba2-b389-e37110d6d711")
+    acq.video_samples.visualize("df74d79f-3cb6-49d4-8753-7621be3eee8a")
 
 
 if __name__ == "__main__":

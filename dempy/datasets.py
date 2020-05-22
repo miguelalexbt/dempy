@@ -1,6 +1,7 @@
-from typing import Union, List, Dict, Any
+from typing import Union, List, Dict, Any, ByteString
 from . import _base, _api_calls, _cache
 from .acquisitions import Acquisition, get as _get_acquisition
+from .protofiles import dataset_pb2
 
 
 class Dataset(_base.Entity):
@@ -40,6 +41,45 @@ class Dataset(_base.Entity):
                 return _api_calls.get(Inner._ACQUISITIONS_ENDPOINT + "count").json()
 
         return Inner()
+
+    @staticmethod
+    def serialize(obj) -> dataset_pb2.Dataset:
+        if not isinstance(obj, Dataset):
+            raise TypeError
+
+        dataset = dataset_pb2.Dataset()
+        dataset.type = obj.type
+        dataset.id = obj.id
+        dataset.name = obj.name
+
+        if obj.description is not None:
+            dataset.description = obj.description
+        if obj.creator_id is not None:
+            dataset.creator_id = obj.creator_id
+        if obj.owner_id is not None:
+            dataset.owner_id = obj.owner_id
+
+        dataset.tags.extend(obj.tags)
+
+        return dataset.SerializeToString()
+
+    @staticmethod
+    def deserialize(obj: ByteString):
+        if not isinstance(obj, ByteString):
+            raise TypeError
+
+        dataset = dataset_pb2.Dataset()
+        dataset.ParseFromString(obj)
+
+        return Dataset(
+            type=dataset.type,
+            id=dataset.id,
+            name=dataset.name,
+            description=dataset.description if dataset.HasField("description") else None,
+            creator_id=dataset.creator_id if dataset.HasField("creator_id") else None,
+            owner_id=dataset.owner_id if dataset.HasField("owner_id") else None,
+            tags=dataset.tags
+        )
 
     @staticmethod
     def to_json(obj):
@@ -84,33 +124,36 @@ def get(dataset_id: str = None, tags: List[str] = []) -> Union[Dataset, List[Dat
     if dataset_id is None:
         datasets = _api_calls.get(_ENDPOINT, params={"tags": tags}).json(object_hook=Dataset.from_json)
         for dataset in datasets:
-            _cache.cache_data("datasets", dataset, default=Dataset.to_json)
+            _cache.cache_data_protobuf("datasets", dataset.id, dataset, Dataset.serialize)
+            # _cache.cache_data("datasets", dataset.id, dataset, default=Dataset.to_json)
         return datasets
     else:
         try:
-            dataset = _cache.get_cached_data("datasets", dataset_id, object_hook=Dataset.from_json)
+            dataset = _cache.get_cached_data_protobuf("datasets", dataset_id, Dataset.deserialize)
+            # dataset = _cache.get_cached_data("datasets", dataset_id, object_hook=Dataset.from_json)
         except:
             dataset = _api_calls.get(_ENDPOINT + dataset_id).json(object_hook=Dataset.from_json)
-            _cache.cache_data("datasets", dataset, default=Dataset.to_json)
+            _cache.cache_data_protobuf("datasets", dataset_id, dataset, Dataset.serialize)
+            # _cache.cache_data("datasets", dataset_id, dataset, default=Dataset.to_json)
         return dataset
 
 
-def create(dataset: Dataset) -> Dataset:
-    if not isinstance(dataset, Dataset):
-        raise TypeError
-
-    dataset = _api_calls.post(_ENDPOINT, json=Dataset.to_json(dataset)).json(object_hook=Dataset.from_json)
-    _cache.cache_data("datasets", dataset)
-
-    return dataset
-
-
-def delete(dataset_id: str) -> None:
-    if not isinstance(dataset_id, str):
-        raise TypeError
-
-    _api_calls.delete(_ENDPOINT + dataset_id)
-    _cache.del_cached_data("datasets", dataset_id)
+# def create(dataset: Dataset) -> Dataset:
+#     if not isinstance(dataset, Dataset):
+#         raise TypeError
+#
+#     dataset = _api_calls.post(_ENDPOINT, json=Dataset.to_json(dataset)).json(object_hook=Dataset.from_json)
+#     _cache.cache_data("datasets", dataset)
+#
+#     return dataset
+#
+#
+# def delete(dataset_id: str) -> None:
+#     if not isinstance(dataset_id, str):
+#         raise TypeError
+#
+#     _api_calls.delete(_ENDPOINT + dataset_id)
+#     _cache.del_cached_data("datasets", dataset_id)
 
 
 def count() -> int:

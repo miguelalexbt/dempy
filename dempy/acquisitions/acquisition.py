@@ -1,4 +1,17 @@
-import os
+import subprocess
+from itertools import chain
+from typing import Union, List, Dict, Any, Callable, ByteString
+from .. import _api_calls, _cache
+from .._base import Entity
+from .._utils import SampleList, AnnotationList
+from .subject import Subject
+from .device import Device
+from .sensor import Sensor
+from .image_sample import ImageSample
+from .video_sample import VideoSample
+from .timeseries_sample import TimeseriesSample
+from .annotation import Annotation
+from ..protofiles import AcquisitionMessage
 
 import matplotlib as mpt
 import matplotlib.pyplot as plt
@@ -6,35 +19,25 @@ import matplotlib.ticker as ticker
 
 from PIL import Image
 from io import BytesIO
-
-from itertools import chain
-from typing import Union, List, Dict, Any, Callable, ByteString
-from .. import _base, _api_calls, _cache
-from .._utils import SampleList, AnnotationList
-from .subject import Subject
-from .device import Device
-from .sensor import Sensor
-from .image_sample import ImageSample
-from .video_sample import VideoSample
-from .timeseries_sample import TimeSeriesSample
-from .annotation import Annotation
 mpt.use("TkAgg")
 
 
-class Acquisition(_base.Entity):
-    def __init__(self, type: str, id: str, creation_timestamp: int, sync_offset: int, time_unit: str,
-                 owner_id: str, creator_id: str, dataset_id: str, subject: Subject, devices: List[Device],
-                 metadata: Dict[str, Any], tags: List[str],
+class Acquisition(Entity):
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, Any],
+                 creation_timestamp: int, sync_offset: int, time_unit: str,
+                 owner_id: str, creator_id: str, dataset_id: str,
+                 subject: Subject, devices: List[Device],
                  has_timeseries_samples: bool, has_image_samples: bool, has_video_samples: bool):
-        super().__init__(type, id)
+        super().__init__(type, id, tags, metadata)
+
         self.creation_timestamp = creation_timestamp
         self.sync_offset = sync_offset
         self.time_unit = time_unit
+
         self.owner_id = owner_id
         self.creator_id = creator_id
         self.dataset_id = dataset_id
-        self.metadata = metadata
-        self.tags = tags
+
         self.has_timeseries_samples = has_timeseries_samples
         self.has_image_samples = has_image_samples
         self.has_video_samples = has_video_samples
@@ -45,7 +48,7 @@ class Acquisition(_base.Entity):
     @property
     def subject(self):
         class Inner:
-            _SUBJECT_ENDPOINT = _ENDPOINT + "{}/subjects/".format(self.id)
+            # _SUBJECT_ENDPOINT = _ENDPOINT + "{}/subjects/".format(self.id)
 
             @staticmethod
             def get() -> Subject:
@@ -76,45 +79,22 @@ class Acquisition(_base.Entity):
 
                 if device_id is None:
                     return self._devices
-                    # return _api_calls.get(Inner._DEVICES_ENDPOINT).json(object_hook=Device.from_json)
                 else:
                     return next((device for device in self._devices if device.id == device_id), None)
-                    # return _api_calls.get(Inner._DEVICES_ENDPOINT + device_id).json(object_hook=Device.from_json)
-
-            # @staticmethod
-            # def create(device: Device) -> Device:
-            #     if not isinstance(device, Device):
-            #         raise TypeError()
-            #
-            #     return _api_calls.post(Inner._DEVICES_ENDPOINT, json=Device.to_json(device))\
-            #         .json(object_hook=Device.from_json)
-
-            # TODO
-            # @staticmethod
-            # def modify(device_id, new_device):
-            #     return _api_calls.put(inner._DEVICES_ENDPOINT, json={**new_device})
-            #     .json(object_hook=lambda o: Device(**o))
-
-            # @staticmethod
-            # def delete(device_id: str) -> None:
-            #     if not isinstance(device_id, str):
-            #         raise TypeError()
-            #     _api_calls.delete(Inner._DEVICES_ENDPOINT + device_id)
 
             @staticmethod
             def usage() -> Dict[str, List[str]]:
-                """Get a map identifying which device(s) and sensor(s) were used to acquire time series samples
+                """Get a map identifying which device(s) and sensor(s) were used to acquire time series samples.proto
 
                 Returns:
                     Mapping[str, List[str]] -- Map of (key, value) pairs, with key being id of device and the value
-                    a list of sensor ids which were used to capture samples
+                    a list of sensor ids which were used to capture samples.proto
                 """
                 return _api_calls.get(Inner._DEVICES_ENDPOINT + "usage").json()
 
             @staticmethod
             def count() -> int:
                 return len(self._devices)
-                # return _api_calls.get(Inner._DEVICES_ENDPOINT + "count").json()
 
         return Inner()
 
@@ -131,14 +111,14 @@ class Acquisition(_base.Entity):
                 if sample_id is None:
                     samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(object_hook=ImageSample.from_json)
                     for sample in samples:
-                        _cache.cache_data("samples/{}/images/".format(self.id), sample.id, sample, default=ImageSample.to_json)
+                        _cache.cache_data_protobuf("samples/{}/images/".format(self.id), sample.id, sample, ImageSample.to_protobuf)
                     return SampleList(samples)
                 else:
                     try:
-                        sample = _cache.get_cached_data("samples/{}/images/".format(self.id), sample_id, object_hook=ImageSample.from_json)
+                        sample = _cache.get_cached_data_protobuf("samples/{}/images/".format(self.id), sample_id, ImageSample.from_protobuf)
                     except:
                         sample = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id).json(object_hook=ImageSample.from_json)
-                        _cache.cache_data("samples/{}/images/".format(self.id), sample_id, sample, default=ImageSample.to_json)
+                        _cache.cache_data_protobuf("samples/{}/images/".format(self.id), sample_id, sample, ImageSample.to_protobuf)
                     return sample
 
             @staticmethod
@@ -147,10 +127,10 @@ class Acquisition(_base.Entity):
                     raise TypeError
 
                 try:
-                    image = _cache.get_cached_data("samples/{}/images/raw/".format(self.id), sample_id, binary=True)
+                    image = _cache.get_cached_data_protobuf("samples/{}/images/raw/".format(self.id), sample_id)
                 except:
                     image = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw").content
-                    _cache.cache_data("samples/{}/images/raw/".format(self.id), sample_id, image, binary=True)
+                    _cache.cache_data_protobuf("samples/{}/images/raw/".format(self.id), sample_id, image)
                 return image
 
             @staticmethod
@@ -158,17 +138,17 @@ class Acquisition(_base.Entity):
                 return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + "count").json()
 
             @staticmethod
-            def visualize(sample_id: str, backend: Callable[[str, ByteString], None] = None) -> None:
+            def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
                 if not isinstance(sample_id, str):
                     raise TypeError
 
                 image = self.image_samples.raw(sample_id)
-                image_path = _cache.build_cache_path("samples/{}/images/raw/".format(self.id), sample_id)
+                image_path = _cache.build_cache_path("samples.proto/{}/images/raw/".format(self.id), sample_id)
 
                 if backend is None:
                     Image.open(BytesIO(image)).show()
                 else:
-                    backend(image_path, image)
+                    backend(image_path)
 
         return Inner()
 
@@ -185,14 +165,14 @@ class Acquisition(_base.Entity):
                 if sample_id is None:
                     samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT).json(object_hook=VideoSample.from_json)
                     for sample in samples:
-                        _cache.cache_data("samples/{}/videos/".format(self.id), sample.id, sample, default=VideoSample.to_json)
+                        _cache.cache_data_protobuf("samples/{}/videos/".format(self.id), sample.id, sample, VideoSample.to_protobuf)
                     return SampleList(samples)
                 else:
                     try:
-                        sample = _cache.get_cached_data("samples/{}/videos/".format(self.id), sample_id, object_hook=VideoSample.from_json)
+                        sample = _cache.get_cached_data_protobuf("samples/{}/videos/".format(self.id), sample_id, VideoSample.from_protobuf)
                     except:
                         sample = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id).json(object_hook=VideoSample.from_json)
-                        _cache.cache_data("samples/{}/videos/".format(self.id), sample_id, sample, default=VideoSample.to_json)
+                        _cache.cache_data_protobuf("samples/{}/videos/".format(self.id), sample_id, sample, VideoSample.to_protobuf)
                     return sample
 
             @staticmethod
@@ -201,10 +181,10 @@ class Acquisition(_base.Entity):
                     raise TypeError
 
                 try:
-                    video = _cache.get_cached_data("samples/{}/videos/raw/".format(self.id), sample_id, binary=True)
+                    video = _cache.get_cached_data_protobuf("samples/{}/videos/raw/".format(self.id), sample_id)
                 except:
                     video = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id + "/raw").content
-                    _cache.cache_data("samples/{}/videos/raw/".format(self.id), sample_id, video, binary=True)
+                    _cache.cache_data_protobuf("samples/{}/videos/raw/".format(self.id), sample_id, video)
                 return video
 
             @staticmethod
@@ -212,7 +192,7 @@ class Acquisition(_base.Entity):
                 return _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + "count").json()
 
             @staticmethod
-            def visualize(sample_id: str, backend: Callable[[str, ByteString], None] = None) -> None:
+            def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
                 if not isinstance(sample_id, str):
                     raise TypeError
 
@@ -220,9 +200,9 @@ class Acquisition(_base.Entity):
                 video_path = _cache.build_cache_path("samples/{}/videos/raw/".format(self.id), sample_id)
 
                 if backend is None:
-                    os.startfile(video_path)
+                    subprocess.run(["vlc", "--play-and-exit", video_path])
                 else:
-                    backend(video_path, video)
+                    backend(video_path)
 
         return Inner()
 
@@ -234,12 +214,13 @@ class Acquisition(_base.Entity):
             @staticmethod
             def get() -> SampleList:
                 try:
-                    samples = _cache.get_cached_data("samples/{}/".format(self.id), "timeseries", object_hook=TimeSeriesSample.from_json)
+                    samples = _cache.get_cached_data_protobuf("samples/{}/".format(self.id), "timeseries", SampleList.from_protobuf)
                 except:
-                    samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT).json(object_hook=TimeSeriesSample.from_json)
+                    samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT).json(object_hook=TimeseriesSample.from_json)
                     samples.sort(key=lambda sample: sample.timestamp)
-                    _cache.cache_data("samples/{}/".format(self.id), "timeseries", samples, default=TimeSeriesSample.to_json)
-                return SampleList(samples)
+                    samples = SampleList(samples)
+                    _cache.cache_data_protobuf("samples/{}/".format(self.id), "timeseries", samples, SampleList.to_protobuf)
+                return samples
 
             @staticmethod
             def count() -> int:
@@ -332,27 +313,62 @@ class Acquisition(_base.Entity):
         return Inner()
 
     @staticmethod
-    def to_json(obj):
+    def to_protobuf(obj: "Acquisition"):
         if not isinstance(obj, Acquisition):
             raise TypeError
 
-        return {
-            "type": obj.type,
-            "id": obj.id,
-            "creationTimestamp": obj.creation_timestamp,
-            "syncOffset": obj.sync_offset,
-            "timeUnit": obj.time_unit,
-            "ownerId": obj.owner_id,
-            "creatorId": obj.creator_id,
-            "datasetId": obj.dataset_id,
-            "subject": Subject.to_json(obj._subject),
-            "devices": [Device.to_json(device) for device in obj._devices],
-            "metadata": obj.metadata,
-            "tags": obj.tags,
-            "hasTimeSeriesSamples": obj.has_timeseries_samples,
-            "hasImageSamples": obj.has_image_samples,
-            "hasVideoSamples": obj.has_video_samples
-        }
+        acquisition_message = AcquisitionMessage()
+        acquisition_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        acquisition_message.creation_timestamp = obj.creation_timestamp
+
+        if obj.sync_offset is not None:
+            acquisition_message.sync_offset = obj.sync_offset
+        if obj.time_unit is not None:
+            acquisition_message.time_unit = obj.time_unit
+        if obj.owner_id is not None:
+            acquisition_message.owner_id = obj.owner_id
+        if obj.creator_id is not None:
+            acquisition_message.creator_id = obj.creator_id
+        if obj.dataset_id is not None:
+            acquisition_message.dataset_id = obj.dataset_id
+
+        acquisition_message.subject.CopyFrom(Subject.to_protobuf(obj._subject))
+        acquisition_message.devices.extend([Device.to_protobuf(d) for d in obj._devices])
+
+        acquisition_message.has_timeseries_samples = obj.has_timeseries_samples
+        acquisition_message.has_image_samples = obj.has_image_samples
+        acquisition_message.has_video_samples = obj.has_video_samples
+
+        return acquisition_message
+
+    @staticmethod
+    def from_protobuf(obj: Union[ByteString, AcquisitionMessage]):
+        if isinstance(obj, ByteString):
+            acquisition_message = AcquisitionMessage()
+            acquisition_message.ParseFromString(obj)
+        elif isinstance(obj, AcquisitionMessage):
+            acquisition_message = obj
+        else:
+            raise TypeError
+
+        return Acquisition(
+            type=acquisition_message.entity.type,
+            id=acquisition_message.entity.id,
+            tags=acquisition_message.entity.tags,
+            metadata=acquisition_message.entity.metadata,
+            creation_timestamp=acquisition_message.creation_timestamp,
+            sync_offset=acquisition_message.sync_offset if acquisition_message.HasField("sync_offset") else None,
+            time_unit=acquisition_message.time_unit,
+            owner_id=acquisition_message.owner_id if acquisition_message.HasField("owner_id") else None,
+            creator_id=acquisition_message.creator_id if acquisition_message.HasField("creator_id") else None,
+            dataset_id=acquisition_message.dataset_id if acquisition_message.HasField("dataset_id") else None,
+            subject=Subject.from_protobuf(acquisition_message.subject),
+            devices=[Device.from_protobuf(d) for d in acquisition_message.devices],
+            has_timeseries_samples=acquisition_message.has_timeseries_samples,
+            has_image_samples=acquisition_message.has_image_samples,
+            has_video_samples=acquisition_message.has_video_samples
+        )
 
     @staticmethod
     def from_json(obj: Dict[str, Any]):
@@ -364,6 +380,8 @@ class Acquisition(_base.Entity):
                 return Acquisition(
                     type=obj["type"],
                     id=obj["id"],
+                    tags=obj["tags"],
+                    metadata=obj["metadata"],
                     creation_timestamp=obj["creationTimestamp"],
                     sync_offset=obj["syncOffset"],
                     time_unit=obj["timeUnit"],
@@ -372,8 +390,6 @@ class Acquisition(_base.Entity):
                     dataset_id=obj["datasetId"],
                     subject=obj["subject"],
                     devices=obj["devices"],
-                    metadata=obj["metadata"],
-                    tags=obj["tags"],
                     has_timeseries_samples=obj["hasTimeSeriesSamples"],
                     has_image_samples=obj["hasImageSamples"],
                     has_video_samples=obj["hasVideoSamples"]
@@ -400,34 +416,15 @@ def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []
     if acquisition_id is None:
         acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags}).json(object_hook=Acquisition.from_json)
         for acquisition in acquisitions:
-            _cache.cache_data("acquisitions", acquisition.id, acquisition, default=Acquisition.to_json)
+            _cache.cache_data_protobuf("acquisitions", acquisition.id, acquisition, Acquisition.to_protobuf)
         return acquisitions
     else:
         try:
-            acquisition = _cache.get_cached_data("acquisitions", acquisition_id, object_hook=Acquisition.from_json)
+            acquisition = _cache.get_cached_data_protobuf("acquisitions", acquisition_id, Acquisition.from_protobuf)
         except:
             acquisition = _api_calls.get(_ENDPOINT + acquisition_id).json(object_hook=Acquisition.from_json)
-            _cache.cache_data("acquisitions", acquisition.id, acquisition, default=Acquisition.to_json)
+            _cache.cache_data_protobuf("acquisitions", acquisition_id, acquisition, Acquisition.to_protobuf)
         return acquisition
-
-
-# TODO
-# def create(acquisition: Acquisition) -> Acquisition:
-#     if not isinstance(acquisition, Acquisition):
-#         raise TypeError()
-#
-#     # acquisition = _api_calls.post(_ENDPOINT, json={**acquisition}) #.json(cls=CustomDecoder)
-#     # _cache.cache_data("acquisitions", acquisition, cls=CustomEncoder)
-#
-#     return acquisition
-
-
-# def delete(acquisition_id: str) -> None:
-#     if not isinstance(acquisition_id, str):
-#         raise TypeError()
-#
-#     _api_calls.delete(_ENDPOINT + acquisition_id)
-#     _cache.del_cached_data("acquisitions", acquisition_id)
 
 
 def count() -> int:

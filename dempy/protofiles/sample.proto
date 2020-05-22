@@ -1,0 +1,39 @@
+syntax = "proto2";
+
+package dempy;
+
+import "base.proto";
+
+message TimeseriesSample {
+  required Entity entity = 1;
+  required int64 timestamp = 2 [default=0];
+  required string acquisition_id = 3;
+  optional string device_id = 4;
+  optional string sensor_id = 5;
+  optional float x = 6;
+  optional float y = 7;
+  optional float z = 8;
+  optional float u = 9;
+  optional float w = 10;
+}
+
+message ImageSample {
+  required Entity entity = 1;
+  required int64 timestamp = 2 [default=0];
+  required string acquisition_id = 3;
+  optional string device_id = 4;
+  optional string sensor_id = 5;
+  required string media_type = 6;
+  required string image_source = 7;
+  required bool has_rotation_metadata = 8;
+}
+
+message VideoSample {
+  required Entity entity = 1;
+  required int64 timestamp = 2 [default=0];
+  required string acquisition_id = 3;
+  optional string device_id = 4;
+  optional string sensor_id = 5;
+  required string media_type = 6;
+  required string video_source = 7;
+}

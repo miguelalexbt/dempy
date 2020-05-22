@@ -21,29 +21,22 @@ def build_cache_path(data_dir, data_file):
     return os.path.normpath(os.path.join(cache_dir, data_file))
 
 
-def cache_data(data_dir, data_file, data, binary=False, **kwargs):
+def cache_data_protobuf(data_dir, data_file, data, serializer=None):
     cache_file = build_cache_path(data_dir, data_file)
 
-    if binary:
-        with io.open(cache_file, "wb") as fp:
-            fp.write(data)
-    else:
-        with io.open(cache_file, "w", encoding="utf-8") as fp:
-            json.dump(data, fp, **kwargs)
+    with io.open(cache_file, "wb") as fp:
+        data = data if serializer is None else serializer(data).SerializeToString()
+        fp.write(data)
 
 
-def get_cached_data(data_dir, data_file, binary=False, **kwargs):
+def get_cached_data_protobuf(data_dir, data_file, deserializer=None):
     cache_file = build_cache_path(data_dir, data_file)
 
     try:
-        if binary:
-            with io.open(cache_file, "rb") as fp:
-                data = fp.read()
-        else:
-            with io.open(cache_file, "r", encoding="utf-8") as fp:
-                data = json.load(fp, **kwargs)
-        return data
-    except (IOError, OSError) as e:
+        with io.open(cache_file, "rb") as fp:
+            data = fp.read()
+        return data if deserializer is None else deserializer(data)
+    except (IOError, OSError):
         raise Exception()
 
 
