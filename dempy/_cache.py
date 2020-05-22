@@ -6,7 +6,7 @@ from . import config
 
 
 def create_cache_dir(data_dir):
-    cache_dir = os.path.join(config.cache_dir, data_dir)
+    cache_dir = os.path.abspath(os.path.join(config.cache_dir, data_dir))
 
     try:
         os.makedirs(cache_dir)
@@ -16,97 +16,41 @@ def create_cache_dir(data_dir):
     return cache_dir
 
 
-def cache_data(data_dir, data_file, data, **kwargs):
+def build_cache_path(data_dir, data_file):
     cache_dir = create_cache_dir(data_dir)
-    cache_file = os.path.join(cache_dir, data_file)
-
-    with io.open(cache_file, "w", encoding="utf-8") as fp:
-        json.dump(data, fp, **kwargs)
+    return os.path.normpath(os.path.join(cache_dir, data_file))
 
 
-def get_cached_data(data_dir, data_file=None, **kwargs):
-    cache_dir = create_cache_dir(data_dir)
+def cache_data(data_dir, data_file, data, binary=False, **kwargs):
+    cache_file = build_cache_path(data_dir, data_file)
 
-    if data_file is None:
-        cache_files = os.listdir(cache_dir)
-
-        if len(cache_files) == 0:
-            raise Exception()
-        
-        return [get_cached_data(dir, cache_file, **kwargs) for cache_file in cache_files]
+    if binary:
+        with io.open(cache_file, "wb") as fp:
+            fp.write(data)
     else:
-        cache_file = os.path.join(cache_dir, data_file)
-
-        try:
-            with io.open(cache_file, "r", encoding="utf-8") as fp:
-                data = json.load(fp, **kwargs)
-            return data
-        except (IOError, OSError):
-            raise Exception()
+        with io.open(cache_file, "w", encoding="utf-8") as fp:
+            json.dump(data, fp, **kwargs)
 
 
-def del_cached_data(dir, data_id):
-    cache_dir = create_cache_dir(dir)
-    data_file = os.path.join(cache_dir, data_id)
+def get_cached_data(data_dir, data_file, binary=False, **kwargs):
+    cache_file = build_cache_path(data_dir, data_file)
 
     try:
-        os.remove(data_file)
-    except (IOError, OSError):
+        if binary:
+            with io.open(cache_file, "rb") as fp:
+                data = fp.read()
+        else:
+            with io.open(cache_file, "r", encoding="utf-8") as fp:
+                data = json.load(fp, **kwargs)
+        return data
+    except (IOError, OSError) as e:
         raise Exception()
 
 
+def del_cached_data(data_dir, data_file):
+    cache_file = build_cache_path(data_dir, data_file)
 
-    
-
-# # Cache
-
-# def _cache_acquisition(acquisition):
-#     cache_dir = cache._create_cache_dir("acquisitions")
-#     acquisition_file = os.path.join(cache_dir, acquisition.id)
-
-#     with io.open(acquisition_file, "w", encoding="utf8") as fd:
-#         fd.write(json.dumps({**acquisition}, cls=CustomEncoder))
-
-# def _list_cached_acquisitions():
-#     cache_dir = cache._create_cache_dir("acquisitions")
-
-#     acquisition_list = os.listdir(cache_dir)
-#     acquisition_list.sort()
-
-#     return acquisition_list
-
-# def _get_cached_acquisitions(datasetId, tags):
-#     acquisition_list = _list_cached_acquisitions()
-
-#     if len(acquisition_list) != count():
-#         raise Exception(f"Some acquisitions are not cached")
-
-#     acquisitions = []
-
-#     for acquisitionId in acquisition_list:
-#         acquisition = _get_cached_acquisition(acquisitionId)
-
-#         if datasetId != None and acquisition.datasetId != datasetId:
-#             continue
-
-#         # Check intersection
-#         if len(tags) > 0 and set(acquisition.tags).isdisjoint(tags):
-#             continue
-
-#         acquisitions.append(acquisition)
-
-#     return acquisitions
-
-# def _get_cached_acquisition(acquisitionId):
-#     cache_dir = cache._create_cache_dir("acquisitions")
-#     acquisition_file = os.path.join(cache_dir, acquisitionId)
-
-#     # TODO separate inner stuff
-
-#     try:
-#         with io.open(acquisition_file, encoding="utf8") as fd:
-#             acquisition = fd.read()
-#         return json.loads(acquisition, cls=CustomDecoder)
-#     except (IOError, OSError):
-#         raise Exception(f"Dataset {acquisitionId} not cached")
-
+    try:
+        os.remove(cache_file)
+    except (IOError, OSError):
+        raise Exception()

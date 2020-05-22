@@ -24,14 +24,14 @@ class Organization(_base.Entity):
             @staticmethod
             def add(user_id: str) -> None:
                 if not isinstance(user_id, str):
-                    raise TypeError()
+                    raise TypeError
 
                 _api_calls.put(Inner._USERS_ENDPOINT + user_id)
             
             @staticmethod
             def remove(user_id: str) -> None:
                 if not isinstance(user_id, str):
-                    raise TypeError()
+                    raise TypeError
 
                 _api_calls.delete(Inner._USERS_ENDPOINT + user_id)
 
@@ -68,7 +68,7 @@ _ENDPOINT = "api/organizations/"
 
 def get(organization_id: str = None) -> Union[Organization, List[Organization]]:
     if organization_id is not None and not isinstance(organization_id, str):
-        raise TypeError()
+        raise TypeError
 
     if organization_id is None:
         return _api_calls.get(_ENDPOINT).json(object_hook=Organization.from_json)
@@ -78,14 +78,14 @@ def get(organization_id: str = None) -> Union[Organization, List[Organization]]:
 
 def create(organization: Organization) -> Organization:
     if not isinstance(organization, Organization):
-        raise TypeError()
+        raise TypeError
 
     return _api_calls.post(_ENDPOINT, json=Organization.to_json(organization)).json(object_hook=Organization.from_json)
 
 
 def delete(organization_id: str) -> None:
     if not isinstance(organization_id, str):
-        raise TypeError()
+        raise TypeError
 
     _api_calls.delete(_ENDPOINT + organization_id)
 

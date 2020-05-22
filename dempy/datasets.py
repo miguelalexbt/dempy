@@ -4,8 +4,7 @@ from .acquisitions import Acquisition, get as _get_acquisition
 
 
 class Dataset(_base.Entity):
-    def __init__(self, type: str = "Dataset", id: str = "", name: str = "", description: str = "",
-                 creator_id: str = None, owner_id: str = None, tags: List[str] = []):
+    def __init__(self, type: str, id: str, name: str, description: str, creator_id: str, owner_id: str, tags: List[str]):
         super().__init__(type, id)
         self.name = name
         self.description = description
@@ -45,7 +44,7 @@ class Dataset(_base.Entity):
     @staticmethod
     def to_json(obj):
         if not isinstance(obj, Dataset):
-            raise TypeError()
+            raise TypeError
 
         return {
             "type": obj.type,
@@ -64,8 +63,13 @@ class Dataset(_base.Entity):
 
         if "type" in obj and obj["type"] == "Dataset":
             return Dataset(
-                obj["type"], obj["id"], obj["name"], obj["description"],
-                obj["creatorId"], obj["ownerId"], obj["tags"]
+                type=obj["type"],
+                id=obj["id"],
+                name=obj["name"],
+                description=obj["description"],
+                creator_id=obj["creatorId"],
+                owner_id=obj["ownerId"],
+                tags=obj["tags"]
             )
         return obj
 
@@ -75,7 +79,7 @@ _ENDPOINT = "api/datasets/"
 
 def get(dataset_id: str = None, tags: List[str] = []) -> Union[Dataset, List[Dataset]]:
     if (dataset_id is not None and not isinstance(dataset_id, str)) or not isinstance(tags, List):
-        raise TypeError()
+        raise TypeError
 
     if dataset_id is None:
         datasets = _api_calls.get(_ENDPOINT, params={"tags": tags}).json(object_hook=Dataset.from_json)
@@ -93,7 +97,7 @@ def get(dataset_id: str = None, tags: List[str] = []) -> Union[Dataset, List[Dat
 
 def create(dataset: Dataset) -> Dataset:
     if not isinstance(dataset, Dataset):
-        raise TypeError()
+        raise TypeError
 
     dataset = _api_calls.post(_ENDPOINT, json=Dataset.to_json(dataset)).json(object_hook=Dataset.from_json)
     _cache.cache_data("datasets", dataset)
@@ -103,7 +107,7 @@ def create(dataset: Dataset) -> Dataset:
 
 def delete(dataset_id: str) -> None:
     if not isinstance(dataset_id, str):
-        raise TypeError()
+        raise TypeError
 
     _api_calls.delete(_ENDPOINT + dataset_id)
     _cache.del_cached_data("datasets", dataset_id)

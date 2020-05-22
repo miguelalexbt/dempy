@@ -16,7 +16,7 @@ class Subject(_base.Entity):
     @staticmethod
     def to_json(obj):
         if not isinstance(obj, Subject):
-            raise TypeError()
+            raise TypeError
 
         return {
             "type": obj.type,

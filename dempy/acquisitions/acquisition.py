@@ -1,10 +1,14 @@
+import os
+
 import matplotlib as mpt
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+
 from PIL import Image
 from io import BytesIO
+
 from itertools import chain
-from typing import Union, List, Dict, Any
+from typing import Union, List, Dict, Any, Callable, ByteString
 from .. import _base, _api_calls, _cache
 from .._utils import SampleList, AnnotationList
 from .subject import Subject
@@ -123,29 +127,48 @@ class Acquisition(_base.Entity):
             def get(sample_id: str = None) -> SampleList:
                 if sample_id is not None and not isinstance(sample_id, str):
                     raise TypeError
+
                 if sample_id is None:
                     samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(object_hook=ImageSample.from_json)
+                    for sample in samples:
+                        _cache.cache_data("samples/{}/images/".format(self.id), sample.id, sample, default=ImageSample.to_json)
                     return SampleList(samples)
                 else:
-                    return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id).json(object_hook=ImageSample.from_json)
+                    try:
+                        sample = _cache.get_cached_data("samples/{}/images/".format(self.id), sample_id, object_hook=ImageSample.from_json)
+                    except:
+                        sample = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id).json(object_hook=ImageSample.from_json)
+                        _cache.cache_data("samples/{}/images/".format(self.id), sample_id, sample, default=ImageSample.to_json)
+                    return sample
+
+            @staticmethod
+            def raw(sample_id: str):
+                if not isinstance(sample_id, str):
+                    raise TypeError
+
+                try:
+                    image = _cache.get_cached_data("samples/{}/images/raw/".format(self.id), sample_id, binary=True)
+                except:
+                    image = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw").content
+                    _cache.cache_data("samples/{}/images/raw/".format(self.id), sample_id, image, binary=True)
+                return image
 
             @staticmethod
             def count() -> int:
                 return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + "count").json()
 
             @staticmethod
-            def get_raw(sample_id: str):
+            def visualize(sample_id: str, backend: Callable[[str, ByteString], None] = None) -> None:
                 if not isinstance(sample_id, str):
                     raise TypeError
-                image_binary = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw").content
-                return image_binary
 
-            @staticmethod
-            def visualize(sample_id: str) -> None:
-                image_binary = self.image_samples.get_raw(sample_id)
-                Image.open(BytesIO(image_binary)).show()
+                image = self.image_samples.raw(sample_id)
+                image_path = _cache.build_cache_path("samples/{}/images/raw/".format(self.id), sample_id)
 
-            # TODO count image samples for datasets (maybe useful?, maybe create node image samples in root?)
+                if backend is None:
+                    Image.open(BytesIO(image)).show()
+                else:
+                    backend(image_path, image)
 
         return Inner()
 
@@ -154,19 +177,52 @@ class Acquisition(_base.Entity):
         class Inner:
             _VIDEO_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/videos/".format(self.id)
 
-            # TODO get video sample id?
             @staticmethod
-            def get() -> List[VideoSample]:
-                return _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT).json(cls=CustomDecoder)
+            def get(sample_id: str = None) -> SampleList:
+                if sample_id is not None and not isinstance(sample_id, str):
+                    raise TypeError
+
+                if sample_id is None:
+                    samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT).json(object_hook=VideoSample.from_json)
+                    for sample in samples:
+                        _cache.cache_data("samples/{}/videos/".format(self.id), sample.id, sample, default=VideoSample.to_json)
+                    return SampleList(samples)
+                else:
+                    try:
+                        sample = _cache.get_cached_data("samples/{}/videos/".format(self.id), sample_id, object_hook=VideoSample.from_json)
+                    except:
+                        sample = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id).json(object_hook=VideoSample.from_json)
+                        _cache.cache_data("samples/{}/videos/".format(self.id), sample_id, sample, default=VideoSample.to_json)
+                    return sample
+
+            @staticmethod
+            def raw(sample_id: str):
+                if not isinstance(sample_id, str):
+                    raise TypeError
+
+                try:
+                    video = _cache.get_cached_data("samples/{}/videos/raw/".format(self.id), sample_id, binary=True)
+                except:
+                    video = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id + "/raw").content
+                    _cache.cache_data("samples/{}/videos/raw/".format(self.id), sample_id, video, binary=True)
+                return video
 
             @staticmethod
             def count() -> int:
                 return _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + "count").json()
 
-            # TODO get actual video raw
-            # TODO get actual video stream
-            # TODO meta info of video (HEAD)
-            # TODO count video samples for datasets (maybe useful?, maybe create node video samples in root?)
+            @staticmethod
+            def visualize(sample_id: str, backend: Callable[[str, ByteString], None] = None) -> None:
+                if not isinstance(sample_id, str):
+                    raise TypeError
+
+                video = self.video_samples.raw(sample_id)
+                video_path = _cache.build_cache_path("samples/{}/videos/raw/".format(self.id), sample_id)
+
+                if backend is None:
+                    os.startfile(video_path)
+                else:
+                    backend(video_path, video)
 
         return Inner()
 
@@ -251,7 +307,9 @@ class Acquisition(_base.Entity):
                     fig, ax = plt.subplots(nrows=1, figsize=(10, 4), dpi=80, constrained_layout=True)
                     fig.suptitle(f"{device.model_name} ({device.manufacturer})\n{device.id}", wrap=True)
 
-                    visualize_sensor_samples(ax, device.sensors.get(sensor_id=sensor_id), self.timeseries_samples.get().by_sensor(sensor_id))
+                    sensor_samples = self.timeseries_samples.get().by_sensor(sensor_id)
+
+                    visualize_sensor_samples(ax, device.sensors.get(sensor_id=sensor_id), sensor_samples)
 
                 plt.show()
 
@@ -334,15 +392,13 @@ class Acquisition(_base.Entity):
 _ENDPOINT = "api/acquisitions/"
 
 
-def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []) -> Union[
-    Acquisition, List[Acquisition]]:
+def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []) -> Union[Acquisition, List[Acquisition]]:
     if (acquisition_id is not None and not isinstance(acquisition_id, str)) or (
             dataset_id is not None and not isinstance(dataset_id, str)):
         raise TypeError
 
     if acquisition_id is None:
-        acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags}).json(
-            object_hook=Acquisition.from_json)
+        acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags}).json(object_hook=Acquisition.from_json)
         for acquisition in acquisitions:
             _cache.cache_data("acquisitions", acquisition.id, acquisition, default=Acquisition.to_json)
         return acquisitions

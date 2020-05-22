@@ -3,13 +3,13 @@ class SampleList(list):
         if not isinstance(device_id, str):
             raise TypeError()
 
-        return SampleList([i for i in self if i.device_id == device_id])
+        return SampleList([i for i in self if i.device_id is not None and i.device_id == device_id])
 
     def by_sensor(self, sensor_id: str):
         if not isinstance(sensor_id, str):
             raise TypeError()
 
-        return SampleList([i for i in self if i.sensor_id == sensor_id])
+        return SampleList([i for i in self if i.sensor_id is not None and i.sensor_id == sensor_id])
 
 
 class AnnotationList(list):

@@ -3,7 +3,7 @@ from functools import partial
 from . import config
 
 
-def request(endpoint, method, **args):
+def request(endpoint, method, **kwargs):
     uri = f"{config.base_url}{endpoint}"
 
     with requests.Session() as session:
@@ -14,7 +14,7 @@ def request(endpoint, method, **args):
         # if user is not None and password is not None:
         #     session.auth = (user, password)
 
-        result = session.request(method, uri, **args)
+        result = session.request(method, uri, **kwargs)
         result.raise_for_status()
 
         return result

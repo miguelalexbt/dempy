@@ -1,23 +1,51 @@
-class VideoSample:
-    def __init__(self, type: str = "TriaxialSample", id: str = "", acquisitionId: str = "", metadata={}, timestamp=int,
-                 deviceId: str = "", sensorId: str = "", tags=[], mediaType : str = "", videoSource : str = ""):
-        self.type = type
-        self.id = id
-        self.type = type
-        self.acquisitionId = acquisitionId
+from typing import List, Dict, Any
+from .. import _base
+
+
+class VideoSample(_base.Entity):
+    def __init__(self, type: str, id: str, acquisition_id: str, metadata: Dict[str, Any], timestamp: int,
+                 device_id: str, sensor_id: str, tags: List[str], media_type: str, video_source: str):
+        super().__init__(type, id)
+        self.acquisition_id = acquisition_id
         self.timestamp = timestamp
-        self.deviceId = deviceId
-        self.sensorId = sensorId
+        self.device_id = device_id
+        self.sensor_id = sensor_id
         self.metadata = metadata
         self.tags = tags
-        self.mediaType = mediaType
-        self.videoSource = videoSource
+        self.media_type = media_type
+        self.video_source = video_source
 
-    def keys(self):
-        return self.__dict__.keys()
+    @staticmethod
+    def to_json(obj):
+        if not isinstance(obj, VideoSample):
+            raise TypeError
 
-    def __getitem__(self, key):
-        return getattr(self, key)
+        return {
+            "type": obj.type,
+            "id": obj.id,
+            "acquisitionId": obj.acquisition_id,
+            "metadata": obj.metadata,
+            "timestamp": obj.timestamp,
+            "deviceId": obj.device_id,
+            "sensorId": obj.sensor_id,
+            "tags": obj.tags,
+            "mediaType": obj.media_type,
+            "videoSource": obj.video_source
+        }
 
-    def __repr__(self):
-        return f"<VideoSample id=\"{self.id}\" deviceId=\"{self.deviceId}\">"
+    @staticmethod
+    def from_json(obj: Dict[str, Any]):
+        if "type" in obj and obj["type"] == "VideoSample":
+            return VideoSample(
+                type=obj["type"],
+                id=obj["id"],
+                acquisition_id=obj["acquisitionId"],
+                metadata=obj["metadata"],
+                timestamp=obj["timestamp"],
+                device_id=obj["deviceId"],
+                sensor_id=obj["sensorId"],
+                tags=obj["tags"],
+                media_type=obj["mediaType"],
+                video_source=obj["videoSource"],
+            )
+        return obj

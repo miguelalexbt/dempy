@@ -18,7 +18,7 @@ class User(_base.Entity):
     @staticmethod
     def to_json(obj):
         if not isinstance(obj, User):
-            raise TypeError()
+            raise TypeError
 
         return {
             "type": obj.type,
@@ -35,7 +35,7 @@ class User(_base.Entity):
     @staticmethod
     def from_json(obj: Dict[str, Any]):
         if not isinstance(obj, Dict):
-            raise TypeError()
+            raise TypeError
 
         if "type" in obj and obj["type"] == "User":
             return User(
