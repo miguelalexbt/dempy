@@ -1,0 +1,134 @@
+syntax = "proto2";
+
+package dempy;
+
+message Entity {
+  required string type = 1;
+  required string id = 2;
+  repeated string tags = 3;
+  map<string, string> metadata = 4;
+}
+
+message User {
+  required Entity entity = 1;
+  optional string first_name = 2;
+  optional string last_name = 3;
+  optional string email = 4;
+  required string username = 5;
+  required string password = 6;
+  optional string external_reference = 8;
+  required bool active = 7;
+}
+
+message Organization {
+  required Entity entity = 1;
+  required string name = 2;
+  optional string description = 3;
+  optional string url = 4;
+  optional string email = 5;
+  optional string phone = 6;
+  repeated string users_ids = 7;
+}
+
+message Dataset {
+  required Entity entity = 1;
+  required string name = 3;
+  optional string description = 4;
+  optional string creator_id = 5;
+  optional string owner_id = 6;
+}
+
+message Acquisition {
+  required Entity entity = 1;
+  required int64 creation_timestamp = 2;
+  optional uint32 sync_offset = 3;
+  required string time_unit = 4;
+  optional string owner_id = 5;
+  optional string creator_id = 6;
+  optional string dataset_id = 7;
+  required Subject subject = 8;
+  repeated Device devices = 9;
+  required bool has_timeseries_samples = 10;
+  required bool has_image_samples = 11;
+  required bool has_video_samples = 12;
+}
+
+message Subject {
+  required Entity entity = 1;
+  required int64 birthdate_timestamp = 2 [default = 0];
+  optional string description = 3;
+  optional string first_name = 4;
+  optional string last_name = 5;
+}
+
+message Device {
+  required Entity entity = 1;
+  optional uint32 sync_offset = 2;
+  optional string time_unit = 3;
+  optional string serial_number = 4;
+  optional string manufacturer = 5;
+  optional string model_name = 6;
+  repeated Sensor sensors = 7;
+}
+
+message Sensor {
+  required Entity entity = 1;
+  optional uint32 sync_offset = 2;
+  optional string time_unit = 3;
+  optional string serial_number = 4;
+  optional string manufacturer = 5;
+  optional string model_name = 6;
+  optional string sensor_type = 7;
+}
+
+message TimeseriesSample {
+  required Entity entity = 1;
+  required int64 timestamp = 2 [default=0];
+  required string acquisition_id = 3;
+  optional string device_id = 4;
+  optional string sensor_id = 5;
+  optional float x = 6;
+  optional float y = 7;
+  optional float z = 8;
+  optional float u = 9;
+  optional float w = 10;
+}
+
+message ImageSample {
+  required Entity entity = 1;
+  required int64 timestamp = 2 [default=0];
+  required string acquisition_id = 3;
+  optional string device_id = 4;
+  optional string sensor_id = 5;
+  required string media_type = 6;
+  required string image_source = 7;
+  required bool has_rotation_metadata = 8;
+}
+
+message VideoSample {
+  required Entity entity = 1;
+  required int64 timestamp = 2 [default=0];
+  required string acquisition_id = 3;
+  optional string device_id = 4;
+  optional string sensor_id = 5;
+  required string media_type = 6;
+  required string video_source = 7;
+}
+
+message Annotation {
+  required Entity entity = 1;
+  required string acquisition_id = 2;
+  required string creator_id = 3;
+  required string annotated_sample_id = 4;
+  optional string color = 5;
+}
+
+message SampleList {
+  repeated TimeseriesSample timeseries = 1;
+  repeated ImageSample images = 2;
+  repeated VideoSample videos = 3;
+}
+
+message AnnotationList {
+  repeated Annotation annotations = 1;
+}

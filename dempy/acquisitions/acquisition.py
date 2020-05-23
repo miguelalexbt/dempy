@@ -99,114 +99,6 @@ class Acquisition(Entity):
         return Inner()
 
     @property
-    def image_samples(self):
-        class Inner:
-            _IMAGE_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/images/".format(self.id)
-
-            @staticmethod
-            def get(sample_id: str = None) -> SampleList:
-                if sample_id is not None and not isinstance(sample_id, str):
-                    raise TypeError
-
-                if sample_id is None:
-                    samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(object_hook=ImageSample.from_json)
-                    for sample in samples:
-                        _cache.cache_data_protobuf("samples/{}/images/".format(self.id), sample.id, sample, ImageSample.to_protobuf)
-                    return SampleList(samples)
-                else:
-                    try:
-                        sample = _cache.get_cached_data_protobuf("samples/{}/images/".format(self.id), sample_id, ImageSample.from_protobuf)
-                    except:
-                        sample = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id).json(object_hook=ImageSample.from_json)
-                        _cache.cache_data_protobuf("samples/{}/images/".format(self.id), sample_id, sample, ImageSample.to_protobuf)
-                    return sample
-
-            @staticmethod
-            def raw(sample_id: str):
-                if not isinstance(sample_id, str):
-                    raise TypeError
-
-                try:
-                    image = _cache.get_cached_data_protobuf("samples/{}/images/raw/".format(self.id), sample_id)
-                except:
-                    image = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw").content
-                    _cache.cache_data_protobuf("samples/{}/images/raw/".format(self.id), sample_id, image)
-                return image
-
-            @staticmethod
-            def count() -> int:
-                return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + "count").json()
-
-            @staticmethod
-            def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
-                if not isinstance(sample_id, str):
-                    raise TypeError
-
-                image = self.image_samples.raw(sample_id)
-                image_path = _cache.build_cache_path("samples.proto/{}/images/raw/".format(self.id), sample_id)
-
-                if backend is None:
-                    Image.open(BytesIO(image)).show()
-                else:
-                    backend(image_path)
-
-        return Inner()
-
-    @property
-    def video_samples(self):
-        class Inner:
-            _VIDEO_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/videos/".format(self.id)
-
-            @staticmethod
-            def get(sample_id: str = None) -> SampleList:
-                if sample_id is not None and not isinstance(sample_id, str):
-                    raise TypeError
-
-                if sample_id is None:
-                    samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT).json(object_hook=VideoSample.from_json)
-                    for sample in samples:
-                        _cache.cache_data_protobuf("samples/{}/videos/".format(self.id), sample.id, sample, VideoSample.to_protobuf)
-                    return SampleList(samples)
-                else:
-                    try:
-                        sample = _cache.get_cached_data_protobuf("samples/{}/videos/".format(self.id), sample_id, VideoSample.from_protobuf)
-                    except:
-                        sample = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id).json(object_hook=VideoSample.from_json)
-                        _cache.cache_data_protobuf("samples/{}/videos/".format(self.id), sample_id, sample, VideoSample.to_protobuf)
-                    return sample
-
-            @staticmethod
-            def raw(sample_id: str):
-                if not isinstance(sample_id, str):
-                    raise TypeError
-
-                try:
-                    video = _cache.get_cached_data_protobuf("samples/{}/videos/raw/".format(self.id), sample_id)
-                except:
-                    video = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id + "/raw").content
-                    _cache.cache_data_protobuf("samples/{}/videos/raw/".format(self.id), sample_id, video)
-                return video
-
-            @staticmethod
-            def count() -> int:
-                return _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + "count").json()
-
-            @staticmethod
-            def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
-                if not isinstance(sample_id, str):
-                    raise TypeError
-
-                video = self.video_samples.raw(sample_id)
-                video_path = _cache.build_cache_path("samples/{}/videos/raw/".format(self.id), sample_id)
-
-                if backend is None:
-                    subprocess.run(["vlc", "--play-and-exit", video_path])
-                else:
-                    backend(video_path)
-
-        return Inner()
-
-    @property
     def timeseries_samples(self):
         class Inner:
             _TIMESERIES_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/timeseries/".format(self.id)
@@ -214,12 +106,12 @@ class Acquisition(Entity):
             @staticmethod
             def get() -> SampleList:
                 try:
-                    samples = _cache.get_cached_data_protobuf("samples/{}/".format(self.id), "timeseries", SampleList.from_protobuf)
-                except:
+                    samples = _cache.get_cached_data("samples/{}/".format(self.id), "timeseries", SampleList.from_protobuf)
+                except FileNotFoundError:
                     samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT).json(object_hook=TimeseriesSample.from_json)
                     samples.sort(key=lambda sample: sample.timestamp)
                     samples = SampleList(samples)
-                    _cache.cache_data_protobuf("samples/{}/".format(self.id), "timeseries", samples, SampleList.to_protobuf)
+                    _cache.cache_data("samples/{}/".format(self.id), "timeseries", samples, SampleList.to_protobuf)
                 return samples
 
             @staticmethod
@@ -297,6 +189,116 @@ class Acquisition(Entity):
         return Inner()
 
     @property
+    def image_samples(self):
+        class Inner:
+            _IMAGE_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/images/".format(self.id)
+
+            @staticmethod
+            def get(sample_id: str = None) -> SampleList:
+                if sample_id is not None and not isinstance(sample_id, str):
+                    raise TypeError
+
+                if sample_id is None:
+                    samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(object_hook=ImageSample.from_json)
+                    for sample in samples:
+                        _cache.cache_data("samples/{}/images/".format(self.id), sample.id, sample, ImageSample.to_protobuf)
+                    return SampleList(samples)
+                else:
+                    try:
+                        sample = _cache.get_cached_data("samples/{}/images/".format(self.id), sample_id, ImageSample.from_protobuf)
+                    except FileNotFoundError:
+                        sample = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id).json(object_hook=ImageSample.from_json)
+                        _cache.cache_data("samples/{}/images/".format(self.id), sample_id, sample, ImageSample.to_protobuf)
+                    return sample
+
+            @staticmethod
+            def raw(sample_id: str) -> ByteString:
+                if not isinstance(sample_id, str):
+                    raise TypeError
+
+                try:
+                    image = _cache.get_cached_data("samples/{}/images/raw/".format(self.id), sample_id)
+                except FileNotFoundError:
+                    image = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw").content
+                    _cache.cache_data("samples/{}/images/raw/".format(self.id), sample_id, image)
+
+                return image
+
+            @staticmethod
+            def count() -> int:
+                return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + "count").json()
+
+            @staticmethod
+            def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
+                if not isinstance(sample_id, str):
+                    raise TypeError
+
+                image = self.image_samples.raw(sample_id)
+                image_path = _cache.build_cache_path("samples.proto/{}/images/raw/".format(self.id), sample_id)
+
+                if backend is None:
+                    Image.open(BytesIO(image)).show()
+                else:
+                    backend(image_path)
+
+        return Inner()
+
+    @property
+    def video_samples(self):
+        class Inner:
+            _VIDEO_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/videos/".format(self.id)
+
+            @staticmethod
+            def get(sample_id: str = None) -> SampleList:
+                if sample_id is not None and not isinstance(sample_id, str):
+                    raise TypeError
+
+                if sample_id is None:
+                    samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT).json(object_hook=VideoSample.from_json)
+                    for sample in samples:
+                        _cache.cache_data("samples/{}/videos/".format(self.id), sample.id, sample, VideoSample.to_protobuf)
+                    return SampleList(samples)
+                else:
+                    try:
+                        sample = _cache.get_cached_data("samples/{}/videos/".format(self.id), sample_id, VideoSample.from_protobuf)
+                    except FileNotFoundError:
+                        sample = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id).json(object_hook=VideoSample.from_json)
+                        _cache.cache_data("samples/{}/videos/".format(self.id), sample_id, sample, VideoSample.to_protobuf)
+                    return sample
+
+            @staticmethod
+            def raw(sample_id: str) -> ByteString:
+                if not isinstance(sample_id, str):
+                    raise TypeError
+
+                try:
+                    video = _cache.get_cached_data("samples/{}/videos/raw/".format(self.id), sample_id)
+                except FileNotFoundError:
+                    video = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id + "/raw").content
+                    _cache.cache_data("samples/{}/videos/raw/".format(self.id), sample_id, video)
+
+                return video
+
+            @staticmethod
+            def count() -> int:
+                return _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + "count").json()
+
+            @staticmethod
+            def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
+                if not isinstance(sample_id, str):
+                    raise TypeError
+
+                video = self.video_samples.raw(sample_id)
+                video_path = _cache.build_cache_path("samples/{}/videos/raw/".format(self.id), sample_id)
+
+                if backend is None:
+                    subprocess.run(["vlc", "--play-and-exit", video_path])
+                else:
+                    backend(video_path)
+
+        return Inner()
+
+    @property
     def annotations(self):
         class Inner:
             _ANNOTATIONS_ENDPOINT = _ENDPOINT + "{}/annotations/".format(self.id)
@@ -313,7 +315,7 @@ class Acquisition(Entity):
         return Inner()
 
     @staticmethod
-    def to_protobuf(obj: "Acquisition"):
+    def to_protobuf(obj: "Acquisition") -> AcquisitionMessage:
         if not isinstance(obj, Acquisition):
             raise TypeError
 
@@ -343,7 +345,7 @@ class Acquisition(Entity):
         return acquisition_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, AcquisitionMessage]):
+    def from_protobuf(obj: Union[ByteString, AcquisitionMessage]) -> "Acquisition":
         if isinstance(obj, ByteString):
             acquisition_message = AcquisitionMessage()
             acquisition_message.ParseFromString(obj)
@@ -371,7 +373,7 @@ class Acquisition(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]):
+    def from_json(obj: Dict[str, Any]) -> Any:
         if not isinstance(obj, Dict):
             raise TypeError
 
@@ -409,21 +411,20 @@ _ENDPOINT = "api/acquisitions/"
 
 
 def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []) -> Union[Acquisition, List[Acquisition]]:
-    if (acquisition_id is not None and not isinstance(acquisition_id, str)) or (
-            dataset_id is not None and not isinstance(dataset_id, str)):
+    if (acquisition_id is not None and not isinstance(acquisition_id, str)) or (dataset_id is not None and not isinstance(dataset_id, str)):
         raise TypeError
 
     if acquisition_id is None:
         acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags}).json(object_hook=Acquisition.from_json)
         for acquisition in acquisitions:
-            _cache.cache_data_protobuf("acquisitions", acquisition.id, acquisition, Acquisition.to_protobuf)
+            _cache.cache_data("acquisitions", acquisition.id, acquisition, Acquisition.to_protobuf)
         return acquisitions
     else:
         try:
-            acquisition = _cache.get_cached_data_protobuf("acquisitions", acquisition_id, Acquisition.from_protobuf)
-        except:
+            acquisition = _cache.get_cached_data("acquisitions", acquisition_id, Acquisition.from_protobuf)
+        except FileNotFoundError:
             acquisition = _api_calls.get(_ENDPOINT + acquisition_id).json(object_hook=Acquisition.from_json)
-            _cache.cache_data_protobuf("acquisitions", acquisition_id, acquisition, Acquisition.to_protobuf)
+            _cache.cache_data("acquisitions", acquisition_id, acquisition, Acquisition.to_protobuf)
         return acquisition
 
 

@@ -40,7 +40,7 @@ class Device(Entity):
         return Inner()
 
     @staticmethod
-    def to_protobuf(obj: "Device"):
+    def to_protobuf(obj: "Device") -> DeviceMessage:
         if not isinstance(obj, Device):
             raise TypeError
 
@@ -63,7 +63,7 @@ class Device(Entity):
         return device_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, DeviceMessage]):
+    def from_protobuf(obj: Union[ByteString, DeviceMessage]) -> "Device":
         if isinstance(obj, ByteString):
             device_message = DeviceMessage()
             device_message.ParseFromString(obj)
@@ -86,9 +86,9 @@ class Device(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]):
+    def from_json(obj: Dict[str, Any]) -> Any:
         if not isinstance(obj, Dict):
-            raise TypeError()
+            raise TypeError
 
         if "type" in obj:
             if obj["type"] == "Device":
@@ -107,5 +107,5 @@ class Device(Entity):
             elif obj["type"] == "Sensor":
                 return Sensor.from_json(obj)
             else:
-                raise TypeError()
+                raise TypeError
         return obj

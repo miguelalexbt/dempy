@@ -19,7 +19,7 @@ class ImageSample(Entity):
         self.has_rotation_metadata = has_rotation_metadata
 
     @staticmethod
-    def to_protobuf(obj: "ImageSample"):
+    def to_protobuf(obj: "ImageSample") -> ImageMessage:
         if not isinstance(obj, ImageSample):
             raise TypeError
 
@@ -41,7 +41,7 @@ class ImageSample(Entity):
         return image_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, ImageMessage]):
+    def from_protobuf(obj: Union[ByteString, ImageMessage]) -> "ImageSample":
         if isinstance(obj, ByteString):
             image_message = ImageMessage()
             image_message.ParseFromString(obj)
@@ -65,7 +65,7 @@ class ImageSample(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]):
+    def from_json(obj: Dict[str, Any]) -> Any:
         if not isinstance(obj, Dict):
             raise TypeError
 

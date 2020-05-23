@@ -14,7 +14,7 @@ class Subject(Entity):
         self.last_name = last_name
 
     @staticmethod
-    def to_protobuf(obj: "Subject"):
+    def to_protobuf(obj: "Subject") -> SubjectMessage:
         if not isinstance(obj, Subject):
             raise TypeError
 
@@ -33,7 +33,7 @@ class Subject(Entity):
         return subject_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, SubjectMessage]):
+    def from_protobuf(obj: Union[ByteString, SubjectMessage]) -> "Subject":
         if isinstance(obj, ByteString):
             subject_message = SubjectMessage()
             subject_message.ParseFromString(obj)
@@ -54,7 +54,10 @@ class Subject(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]):
+    def from_json(obj: Dict[str, Any]) -> Any:
+        if not isinstance(obj, Dict):
+            raise TypeError
+
         if "type" in obj and obj["type"].endswith("Subject"):
             return Subject(
                 type=obj["type"],

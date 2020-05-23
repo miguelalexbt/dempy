@@ -18,7 +18,7 @@ class Sensor(Entity):
         self.sensor_type = sensor_type
 
     @staticmethod
-    def to_protobuf(obj):
+    def to_protobuf(obj: "Sensor") -> SensorMessage:
         if not isinstance(obj, Sensor):
             raise TypeError
 
@@ -41,7 +41,7 @@ class Sensor(Entity):
         return sensor_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, SensorMessage]):
+    def from_protobuf(obj: Union[ByteString, SensorMessage]) -> "Sensor":
         if isinstance(obj, ByteString):
             sensor_message = SensorMessage()
             sensor_message.ParseFromString(obj)
@@ -64,9 +64,9 @@ class Sensor(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]):
+    def from_json(obj: Dict[str, Any]) -> Any:
         if not isinstance(obj, Dict):
-            raise TypeError()
+            raise TypeError
 
         if "type" in obj and obj["type"] == "Sensor":
             return Sensor(

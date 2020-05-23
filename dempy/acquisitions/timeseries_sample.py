@@ -21,7 +21,7 @@ class TimeseriesSample(Entity):
         self.w = w
 
     @staticmethod
-    def to_protobuf(obj: "TimeseriesSample"):
+    def to_protobuf(obj: "TimeseriesSample") -> TimeseriesMessage:
         if not isinstance(obj, TimeseriesSample):
             raise TypeError
 
@@ -60,7 +60,7 @@ class TimeseriesSample(Entity):
         return timeseries_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, TimeseriesMessage]):
+    def from_protobuf(obj: Union[ByteString, TimeseriesMessage]) -> "TimeseriesSample":
         if isinstance(obj, ByteString):
             timeseries_message = TimeseriesMessage()
             timeseries_message.ParseFromString(obj)
@@ -86,9 +86,9 @@ class TimeseriesSample(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]):
+    def from_json(obj: Dict[str, Any]) -> Any:
         if not isinstance(obj, Dict):
-            raise TypeError()
+            raise TypeError
 
         if "type" in obj and obj["type"].endswith("axialSample"):
             return TimeseriesSample(

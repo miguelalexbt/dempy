@@ -2,24 +2,25 @@ from typing import ByteString, Union
 from .acquisitions.timeseries_sample import TimeseriesSample
 from .acquisitions.image_sample import ImageSample
 from .acquisitions.video_sample import VideoSample
-from .protofiles import SampleListMessage
+from .acquisitions.annotation import Annotation
+from .protofiles import SampleListMessage, AnnotationListMessage
 
 
 class SampleList(list):
-    def by_device(self, device_id: str):
+    def by_device(self, device_id: str) -> "SampleList":
         if not isinstance(device_id, str):
             raise TypeError()
 
         return SampleList([i for i in self if i.device_id is not None and i.device_id == device_id])
 
-    def by_sensor(self, sensor_id: str):
+    def by_sensor(self, sensor_id: str) -> "SampleList":
         if not isinstance(sensor_id, str):
             raise TypeError()
 
         return SampleList([i for i in self if i.sensor_id is not None and i.sensor_id == sensor_id])
 
     @staticmethod
-    def to_protobuf(obj: "SampleList"):
+    def to_protobuf(obj: "SampleList") -> SampleListMessage:
         if not isinstance(obj, SampleList):
             raise TypeError
 
@@ -38,7 +39,7 @@ class SampleList(list):
         return sample_list_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, SampleListMessage]):
+    def from_protobuf(obj: Union[ByteString, SampleListMessage]) -> "SampleList":
         if isinstance(obj, ByteString):
             sample_list_message = SampleListMessage()
             sample_list_message.ParseFromString(obj)
@@ -56,8 +57,33 @@ class SampleList(list):
 
 
 class AnnotationList(list):
-    def by_sample(self, sample_id: str):
+    def by_sample(self, sample_id: str) -> "AnnotationList":
         if not isinstance(sample_id, str):
             raise TypeError()
 
         return AnnotationList([i for i in self if i.annotated_sample_id == sample_id])
+
+    @staticmethod
+    def to_protobuf(obj: "AnnotationList") -> AnnotationListMessage:
+        if not isinstance(obj, AnnotationList):
+            raise TypeError
+
+        annotation_list_message = AnnotationListMessage()
+        annotation_list_message.annotations.extend([Annotation.to_protobuf(a) for a in obj])
+
+        return annotation_list_message
+
+    @staticmethod
+    def from_protobuf(obj: Union[ByteString, AnnotationListMessage]) -> "AnnotationList":
+        if isinstance(obj, ByteString):
+            annotation_list_message = AnnotationListMessage()
+            annotation_list_message.ParseFromString(obj)
+        elif isinstance(obj, AnnotationListMessage):
+            annotation_list_message = obj
+        else:
+            raise TypeError
+
+        annotations = list()
+        annotations.extend([Annotation.from_protobuf(a) for a in annotation_list_message.annotation])
+
+        return AnnotationList(annotations)

@@ -18,7 +18,7 @@ class VideoSample(Entity):
         self.video_source = video_source
 
     @staticmethod
-    def to_protobuf(obj: "VideoSample"):
+    def to_protobuf(obj: "VideoSample") -> VideoMessage:
         if not isinstance(obj, VideoSample):
             raise TypeError
 
@@ -39,7 +39,7 @@ class VideoSample(Entity):
         return video_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, VideoMessage]):
+    def from_protobuf(obj: Union[ByteString, VideoMessage]) -> "VideoSample":
         if isinstance(obj, ByteString):
             video_message = VideoMessage()
             video_message.ParseFromString(obj)
@@ -62,7 +62,10 @@ class VideoSample(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]):
+    def from_json(obj: Dict[str, Any]) -> Any:
+        if not isinstance(obj, Dict):
+            raise TypeError
+
         if "type" in obj and obj["type"] == "VideoSample":
             return VideoSample(
                 type=obj["type"],
