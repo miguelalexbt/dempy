@@ -80,8 +80,11 @@ class Acquisition(Entity):
                 if device_id is None:
                     return self._devices
                 else:
-                    # TODO Check if none
-                    return next((device for device in self._devices if device.id == device_id), None)
+                    try:
+                        device = next((device for device in self._devices if device.id == device_id), None)
+                    except StopIteration:
+                        raise IndexError(f"device {device_id} does not exist in acquisition {self.id}")
+                    return device
 
             @staticmethod
             def usage() -> Dict[str, List[str]]:

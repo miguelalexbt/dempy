@@ -31,8 +31,11 @@ class Device(Entity):
                 if sensor_id is None:
                     return self._sensors
                 else:
-                    # TODO check for sensor is None
-                    return next((sensor for sensor in self._sensors if sensor.id == sensor_id), None)
+                    try:
+                        sensor = next((sensor for sensor in self._sensors if sensor.id == sensor_id), None)
+                    except StopIteration:
+                        raise IndexError(f"sensor {sensor_id} does not exist in acquisition {self.id}")
+                    return sensor
 
             @staticmethod
             def count() -> int:
