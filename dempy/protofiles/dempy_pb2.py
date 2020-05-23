@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='dempy',
   syntax='proto2',
   serialized_options=None,
-  serialized_pb=b'\n\x0b\x64\x65mpy.proto\x12\x05\x64\x65mpy\"\x90\x01\n\x06\x45ntity\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\n\n\x02id\x18\x02 \x02(\t\x12\x0c\n\x04tags\x18\x03 \x03(\t\x12-\n\x08metadata\x18\x04 \x03(\x0b\x32\x1b.dempy.Entity.MetadataEntry\x1a/\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xab\x01\n\x04User\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\r\n\x05\x65mail\x18\x04 \x01(\t\x12\x10\n\x08username\x18\x05 \x02(\t\x12\x10\n\x08password\x18\x06 \x02(\t\x12\x1a\n\x12\x65xternal_reference\x18\x08 \x01(\t\x12\x0e\n\x06\x61\x63tive\x18\x07 \x02(\x08\"\x8e\x01\n\x0cOrganization\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0b\n\x03url\x18\x04 \x01(\t\x12\r\n\x05\x65mail\x18\x05 \x01(\t\x12\r\n\x05phone\x18\x06 \x01(\t\x12\x11\n\tusers_ids\x18\x07 \x03(\t\"q\n\x07\x44\x61taset\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x0c\n\x04name\x18\x03 \x02(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x12\n\ncreator_id\x18\x05 \x01(\t\x12\x10\n\x08owner_id\x18\x06 \x01(\t\"\xc1\x02\n\x0b\x41\x63quisition\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x1a\n\x12\x63reation_timestamp\x18\x02 \x02(\x03\x12\x13\n\x0bsync_offset\x18\x03 \x01(\r\x12\x11\n\ttime_unit\x18\x04 \x02(\t\x12\x10\n\x08owner_id\x18\x05 \x01(\t\x12\x12\n\ncreator_id\x18\x06 \x01(\t\x12\x12\n\ndataset_id\x18\x07 \x01(\t\x12\x1f\n\x07subject\x18\x08 \x02(\x0b\x32\x0e.dempy.Subject\x12\x1e\n\x07\x64\x65vices\x18\t \x03(\x0b\x32\r.dempy.Device\x12\x1e\n\x16has_timeseries_samples\x18\n \x02(\x08\x12\x19\n\x11has_image_samples\x18\x0b \x02(\x08\x12\x19\n\x11has_video_samples\x18\x0c \x02(\x08\"\x84\x01\n\x07Subject\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x1e\n\x13\x62irthdate_timestamp\x18\x02 \x02(\x03:\x01\x30\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x12\n\nfirst_name\x18\x04 \x01(\t\x12\x11\n\tlast_name\x18\x05 \x01(\t\"\xb0\x01\n\x06\x44\x65vice\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x13\n\x0bsync_offset\x18\x02 \x01(\r\x12\x11\n\ttime_unit\x18\x03 \x01(\t\x12\x15\n\rserial_number\x18\x04 \x01(\t\x12\x14\n\x0cmanufacturer\x18\x05 \x01(\t\x12\x12\n\nmodel_name\x18\x06 \x01(\t\x12\x1e\n\x07sensors\x18\x07 \x03(\x0b\x32\r.dempy.Sensor\"\xa5\x01\n\x06Sensor\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x13\n\x0bsync_offset\x18\x02 \x01(\r\x12\x11\n\ttime_unit\x18\x03 \x01(\t\x12\x15\n\rserial_number\x18\x04 \x01(\t\x12\x14\n\x0cmanufacturer\x18\x05 \x01(\t\x12\x12\n\nmodel_name\x18\x06 \x01(\t\x12\x13\n\x0bsensor_type\x18\x07 \x01(\t\"\xbc\x01\n\x10TimeseriesSample\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x14\n\ttimestamp\x18\x02 \x02(\x03:\x01\x30\x12\x16\n\x0e\x61\x63quisition_id\x18\x03 \x02(\t\x12\x11\n\tdevice_id\x18\x04 \x01(\t\x12\x11\n\tsensor_id\x18\x05 \x01(\t\x12\t\n\x01x\x18\x06 \x01(\x02\x12\t\n\x01y\x18\x07 \x01(\x02\x12\t\n\x01z\x18\x08 \x01(\x02\x12\t\n\x01u\x18\t \x01(\x02\x12\t\n\x01w\x18\n \x01(\x02\"\xc9\x01\n\x0bImageSample\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x14\n\ttimestamp\x18\x02 \x02(\x03:\x01\x30\x12\x16\n\x0e\x61\x63quisition_id\x18\x03 \x02(\t\x12\x11\n\tdevice_id\x18\x04 \x01(\t\x12\x11\n\tsensor_id\x18\x05 \x01(\t\x12\x12\n\nmedia_type\x18\x06 \x02(\t\x12\x14\n\x0cimage_source\x18\x07 \x02(\t\x12\x1d\n\x15has_rotation_metadata\x18\x08 \x02(\x08\"\xaa\x01\n\x0bVideoSample\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x14\n\ttimestamp\x18\x02 \x02(\x03:\x01\x30\x12\x16\n\x0e\x61\x63quisition_id\x18\x03 \x02(\t\x12\x11\n\tdevice_id\x18\x04 \x01(\t\x12\x11\n\tsensor_id\x18\x05 \x01(\t\x12\x12\n\nmedia_type\x18\x06 \x02(\t\x12\x14\n\x0cvideo_source\x18\x07 \x02(\t\"\x0c\n\nAnnotation\"\x81\x01\n\nSampleList\x12+\n\ntimeseries\x18\x01 \x03(\x0b\x32\x17.dempy.TimeseriesSample\x12\"\n\x06images\x18\x02 \x03(\x0b\x32\x12.dempy.ImageSample\x12\"\n\x06videos\x18\x03 \x03(\x0b\x32\x12.dempy.VideoSample\"8\n\x0e\x41nnotationList\x12&\n\x0b\x61nnotations\x18\x01 \x03(\x0b\x32\x11.dempy.Annotation'
+  serialized_pb=b'\n\x0b\x64\x65mpy.proto\x12\x05\x64\x65mpy\"\x90\x01\n\x06\x45ntity\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\n\n\x02id\x18\x02 \x02(\t\x12\x0c\n\x04tags\x18\x03 \x03(\t\x12-\n\x08metadata\x18\x04 \x03(\x0b\x32\x1b.dempy.Entity.MetadataEntry\x1a/\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"\xab\x01\n\x04User\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\r\n\x05\x65mail\x18\x04 \x01(\t\x12\x10\n\x08username\x18\x05 \x02(\t\x12\x10\n\x08password\x18\x06 \x02(\t\x12\x1a\n\x12\x65xternal_reference\x18\x08 \x01(\t\x12\x0e\n\x06\x61\x63tive\x18\x07 \x02(\x08\"\x8e\x01\n\x0cOrganization\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x0c\n\x04name\x18\x02 \x02(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0b\n\x03url\x18\x04 \x01(\t\x12\r\n\x05\x65mail\x18\x05 \x01(\t\x12\r\n\x05phone\x18\x06 \x01(\t\x12\x11\n\tusers_ids\x18\x07 \x03(\t\"q\n\x07\x44\x61taset\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x0c\n\x04name\x18\x03 \x02(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x12\n\ncreator_id\x18\x05 \x01(\t\x12\x10\n\x08owner_id\x18\x06 \x01(\t\"\xc1\x02\n\x0b\x41\x63quisition\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x1a\n\x12\x63reation_timestamp\x18\x02 \x02(\x03\x12\x13\n\x0bsync_offset\x18\x03 \x01(\r\x12\x11\n\ttime_unit\x18\x04 \x02(\t\x12\x10\n\x08owner_id\x18\x05 \x01(\t\x12\x12\n\ncreator_id\x18\x06 \x01(\t\x12\x12\n\ndataset_id\x18\x07 \x01(\t\x12\x1f\n\x07subject\x18\x08 \x02(\x0b\x32\x0e.dempy.Subject\x12\x1e\n\x07\x64\x65vices\x18\t \x03(\x0b\x32\r.dempy.Device\x12\x1e\n\x16has_timeseries_samples\x18\n \x02(\x08\x12\x19\n\x11has_image_samples\x18\x0b \x02(\x08\x12\x19\n\x11has_video_samples\x18\x0c \x02(\x08\"\x84\x01\n\x07Subject\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x1e\n\x13\x62irthdate_timestamp\x18\x02 \x02(\x03:\x01\x30\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x12\n\nfirst_name\x18\x04 \x01(\t\x12\x11\n\tlast_name\x18\x05 \x01(\t\"\xb0\x01\n\x06\x44\x65vice\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x13\n\x0bsync_offset\x18\x02 \x01(\r\x12\x11\n\ttime_unit\x18\x03 \x01(\t\x12\x15\n\rserial_number\x18\x04 \x01(\t\x12\x14\n\x0cmanufacturer\x18\x05 \x01(\t\x12\x12\n\nmodel_name\x18\x06 \x01(\t\x12\x1e\n\x07sensors\x18\x07 \x03(\x0b\x32\r.dempy.Sensor\"\xa5\x01\n\x06Sensor\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x13\n\x0bsync_offset\x18\x02 \x01(\r\x12\x11\n\ttime_unit\x18\x03 \x01(\t\x12\x15\n\rserial_number\x18\x04 \x01(\t\x12\x14\n\x0cmanufacturer\x18\x05 \x01(\t\x12\x12\n\nmodel_name\x18\x06 \x01(\t\x12\x13\n\x0bsensor_type\x18\x07 \x01(\t\"\xbc\x01\n\x10TimeseriesSample\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x14\n\ttimestamp\x18\x02 \x02(\x03:\x01\x30\x12\x16\n\x0e\x61\x63quisition_id\x18\x03 \x02(\t\x12\x11\n\tdevice_id\x18\x04 \x01(\t\x12\x11\n\tsensor_id\x18\x05 \x01(\t\x12\t\n\x01x\x18\x06 \x01(\x02\x12\t\n\x01y\x18\x07 \x01(\x02\x12\t\n\x01z\x18\x08 \x01(\x02\x12\t\n\x01u\x18\t \x01(\x02\x12\t\n\x01w\x18\n \x01(\x02\"\xc9\x01\n\x0bImageSample\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x14\n\ttimestamp\x18\x02 \x02(\x03:\x01\x30\x12\x16\n\x0e\x61\x63quisition_id\x18\x03 \x02(\t\x12\x11\n\tdevice_id\x18\x04 \x01(\t\x12\x11\n\tsensor_id\x18\x05 \x01(\t\x12\x12\n\nmedia_type\x18\x06 \x02(\t\x12\x14\n\x0cimage_source\x18\x07 \x02(\t\x12\x1d\n\x15has_rotation_metadata\x18\x08 \x02(\x08\"\xaa\x01\n\x0bVideoSample\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x14\n\ttimestamp\x18\x02 \x02(\x03:\x01\x30\x12\x16\n\x0e\x61\x63quisition_id\x18\x03 \x02(\t\x12\x11\n\tdevice_id\x18\x04 \x01(\t\x12\x11\n\tsensor_id\x18\x05 \x01(\t\x12\x12\n\nmedia_type\x18\x06 \x02(\t\x12\x14\n\x0cvideo_source\x18\x07 \x02(\t\"X\n\x10\x41nnotationObject\x12\x0c\n\x04type\x18\x01 \x02(\t\x12\x0c\n\x04text\x18\x02 \x01(\t\x12\x12\n\nmedia_type\x18\x03 \x01(\t\x12\x14\n\x0cimage_source\x18\x04 \x01(\t\"\'\n\x0f\x41nnotationPoint\x12\t\n\x01x\x18\x01 \x02(\x02\x12\t\n\x01y\x18\x02 \x02(\x02\"\xde\x03\n\nAnnotation\x12\x1d\n\x06\x65ntity\x18\x01 \x02(\x0b\x32\r.dempy.Entity\x12\x16\n\x0e\x61\x63quisition_id\x18\x02 \x02(\t\x12\x12\n\ncreator_id\x18\x03 \x01(\t\x12\x32\n\x11\x61nnotation_object\x18\x04 \x02(\x0b\x32\x17.dempy.AnnotationObject\x12\r\n\x05\x63olor\x18\x05 \x01(\t\x12\r\n\x05notes\x18\x06 \x01(\t\x12\x1b\n\x13\x61nnotated_sample_id\x18\x07 \x01(\t\x12%\n\x05point\x18\x08 \x01(\x0b\x32\x16.dempy.AnnotationPoint\x12&\n\x06\x63\x65nter\x18\t \x01(\x0b\x32\x16.dempy.AnnotationPoint\x12\x0e\n\x06radius\x18\n \x01(\x02\x12&\n\x06points\x18\x0b \x03(\x0b\x32\x16.dempy.AnnotationPoint\x12\r\n\x05width\x18\x0c \x01(\x02\x12\x0e\n\x06height\x18\r \x01(\x02\x12\x14\n\ttimestamp\x18\x0e \x01(\x03:\x01\x30\x12\x11\n\tdevice_id\x18\x0f \x01(\t\x12\x11\n\tsensor_id\x18\x10 \x01(\t\x12\x1a\n\x0ftimestamp_start\x18\x11 \x01(\x03:\x01\x30\x12\x18\n\rtimestamp_end\x18\x12 \x01(\x03:\x01\x30\"\x81\x01\n\nSampleList\x12+\n\ntimeseries\x18\x01 \x03(\x0b\x32\x17.dempy.TimeseriesSample\x12\"\n\x06images\x18\x02 \x03(\x0b\x32\x12.dempy.ImageSample\x12\"\n\x06videos\x18\x03 \x03(\x0b\x32\x12.dempy.VideoSample\"8\n\x0e\x41nnotationList\x12&\n\x0b\x61nnotations\x18\x01 \x03(\x0b\x32\x11.dempy.Annotation'
 )
 
 
@@ -885,13 +885,41 @@ _VIDEOSAMPLE = _descriptor.Descriptor(
 )
 
 
-_ANNOTATION = _descriptor.Descriptor(
-  name='Annotation',
-  full_name='dempy.Annotation',
+_ANNOTATIONOBJECT = _descriptor.Descriptor(
+  name='AnnotationObject',
+  full_name='dempy.AnnotationObject',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
+    _descriptor.FieldDescriptor(
+      name='type', full_name='dempy.AnnotationObject.type', index=0,
+      number=1, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='text', full_name='dempy.AnnotationObject.text', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='media_type', full_name='dempy.AnnotationObject.media_type', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='image_source', full_name='dempy.AnnotationObject.image_source', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -905,7 +933,195 @@ _ANNOTATION = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=1977,
-  serialized_end=1989,
+  serialized_end=2065,
+)
+
+
+_ANNOTATIONPOINT = _descriptor.Descriptor(
+  name='AnnotationPoint',
+  full_name='dempy.AnnotationPoint',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='x', full_name='dempy.AnnotationPoint.x', index=0,
+      number=1, type=2, cpp_type=6, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='y', full_name='dempy.AnnotationPoint.y', index=1,
+      number=2, type=2, cpp_type=6, label=2,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2067,
+  serialized_end=2106,
+)
+
+
+_ANNOTATION = _descriptor.Descriptor(
+  name='Annotation',
+  full_name='dempy.Annotation',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='entity', full_name='dempy.Annotation.entity', index=0,
+      number=1, type=11, cpp_type=10, label=2,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='acquisition_id', full_name='dempy.Annotation.acquisition_id', index=1,
+      number=2, type=9, cpp_type=9, label=2,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='creator_id', full_name='dempy.Annotation.creator_id', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='annotation_object', full_name='dempy.Annotation.annotation_object', index=3,
+      number=4, type=11, cpp_type=10, label=2,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='color', full_name='dempy.Annotation.color', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='notes', full_name='dempy.Annotation.notes', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='annotated_sample_id', full_name='dempy.Annotation.annotated_sample_id', index=6,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='point', full_name='dempy.Annotation.point', index=7,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='center', full_name='dempy.Annotation.center', index=8,
+      number=9, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='radius', full_name='dempy.Annotation.radius', index=9,
+      number=10, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='points', full_name='dempy.Annotation.points', index=10,
+      number=11, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='width', full_name='dempy.Annotation.width', index=11,
+      number=12, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='height', full_name='dempy.Annotation.height', index=12,
+      number=13, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='timestamp', full_name='dempy.Annotation.timestamp', index=13,
+      number=14, type=3, cpp_type=2, label=1,
+      has_default_value=True, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='device_id', full_name='dempy.Annotation.device_id', index=14,
+      number=15, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='sensor_id', full_name='dempy.Annotation.sensor_id', index=15,
+      number=16, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='timestamp_start', full_name='dempy.Annotation.timestamp_start', index=16,
+      number=17, type=3, cpp_type=2, label=1,
+      has_default_value=True, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='timestamp_end', full_name='dempy.Annotation.timestamp_end', index=17,
+      number=18, type=3, cpp_type=2, label=1,
+      has_default_value=True, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2109,
+  serialized_end=2587,
 )
 
 
@@ -949,8 +1165,8 @@ _SAMPLELIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1992,
-  serialized_end=2121,
+  serialized_start=2590,
+  serialized_end=2719,
 )
 
 
@@ -980,8 +1196,8 @@ _ANNOTATIONLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2123,
-  serialized_end=2179,
+  serialized_start=2721,
+  serialized_end=2777,
 )
 
 _ENTITY_METADATAENTRY.containing_type = _ENTITY
@@ -999,6 +1215,11 @@ _SENSOR.fields_by_name['entity'].message_type = _ENTITY
 _TIMESERIESSAMPLE.fields_by_name['entity'].message_type = _ENTITY
 _IMAGESAMPLE.fields_by_name['entity'].message_type = _ENTITY
 _VIDEOSAMPLE.fields_by_name['entity'].message_type = _ENTITY
+_ANNOTATION.fields_by_name['entity'].message_type = _ENTITY
+_ANNOTATION.fields_by_name['annotation_object'].message_type = _ANNOTATIONOBJECT
+_ANNOTATION.fields_by_name['point'].message_type = _ANNOTATIONPOINT
+_ANNOTATION.fields_by_name['center'].message_type = _ANNOTATIONPOINT
+_ANNOTATION.fields_by_name['points'].message_type = _ANNOTATIONPOINT
 _SAMPLELIST.fields_by_name['timeseries'].message_type = _TIMESERIESSAMPLE
 _SAMPLELIST.fields_by_name['images'].message_type = _IMAGESAMPLE
 _SAMPLELIST.fields_by_name['videos'].message_type = _VIDEOSAMPLE
@@ -1014,6 +1235,8 @@ DESCRIPTOR.message_types_by_name['Sensor'] = _SENSOR
 DESCRIPTOR.message_types_by_name['TimeseriesSample'] = _TIMESERIESSAMPLE
 DESCRIPTOR.message_types_by_name['ImageSample'] = _IMAGESAMPLE
 DESCRIPTOR.message_types_by_name['VideoSample'] = _VIDEOSAMPLE
+DESCRIPTOR.message_types_by_name['AnnotationObject'] = _ANNOTATIONOBJECT
+DESCRIPTOR.message_types_by_name['AnnotationPoint'] = _ANNOTATIONPOINT
 DESCRIPTOR.message_types_by_name['Annotation'] = _ANNOTATION
 DESCRIPTOR.message_types_by_name['SampleList'] = _SAMPLELIST
 DESCRIPTOR.message_types_by_name['AnnotationList'] = _ANNOTATIONLIST
@@ -1103,6 +1326,20 @@ VideoSample = _reflection.GeneratedProtocolMessageType('VideoSample', (_message.
   # @@protoc_insertion_point(class_scope:dempy.VideoSample)
   })
 _sym_db.RegisterMessage(VideoSample)
+
+AnnotationObject = _reflection.GeneratedProtocolMessageType('AnnotationObject', (_message.Message,), {
+  'DESCRIPTOR' : _ANNOTATIONOBJECT,
+  '__module__' : 'dempy_pb2'
+  # @@protoc_insertion_point(class_scope:dempy.AnnotationObject)
+  })
+_sym_db.RegisterMessage(AnnotationObject)
+
+AnnotationPoint = _reflection.GeneratedProtocolMessageType('AnnotationPoint', (_message.Message,), {
+  'DESCRIPTOR' : _ANNOTATIONPOINT,
+  '__module__' : 'dempy_pb2'
+  # @@protoc_insertion_point(class_scope:dempy.AnnotationPoint)
+  })
+_sym_db.RegisterMessage(AnnotationPoint)
 
 Annotation = _reflection.GeneratedProtocolMessageType('Annotation', (_message.Message,), {
   'DESCRIPTOR' : _ANNOTATION,

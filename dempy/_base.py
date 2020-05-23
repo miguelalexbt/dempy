@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, ByteString, Union
 from .protofiles import EntityMessage
 
 
@@ -10,7 +10,7 @@ class Entity:
         self.metadata = metadata
 
     @staticmethod
-    def to_protobuf(obj):
+    def to_protobuf(obj: "Entity") -> EntityMessage:
         if not isinstance(obj, Entity):
             raise TypeError
 
@@ -21,6 +21,10 @@ class Entity:
         entity_message.metadata.update(obj.metadata)
 
         return entity_message
+
+    @staticmethod
+    def from_protobuf(obj: Union[ByteString, EntityMessage]) -> "Entity":
+        pass
 
     def __eq__(self, other):
         return self.type == other.type and self.id == other.id

@@ -107,5 +107,5 @@ class Device(Entity):
             elif obj["type"] == "Sensor":
                 return Sensor.from_json(obj)
             else:
-                raise TypeError
+                raise ValueError
         return obj

@@ -115,12 +115,37 @@ message VideoSample {
   required string video_source = 7;
 }
 
+message AnnotationObject {
+  required string type = 1;
+  optional string text = 2;
+  optional string media_type = 3;
+  optional string image_source = 4;
+}
+
+message AnnotationPoint {
+  required float x = 1;
+  required float y = 2;
+}
+
 message Annotation {
   required Entity entity = 1;
   required string acquisition_id = 2;
-  required string creator_id = 3;
-  required string annotated_sample_id = 4;
+  optional string creator_id = 3;
+  required AnnotationObject annotation_object = 4;
   optional string color = 5;
+  optional string notes = 6;
+  optional string annotated_sample_id = 7;
+  optional AnnotationPoint point = 8;
+  optional AnnotationPoint center = 9;
+  optional float radius = 10;
+  repeated AnnotationPoint points = 11;
+  optional float width = 12;
+  optional float height = 13;
+  optional int64 timestamp = 14 [default=0];
+  optional string device_id = 15;
+  optional string sensor_id = 16;
+  optional int64 timestamp_start = 17 [default=0];
+  optional int64 timestamp_end = 18 [default=0];
 }
 
 message SampleList {

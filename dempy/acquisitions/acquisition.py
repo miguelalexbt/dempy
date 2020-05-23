@@ -194,7 +194,7 @@ class Acquisition(Entity):
             _IMAGE_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/images/".format(self.id)
 
             @staticmethod
-            def get(sample_id: str = None) -> SampleList:
+            def get(sample_id: str = None) -> Union[ImageSample, SampleList]:
                 if sample_id is not None and not isinstance(sample_id, str):
                     raise TypeError
 
@@ -249,7 +249,7 @@ class Acquisition(Entity):
             _VIDEO_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/videos/".format(self.id)
 
             @staticmethod
-            def get(sample_id: str = None) -> SampleList:
+            def get(sample_id: str = None) -> Union[VideoSample, SampleList]:
                 if sample_id is not None and not isinstance(sample_id, str):
                     raise TypeError
 
@@ -304,9 +304,22 @@ class Acquisition(Entity):
             _ANNOTATIONS_ENDPOINT = _ENDPOINT + "{}/annotations/".format(self.id)
 
             @staticmethod
-            def get() -> AnnotationList:
-                annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT).json(object_hook=Annotation.from_json)
-                return AnnotationList(annotations)
+            def get(annotation_id: str = None) -> AnnotationList:
+                if annotation_id is not None and not isinstance(annotation_id, str):
+                    raise TypeError
+
+                if annotation_id is None:
+                    annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT).json(object_hook=Annotation.from_json)
+                    for annotation in annotations:
+                        _cache.cache_data("annotations", annotation.id, annotation, Annotation.to_protobuf)
+                    return AnnotationList(annotations)
+                else:
+                    try:
+                        annotation = _cache.get_cached_data("annotations", annotation_id, Annotation.from_protobuf)
+                    except FileNotFoundError:
+                        annotation = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT + annotation_id).json(object_hook=Annotation.from_json)
+                        _cache.cache_data("annotations", annotation_id, annotation, Annotation.to_protobuf)
+                    return annotation
 
             @staticmethod
             def count() -> int:
@@ -321,7 +334,6 @@ class Acquisition(Entity):
 
         acquisition_message = AcquisitionMessage()
         acquisition_message.entity.CopyFrom(Entity.to_protobuf(obj))
-
         acquisition_message.creation_timestamp = obj.creation_timestamp
 
         if obj.sync_offset is not None:
@@ -337,7 +349,6 @@ class Acquisition(Entity):
 
         acquisition_message.subject.CopyFrom(Subject.to_protobuf(obj._subject))
         acquisition_message.devices.extend([Device.to_protobuf(d) for d in obj._devices])
-
         acquisition_message.has_timeseries_samples = obj.has_timeseries_samples
         acquisition_message.has_image_samples = obj.has_image_samples
         acquisition_message.has_video_samples = obj.has_video_samples
@@ -403,7 +414,7 @@ class Acquisition(Entity):
             elif obj["type"] == "Sensor":
                 return Sensor.from_json(obj)
             else:
-                raise TypeError
+                raise ValueError
         return obj
 
 

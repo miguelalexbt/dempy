@@ -1,7 +1,10 @@
 import dempy
-
+import time
 
 def main():
+
+    start = time.time()
+
     dempy.config.use_default()
 
     print("Testing - Users")
@@ -32,6 +35,9 @@ def main():
     print(f"Timeseries samples [{acq.timeseries_samples.count()}]:", f"cached {len(acq.timeseries_samples.get())}")
     print(f"Image samples [{acq.image_samples.count()}]:", f"cached {len(acq.image_samples.get())}")
     print(f"Video samples [{acq.video_samples.count()}]:", f"cached {len(acq.video_samples.get())}")
+    print(f"Annotations [{acq.annotations.count()}]:", f"cached {len(acq.annotations.get())}")
+
+    print(f"Took {time.time() - start} seconds")
 
     # acq.timeseries_samples.visualize("89715d20-faf3-49a6-ae71-c557cddb5315")
     # acq.image_samples.visualize("a62478fe-5874-4ba2-b389-e37110d6d711")

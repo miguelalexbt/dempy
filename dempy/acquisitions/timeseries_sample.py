@@ -1,12 +1,12 @@
 from typing import List, Dict, Any, ByteString, Union
+from functools import partial
 from .._base import Entity
 from ..protofiles import TimeseriesMessage
 
 
 class TimeseriesSample(Entity):
     def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, Any],
-                 timestamp: int, acquisition_id: str, device_id: str, sensor_id: str,
-                 x: int = None, y: int = None, z: int = None, u: int = None, w: int = None):
+                 timestamp: int, acquisition_id: str, device_id: str, sensor_id: str, **kwargs):
         super().__init__(type, id, tags, metadata)
 
         self.timestamp = timestamp
@@ -14,11 +14,28 @@ class TimeseriesSample(Entity):
         self.device_id = device_id
         self.sensor_id = sensor_id
 
-        self.x = x
-        self.y = y
-        self.z = z
-        self.u = u
-        self.w = w
+        if self.type == "UniaxialSample":
+            self.x: float = kwargs.get("x")
+        elif self.type == "BiaxialSample":
+            self.x: float = kwargs.get("x")
+            self.y: float = kwargs.get("y")
+        elif self.type == "TriaxialSample":
+            self.x: float = kwargs.get("x")
+            self.y: float = kwargs.get("y")
+            self.z: float = kwargs.get("z")
+        elif self.type == "QuadriaxialSample":
+            self.x: float = kwargs.get("x")
+            self.y: float = kwargs.get("y")
+            self.z: float = kwargs.get("z")
+            self.u: float = kwargs.get("u")
+        elif self.type == "QuinqueaxialSample":
+            self.x: float = kwargs.get("x")
+            self.y: float = kwargs.get("y")
+            self.z: float = kwargs.get("z")
+            self.u: float = kwargs.get("u")
+            self.w: float = kwargs.get("w")
+        else:
+            raise ValueError
 
     @staticmethod
     def to_protobuf(obj: "TimeseriesSample") -> TimeseriesMessage:
@@ -56,6 +73,8 @@ class TimeseriesSample(Entity):
             timeseries_message.z = obj.z
             timeseries_message.u = obj.u
             timeseries_message.w = obj.w
+        else:
+            raise ValueError
 
         return timeseries_message
 
@@ -91,7 +110,8 @@ class TimeseriesSample(Entity):
             raise TypeError
 
         if "type" in obj and obj["type"].endswith("axialSample"):
-            return TimeseriesSample(
+            timeseries = partial(
+                TimeseriesSample,
                 type=obj["type"],
                 id=obj["id"],
                 tags=obj["tags"],
@@ -100,10 +120,19 @@ class TimeseriesSample(Entity):
                 acquisition_id=obj["acquisitionId"],
                 device_id=obj["deviceId"],
                 sensor_id=obj["sensorId"],
-                x=obj["x"] if "x" in obj else None,
-                y=obj["y"] if "y" in obj else None,
-                z=obj["z"] if "z" in obj else None,
-                u=obj["u"] if "u" in obj else None,
-                w=obj["w"] if "w" in obj else None
             )
+
+            if obj["type"] == "UniaxialSample":
+                return timeseries(x=obj["x"])
+            elif obj["type"] == "BiaxialSample":
+                return timeseries(x=obj["x"], y=obj["y"])
+            elif obj["type"] == "TriaxialSample":
+                return timeseries(x=obj["x"], y=obj["y"], z=obj["z"])
+            elif obj["type"] == "QuadriaxialSample":
+                return timeseries(x=obj["x"], y=obj["y"], z=obj["z"], u=obj["u"])
+            elif obj["type"] == "QuinqueaxialSample":
+                return timeseries(x=obj["x"], y=obj["y"], z=obj["z"], u=obj["u"], w=obj["w"])
+            else:
+                raise ValueError
+
         return obj
