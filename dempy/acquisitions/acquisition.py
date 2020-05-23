@@ -80,6 +80,7 @@ class Acquisition(Entity):
                 if device_id is None:
                     return self._devices
                 else:
+                    # TODO Check if none
                     return next((device for device in self._devices if device.id == device_id), None)
 
             @staticmethod
@@ -124,12 +125,13 @@ class Acquisition(Entity):
                     timestamps = [s.timestamp for s in sensor_samples]
 
                     # Sample x, y, z, u, w
-                    samples_x = [s.x for s in sensor_samples if s.x is not None]
-                    samples_y = [s.y for s in sensor_samples if s.y is not None]
-                    samples_z = [s.z for s in sensor_samples if s.z is not None]
-                    samples_u = [s.u for s in sensor_samples if s.u is not None]
-                    samples_w = [s.w for s in sensor_samples if s.w is not None]
+                    samples_x = [s.x for s in sensor_samples if hasattr(s, "x")]
+                    samples_y = [s.y for s in sensor_samples if hasattr(s, "y")]
+                    samples_z = [s.z for s in sensor_samples if hasattr(s, "z")]
+                    samples_u = [s.u for s in sensor_samples if hasattr(s, "u")]
+                    samples_w = [s.w for s in sensor_samples if hasattr(s, "w")]
 
+                    # Title and x label
                     axis.set_title(f"{sensor.sensor_type}\n{sensor.id}", loc="left")
                     axis.set_xlabel(sensor.time_unit if sensor.time_unit is not None else device_time_unit)
 
