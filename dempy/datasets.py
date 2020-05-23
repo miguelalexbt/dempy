@@ -2,7 +2,7 @@ from typing import Union, List, Dict, Any, ByteString
 from . import _api_calls, _cache
 from ._base import Entity
 from .acquisitions import Acquisition, get as _get_acquisition
-from .protofiles import DatasetMessage
+from ._protofiles import DatasetMessage
 
 
 class Dataset(Entity):

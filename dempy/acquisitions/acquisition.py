@@ -14,7 +14,7 @@ from .image_sample import ImageSample
 from .video_sample import VideoSample
 from .timeseries_sample import TimeseriesSample
 from .annotation import Annotation
-from ..protofiles import AcquisitionMessage
+from .._protofiles import AcquisitionMessage
 
 import matplotlib as mpt
 import matplotlib.pyplot as plt

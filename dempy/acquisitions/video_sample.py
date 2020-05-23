@@ -1,6 +1,6 @@
 from typing import List, Dict, Any, Union, ByteString
 from .._base import Entity
-from ..protofiles import VideoMessage
+from .._protofiles import VideoMessage
 
 
 class VideoSample(Entity):

@@ -2,7 +2,7 @@ from typing import Union, List, Dict, Any, ByteString
 from . import _api_calls, _cache
 from ._base import Entity
 from .users import User, get as _get_user
-from .protofiles import OrganizationMessage
+from ._protofiles import OrganizationMessage
 
 
 class Organization(Entity):

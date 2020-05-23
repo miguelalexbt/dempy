@@ -1,6 +1,6 @@
 from typing import List, Union, Dict, Any, ByteString
 from .._base import Entity
-from ..protofiles import SubjectMessage
+from .._protofiles import SubjectMessage
 
 
 class Subject(Entity):

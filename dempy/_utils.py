@@ -3,7 +3,7 @@ from .acquisitions.timeseries_sample import TimeseriesSample
 from .acquisitions.image_sample import ImageSample
 from .acquisitions.video_sample import VideoSample
 from .acquisitions.annotation import Annotation
-from .protofiles import SampleListMessage, AnnotationListMessage
+from ._protofiles import SampleListMessage, AnnotationListMessage
 
 
 class SampleList(list):

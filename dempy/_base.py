@@ -1,5 +1,5 @@
 from typing import List, Dict, Any, ByteString, Union
-from .protofiles import EntityMessage
+from ._protofiles import EntityMessage
 
 
 class Entity:

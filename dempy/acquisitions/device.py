@@ -1,7 +1,7 @@
 from typing import List, Union, Dict, Any, ByteString
 from .._base import Entity
 from .sensor import Sensor
-from ..protofiles import DeviceMessage
+from .._protofiles import DeviceMessage
 
 
 class Device(Entity):

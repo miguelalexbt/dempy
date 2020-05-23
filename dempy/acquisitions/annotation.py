@@ -1,7 +1,7 @@
 from typing import List, Dict, Any, Union, ByteString
 from functools import partial
 from .._base import Entity
-from ..protofiles import AnnotationObjectMessage, AnnotationPointMessage, AnnotationMessage
+from .._protofiles import AnnotationObjectMessage, AnnotationPointMessage, AnnotationMessage
 
 
 class AnnotationObject:

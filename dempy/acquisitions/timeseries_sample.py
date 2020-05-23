@@ -1,7 +1,7 @@
 from typing import List, Dict, Any, ByteString, Union
 from functools import partial
 from .._base import Entity
-from ..protofiles import TimeseriesMessage
+from .._protofiles import TimeseriesMessage
 
 
 class TimeseriesSample(Entity):

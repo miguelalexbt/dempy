@@ -1,6 +1,6 @@
 from typing import List, Dict, Any, ByteString, Union
 from .._base import Entity
-from ..protofiles import ImageMessage
+from .._protofiles import ImageMessage
 
 
 class ImageSample(Entity):

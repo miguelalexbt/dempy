@@ -1,7 +1,7 @@
 from typing import Union, List, Dict, Any, ByteString
 from . import _api_calls, _cache
 from ._base import Entity
-from .protofiles import UserMessage
+from ._protofiles import UserMessage
 
 
 class User(Entity):
