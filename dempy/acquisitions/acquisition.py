@@ -1,4 +1,7 @@
+import os
 import subprocess
+import platform
+
 from itertools import chain
 from typing import Union, List, Dict, Any, Callable, ByteString
 from .. import _api_calls, _cache
@@ -16,9 +19,6 @@ from ..protofiles import AcquisitionMessage
 import matplotlib as mpt
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-
-from PIL import Image
-from io import BytesIO
 mpt.use("TkAgg")
 
 
@@ -219,8 +219,9 @@ class Acquisition(Entity):
                 try:
                     image = _cache.get_cached_data("samples/{}/images/raw/".format(self.id), sample_id)
                 except FileNotFoundError:
-                    image = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw").content
-                    _cache.cache_data("samples/{}/images/raw/".format(self.id), sample_id, image)
+                    image = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw")
+                    file_ext = "." + image.headers["Content-Type"].split("/")[-1]
+                    _cache.cache_data("samples/{}/images/raw/".format(self.id), sample_id + file_ext, image.content)
 
                 return image
 
@@ -233,11 +234,19 @@ class Acquisition(Entity):
                 if not isinstance(sample_id, str):
                     raise TypeError
 
-                image = self.image_samples.raw(sample_id)
-                image_path = _cache.build_cache_path("samples.proto/{}/images/raw/".format(self.id), sample_id)
+                self.image_samples.raw(sample_id)
+                image_path = _cache.build_cache_path("samples/{}/images/raw/".format(self.id), sample_id)
+                image_path = _cache.add_file_extension(image_path)
 
                 if backend is None:
-                    Image.open(BytesIO(image)).show()
+                    system = platform.system()
+
+                    if system == "Darwin":
+                        subprocess.call(("open", image_path))
+                    elif system == "Windows":
+                        os.startfile(image_path)
+                    else:
+                        subprocess.call(("xdg-open", image_path))
                 else:
                     backend(image_path)
 
@@ -274,8 +283,9 @@ class Acquisition(Entity):
                 try:
                     video = _cache.get_cached_data("samples/{}/videos/raw/".format(self.id), sample_id)
                 except FileNotFoundError:
-                    video = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id + "/raw").content
-                    _cache.cache_data("samples/{}/videos/raw/".format(self.id), sample_id, video)
+                    video = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id + "/raw")
+                    file_ext = "." + video.headers["Content-Type"].split("/")[-1]
+                    _cache.cache_data("samples/{}/videos/raw/".format(self.id), sample_id + file_ext, video.content)
 
                 return video
 
@@ -288,11 +298,19 @@ class Acquisition(Entity):
                 if not isinstance(sample_id, str):
                     raise TypeError
 
-                video = self.video_samples.raw(sample_id)
+                self.video_samples.raw(sample_id)
                 video_path = _cache.build_cache_path("samples/{}/videos/raw/".format(self.id), sample_id)
+                video_path = _cache.add_file_extension(video_path)
 
                 if backend is None:
-                    subprocess.run(["vlc", "--play-and-exit", video_path])
+                    system = platform.system()
+
+                    if system == "Darwin":
+                        subprocess.call(("open", video_path))
+                    elif system == "Windows":
+                        os.startfile(video_path)
+                    else:
+                        subprocess.call(("xdg-open", video_path))
                 else:
                     backend(video_path)
 

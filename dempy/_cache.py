@@ -1,5 +1,6 @@
 import io
 import os
+import glob
 from . import config
 
 
@@ -19,6 +20,11 @@ def build_cache_path(data_dir, data_file):
     return os.path.normpath(os.path.join(cache_dir, data_file))
 
 
+def add_file_extension(cache_file):
+    globs = glob.glob(cache_file + ".*")
+    return globs[0] if len(globs) == 1 else cache_file
+
+
 def cache_data(data_dir, data_file, data, serializer=None):
     cache_file = build_cache_path(data_dir, data_file)
 
@@ -29,6 +35,9 @@ def cache_data(data_dir, data_file, data, serializer=None):
 
 def get_cached_data(data_dir, data_file, deserializer=None):
     cache_file = build_cache_path(data_dir, data_file)
+
+    if deserializer is None:
+        cache_file = add_file_extension(cache_file)
 
     try:
         with io.open(cache_file, "rb") as fp:
