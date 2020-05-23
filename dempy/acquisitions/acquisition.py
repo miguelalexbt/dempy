@@ -81,9 +81,9 @@ class Acquisition(Entity):
                     return self._devices
                 else:
                     try:
-                        device = next((device for device in self._devices if device.id == device_id), None)
+                        device = next((device for device in self._devices if device.id == device_id))
                     except StopIteration:
-                        raise IndexError(f"device {device_id} does not exist in acquisition {self.id}")
+                        raise IndexError(f"device id {device_id} does not exist in acquisition id {self.id}")
                     return device
 
             @staticmethod

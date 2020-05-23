@@ -32,9 +32,9 @@ class Device(Entity):
                     return self._sensors
                 else:
                     try:
-                        sensor = next((sensor for sensor in self._sensors if sensor.id == sensor_id), None)
+                        sensor = next((sensor for sensor in self._sensors if sensor.id == sensor_id))
                     except StopIteration:
-                        raise IndexError(f"sensor {sensor_id} does not exist in acquisition {self.id}")
+                        raise IndexError(f"sensor id {sensor_id} does not exist in acquisition id {self.id}")
                     return sensor
 
             @staticmethod
