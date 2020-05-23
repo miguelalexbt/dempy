@@ -34,7 +34,7 @@ def _setup(profile_key: str = "DEFAULT"):
     base_url = config.get("base_url")
     user = config.get("user")
     password = config.get("password")
-    cache_dir = config.get("cache_dir")
+    cache_dir = os.path.abspath(config.get("cache_dir"))
 
     try:
         os.mkdir(cache_dir)
