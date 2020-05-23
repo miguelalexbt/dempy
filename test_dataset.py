@@ -1,11 +1,15 @@
 import dempy
 import time
 
+
 def main():
 
-    start = time.time()
+    # dempy.config.use_profile("Fraunhofer")
+    # print(dempy.config.cache_dir)
+    # print(dempy.config.base_url)
+    # return
 
-    dempy.config.use_default()
+    start = time.time()
 
     print("Testing - Users")
     print(f"Users [{dempy.users.count()}]:", f"cached {len(dempy.users.get())}")
@@ -39,9 +43,11 @@ def main():
 
     print(f"Took {time.time() - start} seconds")
 
-    acq.timeseries_samples.visualize("89715d20-faf3-49a6-ae71-c557cddb5315")
-    acq.image_samples.visualize("a62478fe-5874-4ba2-b389-e37110d6d711")
-    acq.video_samples.visualize("df74d79f-3cb6-49d4-8753-7621be3eee8a")
+    dempy.cache.clear()
+
+    # acq.timeseries_samples.visualize("89715d20-faf3-49a6-ae71-c557cddb5315")
+    # acq.image_samples.visualize("a62478fe-5874-4ba2-b389-e37110d6d711")
+    # acq.video_samples.visualize("df74d79f-3cb6-49d4-8753-7621be3eee8a")
 
 
 if __name__ == "__main__":

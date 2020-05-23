@@ -1,10 +1,9 @@
 import os
 import subprocess
 import platform
-
 from itertools import chain
 from typing import Union, List, Dict, Any, Callable, ByteString
-from .. import _api_calls, _cache
+from .. import cache, _api_calls
 from .._base import Entity
 from .._utils import SampleList, AnnotationList
 from .subject import Subject
@@ -110,12 +109,12 @@ class Acquisition(Entity):
             @staticmethod
             def get() -> SampleList:
                 try:
-                    samples = _cache.get_cached_data("samples/{}/".format(self.id), "timeseries", SampleList.from_protobuf)
+                    samples = cache._get_cached_data("samples/{}/".format(self.id), "timeseries", SampleList.from_protobuf)
                 except FileNotFoundError:
                     samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT).json(object_hook=TimeseriesSample.from_json)
                     samples.sort(key=lambda sample: sample.timestamp)
                     samples = SampleList(samples)
-                    _cache.cache_data("samples/{}/".format(self.id), "timeseries", samples, SampleList.to_protobuf)
+                    cache._cache_data("samples/{}/".format(self.id), "timeseries", samples, SampleList.to_protobuf)
                 return samples
 
             @staticmethod
@@ -206,14 +205,14 @@ class Acquisition(Entity):
                 if sample_id is None:
                     samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(object_hook=ImageSample.from_json)
                     for sample in samples:
-                        _cache.cache_data("samples/{}/images/".format(self.id), sample.id, sample, ImageSample.to_protobuf)
+                        cache._cache_data("samples/{}/images/".format(self.id), sample.id, sample, ImageSample.to_protobuf)
                     return SampleList(samples)
                 else:
                     try:
-                        sample = _cache.get_cached_data("samples/{}/images/".format(self.id), sample_id, ImageSample.from_protobuf)
+                        sample = cache._get_cached_data("samples/{}/images/".format(self.id), sample_id, ImageSample.from_protobuf)
                     except FileNotFoundError:
                         sample = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id).json(object_hook=ImageSample.from_json)
-                        _cache.cache_data("samples/{}/images/".format(self.id), sample_id, sample, ImageSample.to_protobuf)
+                        cache._cache_data("samples/{}/images/".format(self.id), sample_id, sample, ImageSample.to_protobuf)
                     return sample
 
             @staticmethod
@@ -222,11 +221,11 @@ class Acquisition(Entity):
                     raise TypeError
 
                 try:
-                    image = _cache.get_cached_data("samples/{}/images/raw/".format(self.id), sample_id)
+                    image = cache._get_cached_data("samples/{}/images/raw/".format(self.id), sample_id)
                 except FileNotFoundError:
                     image = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + "/raw")
                     file_ext = "." + image.headers["Content-Type"].split("/")[-1]
-                    _cache.cache_data("samples/{}/images/raw/".format(self.id), sample_id + file_ext, image.content)
+                    cache._cache_data("samples/{}/images/raw/".format(self.id), sample_id + file_ext, image.content)
 
                 return image
 
@@ -240,8 +239,8 @@ class Acquisition(Entity):
                     raise TypeError
 
                 self.image_samples.raw(sample_id)
-                image_path = _cache.build_cache_path("samples/{}/images/raw/".format(self.id), sample_id)
-                image_path = _cache.add_file_extension(image_path)
+                image_path = cache._build_cache_path("samples/{}/images/raw/".format(self.id), sample_id)
+                image_path = cache._add_file_extension(image_path)
 
                 if backend is None:
                     system = platform.system()
@@ -270,14 +269,14 @@ class Acquisition(Entity):
                 if sample_id is None:
                     samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT).json(object_hook=VideoSample.from_json)
                     for sample in samples:
-                        _cache.cache_data("samples/{}/videos/".format(self.id), sample.id, sample, VideoSample.to_protobuf)
+                        cache._cache_data("samples/{}/videos/".format(self.id), sample.id, sample, VideoSample.to_protobuf)
                     return SampleList(samples)
                 else:
                     try:
-                        sample = _cache.get_cached_data("samples/{}/videos/".format(self.id), sample_id, VideoSample.from_protobuf)
+                        sample = cache._get_cached_data("samples/{}/videos/".format(self.id), sample_id, VideoSample.from_protobuf)
                     except FileNotFoundError:
                         sample = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id).json(object_hook=VideoSample.from_json)
-                        _cache.cache_data("samples/{}/videos/".format(self.id), sample_id, sample, VideoSample.to_protobuf)
+                        cache._cache_data("samples/{}/videos/".format(self.id), sample_id, sample, VideoSample.to_protobuf)
                     return sample
 
             @staticmethod
@@ -286,11 +285,11 @@ class Acquisition(Entity):
                     raise TypeError
 
                 try:
-                    video = _cache.get_cached_data("samples/{}/videos/raw/".format(self.id), sample_id)
+                    video = cache._get_cached_data("samples/{}/videos/raw/".format(self.id), sample_id)
                 except FileNotFoundError:
                     video = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id + "/raw")
                     file_ext = "." + video.headers["Content-Type"].split("/")[-1]
-                    _cache.cache_data("samples/{}/videos/raw/".format(self.id), sample_id + file_ext, video.content)
+                    cache._cache_data("samples/{}/videos/raw/".format(self.id), sample_id + file_ext, video.content)
 
                 return video
 
@@ -304,8 +303,8 @@ class Acquisition(Entity):
                     raise TypeError
 
                 self.video_samples.raw(sample_id)
-                video_path = _cache.build_cache_path("samples/{}/videos/raw/".format(self.id), sample_id)
-                video_path = _cache.add_file_extension(video_path)
+                video_path = cache._build_cache_path("samples/{}/videos/raw/".format(self.id), sample_id)
+                video_path = cache._add_file_extension(video_path)
 
                 if backend is None:
                     system = platform.system()
@@ -334,14 +333,14 @@ class Acquisition(Entity):
                 if annotation_id is None:
                     annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT).json(object_hook=Annotation.from_json)
                     for annotation in annotations:
-                        _cache.cache_data("annotations", annotation.id, annotation, Annotation.to_protobuf)
+                        cache._cache_data("annotations", annotation.id, annotation, Annotation.to_protobuf)
                     return AnnotationList(annotations)
                 else:
                     try:
-                        annotation = _cache.get_cached_data("annotations", annotation_id, Annotation.from_protobuf)
+                        annotation = cache._get_cached_data("annotations", annotation_id, Annotation.from_protobuf)
                     except FileNotFoundError:
                         annotation = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT + annotation_id).json(object_hook=Annotation.from_json)
-                        _cache.cache_data("annotations", annotation_id, annotation, Annotation.to_protobuf)
+                        cache._cache_data("annotations", annotation_id, annotation, Annotation.to_protobuf)
                     return annotation
 
             @staticmethod
@@ -451,14 +450,14 @@ def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []
     if acquisition_id is None:
         acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags}).json(object_hook=Acquisition.from_json)
         for acquisition in acquisitions:
-            _cache.cache_data("acquisitions", acquisition.id, acquisition, Acquisition.to_protobuf)
+            cache._cache_data("acquisitions", acquisition.id, acquisition, Acquisition.to_protobuf)
         return acquisitions
     else:
         try:
-            acquisition = _cache.get_cached_data("acquisitions", acquisition_id, Acquisition.from_protobuf)
+            acquisition = cache._get_cached_data("acquisitions", acquisition_id, Acquisition.from_protobuf)
         except FileNotFoundError:
             acquisition = _api_calls.get(_ENDPOINT + acquisition_id).json(object_hook=Acquisition.from_json)
-            _cache.cache_data("acquisitions", acquisition_id, acquisition, Acquisition.to_protobuf)
+            cache._cache_data("acquisitions", acquisition_id, acquisition, Acquisition.to_protobuf)
         return acquisition
 
 

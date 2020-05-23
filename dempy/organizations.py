@@ -1,5 +1,5 @@
 from typing import Union, List, Dict, Any, ByteString
-from . import _api_calls, _cache
+from . import cache, _api_calls
 from ._base import Entity
 from .users import User, get as _get_user
 from ._protofiles import OrganizationMessage
@@ -121,14 +121,14 @@ def get(organization_id: str = None) -> Union[Organization, List[Organization]]:
     if organization_id is None:
         organizations = _api_calls.get(_ENDPOINT).json(object_hook=Organization.from_json)
         for organization in organizations:
-            _cache.cache_data("organizations", organization.id, organization, Organization.to_protobuf)
+            cache._cache_data("organizations", organization.id, organization, Organization.to_protobuf)
         return organizations
     else:
         try:
-            organization = _cache.get_cached_data("organizations", organization_id, Organization.from_protobuf)
+            organization = cache._get_cached_data("organizations", organization_id, Organization.from_protobuf)
         except FileNotFoundError:
             organization = _api_calls.get(_ENDPOINT + organization_id).json(object_hook=Organization.from_json)
-            _cache.cache_data("organizations", organization_id, organization, Organization.to_protobuf)
+            cache._cache_data("organizations", organization_id, organization, Organization.to_protobuf)
         return organization
 
 

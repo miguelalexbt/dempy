@@ -1,5 +1,5 @@
 from typing import Union, List, Dict, Any, ByteString
-from . import _api_calls, _cache
+from . import cache, _api_calls
 from ._base import Entity
 from .acquisitions import Acquisition, get as _get_acquisition
 from ._protofiles import DatasetMessage
@@ -113,14 +113,14 @@ def get(dataset_id: str = None, tags: List[str] = []) -> Union[Dataset, List[Dat
     if dataset_id is None:
         datasets = _api_calls.get(_ENDPOINT, params={"tags": tags}).json(object_hook=Dataset.from_json)
         for dataset in datasets:
-            _cache.cache_data("datasets", dataset.id, dataset, Dataset.to_protobuf)
+            cache._cache_data("datasets", dataset.id, dataset, Dataset.to_protobuf)
         return datasets
     else:
         try:
-            dataset = _cache.get_cached_data("datasets", dataset_id, Dataset.from_protobuf)
+            dataset = cache._get_cached_data("datasets", dataset_id, Dataset.from_protobuf)
         except FileNotFoundError:
             dataset = _api_calls.get(_ENDPOINT + dataset_id).json(object_hook=Dataset.from_json)
-            _cache.cache_data("datasets", dataset_id, dataset, Dataset.to_protobuf)
+            cache._cache_data("datasets", dataset_id, dataset, Dataset.to_protobuf)
         return dataset
 
 

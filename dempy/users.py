@@ -1,5 +1,5 @@
 from typing import Union, List, Dict, Any, ByteString
-from . import _api_calls, _cache
+from . import cache, _api_calls
 from ._base import Entity
 from ._protofiles import UserMessage
 
@@ -93,14 +93,14 @@ def get(user_id: str = None) -> Union[User, List[User]]:
     if user_id is None:
         users = _api_calls.get(_ENDPOINT).json(object_hook=User.from_json)
         for user in users:
-            _cache.cache_data("users", user.id, user, User.to_protobuf)
+            cache._cache_data("users", user.id, user, User.to_protobuf)
         return users
     else:
         try:
-            user = _cache.get_cached_data("users", user_id, User.from_protobuf)
+            user = cache._get_cached_data("users", user_id, User.from_protobuf)
         except FileNotFoundError:
             user = _api_calls.get(_ENDPOINT + user_id).json(object_hook=User.from_json)
-            _cache.cache_data("users", user_id, user, User.to_protobuf)
+            cache._cache_data("users", user_id, user, User.to_protobuf)
         return user
 
 
