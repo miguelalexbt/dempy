@@ -1,14 +1,14 @@
-from typing import List, Dict, Any, ByteString, Union
 from functools import partial
-from .._base import Entity
-from .._protofiles import TimeseriesMessage
+from typing import List, Dict, Any
+
+from dempy._base import Entity
+from dempy._protofiles import TimeseriesMessage
 
 
 class TimeseriesSample(Entity):
-    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, Any],
-                 timestamp: int, acquisition_id: str, device_id: str, sensor_id: str, **kwargs):
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
+                 sensor_id: str, **kwargs):
         super().__init__(type, id, tags, metadata)
-
         self.timestamp = timestamp
         self.acquisition_id = acquisition_id
         self.device_id = device_id
@@ -39,9 +39,6 @@ class TimeseriesSample(Entity):
 
     @staticmethod
     def to_protobuf(obj: "TimeseriesSample") -> TimeseriesMessage:
-        if not isinstance(obj, TimeseriesSample):
-            raise TypeError
-
         timeseries_message = TimeseriesMessage()
         timeseries_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -79,15 +76,7 @@ class TimeseriesSample(Entity):
         return timeseries_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, TimeseriesMessage]) -> "TimeseriesSample":
-        if isinstance(obj, ByteString):
-            timeseries_message = TimeseriesMessage()
-            timeseries_message.ParseFromString(obj)
-        elif isinstance(obj, TimeseriesMessage):
-            timeseries_message = obj
-        else:
-            raise TypeError
-
+    def from_protobuf(timeseries_message: TimeseriesMessage) -> "TimeseriesSample":
         return TimeseriesSample(
             type=timeseries_message.entity.type,
             id=timeseries_message.entity.id,
@@ -106,9 +95,6 @@ class TimeseriesSample(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj and obj["type"].endswith("axialSample"):
             timeseries = partial(
                 TimeseriesSample,
@@ -136,3 +122,8 @@ class TimeseriesSample(Entity):
                 raise ValueError
 
         return obj
+
+
+__all__ = [
+    "TimeseriesSample"
+]

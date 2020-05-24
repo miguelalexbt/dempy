@@ -1,27 +1,22 @@
 from typing import List, Dict, Any, Union, ByteString
-from .._base import Entity
-from .._protofiles import VideoMessage
+
+from dempy._base import Entity
+from dempy._protofiles import VideoMessage
 
 
 class VideoSample(Entity):
-    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, Any],
-                 timestamp: int, acquisition_id: str, device_id: str, sensor_id: str,
-                 media_type: str, video_source: str):
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
+                 sensor_id: str, media_type: str, video_source: str):
         super().__init__(type, id, tags, metadata)
-
         self.timestamp = timestamp
         self.acquisition_id = acquisition_id
         self.device_id = device_id
         self.sensor_id = sensor_id
-
         self.media_type = media_type
         self.video_source = video_source
 
     @staticmethod
     def to_protobuf(obj: "VideoSample") -> VideoMessage:
-        if not isinstance(obj, VideoSample):
-            raise TypeError
-
         video_message = VideoMessage()
         video_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -40,13 +35,7 @@ class VideoSample(Entity):
 
     @staticmethod
     def from_protobuf(obj: Union[ByteString, VideoMessage]) -> "VideoSample":
-        if isinstance(obj, ByteString):
-            video_message = VideoMessage()
-            video_message.ParseFromString(obj)
-        elif isinstance(obj, VideoMessage):
-            video_message = obj
-        else:
-            raise TypeError
+        video_message = obj if isinstance(obj, VideoMessage) else VideoMessage().ParseFromString(obj)
 
         return VideoSample(
             type=video_message.entity.type,
@@ -63,9 +52,6 @@ class VideoSample(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj and obj["type"] == "VideoSample":
             return VideoSample(
                 type=obj["type"],
@@ -79,4 +65,10 @@ class VideoSample(Entity):
                 media_type=obj["mediaType"],
                 video_source=obj["videoSource"],
             )
+
         return obj
+
+
+__all__ = [
+    "VideoSample"
+]

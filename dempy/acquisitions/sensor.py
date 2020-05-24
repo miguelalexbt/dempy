@@ -1,17 +1,15 @@
-from typing import List, Dict, Any, ByteString, Union
-from .._base import Entity
-from .._protofiles import SensorMessage
+from typing import List, Dict, Any
+
+from dempy._base import Entity
+from dempy._protofiles import SensorMessage
 
 
 class Sensor(Entity):
-    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, Any],
-                 sync_offset: int, time_unit: str,
-                 serial_number: str, manufacturer: str, model_name: str, sensor_type: str):
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], sync_offset: int, time_unit: str, serial_number: str,
+                 manufacturer: str, model_name: str, sensor_type: str):
         super().__init__(type, id, tags, metadata)
-
         self.sync_offset = sync_offset
         self.time_unit = time_unit
-
         self.serial_number = serial_number
         self.manufacturer = manufacturer
         self.model_name = model_name
@@ -19,9 +17,6 @@ class Sensor(Entity):
 
     @staticmethod
     def to_protobuf(obj: "Sensor") -> SensorMessage:
-        if not isinstance(obj, Sensor):
-            raise TypeError
-
         sensor_message = SensorMessage()
         sensor_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -41,15 +36,7 @@ class Sensor(Entity):
         return sensor_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, SensorMessage]) -> "Sensor":
-        if isinstance(obj, ByteString):
-            sensor_message = SensorMessage()
-            sensor_message.ParseFromString(obj)
-        elif isinstance(obj, SensorMessage):
-            sensor_message = obj
-        else:
-            raise TypeError
-
+    def from_protobuf(sensor_message: SensorMessage) -> "Sensor":
         return Sensor(
             type=sensor_message.entity.type,
             id=sensor_message.entity.id,
@@ -65,9 +52,6 @@ class Sensor(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj and obj["type"] == "Sensor":
             return Sensor(
                 type=obj["type"],
@@ -82,3 +66,8 @@ class Sensor(Entity):
                 sensor_type=obj["sensorType"],
             )
         return obj
+
+
+__all__ = [
+    "Sensor"
+]

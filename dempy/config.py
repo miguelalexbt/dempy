@@ -1,6 +1,6 @@
+import configparser
 import io
 import os
-import configparser
 
 _defaults = {
     "base_url": "http://localhost/",
@@ -9,17 +9,17 @@ _defaults = {
     "cache_dir": os.path.expanduser(os.path.join("~", ".dempy", "cache"))
 }
 
-base_url = _defaults["base_url"]
-user = _defaults["user"]
-password = _defaults["password"]
-cache_dir = _defaults["cache_dir"]
+base_url = ""
+user = ""
+password = ""
+cache_dir = ""
 
 
 def use_profile(profile_key: str) -> None:
     _setup(profile_key)
 
 
-def _setup(profile_key: str = "DEFAULT"):
+def _setup(profile_key: str = "DEFAULT") -> None:
     global base_url
     global user
     global password
@@ -34,7 +34,7 @@ def _setup(profile_key: str = "DEFAULT"):
     base_url = config.get("base_url")
     user = config.get("user")
     password = config.get("password")
-    cache_dir = os.path.abspath(config.get("cache_dir"))
+    cache_dir = os.path.abspath(os.path.expanduser(config.get("cache_dir")))
 
     try:
         os.mkdir(cache_dir)
@@ -42,7 +42,7 @@ def _setup(profile_key: str = "DEFAULT"):
         pass
 
 
-def _parse_config(profile_key: str):
+def _parse_config(profile_key: str) -> configparser.SectionProxy:
     config_file = os.path.expanduser(os.path.join("~", ".dempy", "config"))
     parser = configparser.RawConfigParser(defaults=_defaults)
 
@@ -60,8 +60,9 @@ def _parse_config(profile_key: str):
     return config
 
 
-# __all__ = [
-#     'use_default'
-# ]
+__all__ = [
+    "base_url", "user", "password", "cache_dir",
+    "use_profile"
+]
 
 _setup()

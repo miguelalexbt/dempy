@@ -1,20 +1,22 @@
+import glob
 import io
 import os
 import shutil
-import glob
-from . import config
+from typing import Any
+
+from dempy import config
 
 
-def clear():
+def clear() -> None:
     shutil.rmtree(config.cache_dir)
 
 
-def _add_file_extension(cache_file):
+def _add_file_extension(cache_file: str) -> str:
     globs = glob.glob(cache_file + ".*")
     return globs[0] if len(globs) == 1 else cache_file
 
 
-def _build_cache_path(data_dir, data_file):
+def _build_cache_path(data_dir: str, data_file: str) -> str:
     cache_path = os.path.abspath(os.path.join(config.cache_dir, data_dir))
 
     try:
@@ -25,7 +27,7 @@ def _build_cache_path(data_dir, data_file):
     return os.path.normpath(os.path.join(cache_path, data_file))
 
 
-def _cache_data(data_dir, data_file, data, serializer=None):
+def _cache_data(data_dir: str, data_file: str, data: Any, serializer: Any = None) -> None:
     cache_file = _build_cache_path(data_dir, data_file)
 
     with io.open(cache_file, "wb") as fp:
@@ -33,7 +35,7 @@ def _cache_data(data_dir, data_file, data, serializer=None):
         fp.write(data)
 
 
-def _get_cached_data(data_dir, data_file, deserializer=None):
+def _get_cached_data(data_dir: str, data_file: str, deserializer: Any = None) -> Any:
     cache_file = _build_cache_path(data_dir, data_file)
 
     if deserializer is None:
@@ -47,10 +49,6 @@ def _get_cached_data(data_dir, data_file, deserializer=None):
         raise FileNotFoundError
 
 
-# def del_cached_data(data_dir, data_file):
-#     cache_file = _build_cache_path(data_dir, data_file)
-#
-#     try:
-#         os.remove(cache_file)
-#     except (IOError, OSError):
-#         raise FileNotFoundError
+__all__ = [
+    "clear"
+]

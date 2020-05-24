@@ -4,11 +4,6 @@ import time
 
 def main():
 
-    # dempy.config.use_profile("Fraunhofer")
-    # print(dempy.config.cache_dir)
-    # print(dempy.config.base_url)
-    # return
-
     start = time.time()
 
     print("Testing - Users")
@@ -45,9 +40,9 @@ def main():
 
     dempy.cache.clear()
 
-    # acq.timeseries_samples.visualize("89715d20-faf3-49a6-ae71-c557cddb5315")
-    # acq.image_samples.visualize("a62478fe-5874-4ba2-b389-e37110d6d711")
-    # acq.video_samples.visualize("df74d79f-3cb6-49d4-8753-7621be3eee8a")
+    acq.timeseries_samples.visualize("89715d20-faf3-49a6-ae71-c557cddb5315")
+    acq.image_samples.visualize("a62478fe-5874-4ba2-b389-e37110d6d711")
+    acq.video_samples.visualize("df74d79f-3cb6-49d4-8753-7621be3eee8a")
 
 
 if __name__ == "__main__":

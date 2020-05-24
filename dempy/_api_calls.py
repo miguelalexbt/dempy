@@ -1,16 +1,18 @@
-import requests
 from functools import partial
-from . import config
+
+import requests
+
+from dempy import config
 
 
-def request(endpoint, method, **kwargs):
+def request(endpoint: str, method: str, **kwargs) -> requests.Response:
     uri = f"{config.base_url}{endpoint}"
 
     with requests.Session() as session:
         session.headers.setdefault("content-type", "application/json")
         session.headers.setdefault("accept", "application/json")
 
-        # TODO auth
+        # TODO Auth
         # if user is not None and password is not None:
         #     session.auth = (user, password)
 

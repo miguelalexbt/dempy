@@ -1,20 +1,19 @@
 from typing import Union, List, Dict, Any, ByteString
-from . import cache, _api_calls
-from ._base import Entity
-from .users import User, get as _get_user
-from ._protofiles import OrganizationMessage
+
+from dempy import cache, _api_calls
+from dempy._base import Entity
+from dempy._protofiles import OrganizationMessage
+from dempy.users import User, get as _get_user
 
 
 class Organization(Entity):
     def __init__(self, type: str, id: str, name: str, description: str, url: str, email: str, phone: str, users_ids: List[str]):
         super().__init__(type, id, list(), dict())
-
         self.name = name
         self.description = description
         self.url = url
         self.email = email
         self.phone = phone
-
         self._users_ids = users_ids
 
     @property
@@ -25,34 +24,15 @@ class Organization(Entity):
             @staticmethod
             def get() -> List[User]:
                 return [_get_user(u) for u in self._users_ids]
-                # return _api_calls.get(Inner._USERS_ENDPOINT).json()
-            
-            # @staticmethod
-            # def add(user_id: str) -> None:
-            #     if not isinstance(user_id, str):
-            #         raise TypeError
-            #
-            #     _api_calls.put(Inner._USERS_ENDPOINT + user_id)
-            #
-            # @staticmethod
-            # def remove(user_id: str) -> None:
-            #     if not isinstance(user_id, str):
-            #         raise TypeError
-            #
-            #     _api_calls.delete(Inner._USERS_ENDPOINT + user_id)
 
             @staticmethod
             def count() -> int:
                 return len(self._users_ids)
-                # return _api_calls.get(Inner._USERS_ENDPOINT + "count").json()
 
         return Inner()
 
     @staticmethod
     def to_protobuf(obj: "Organization") -> OrganizationMessage:
-        if not isinstance(obj, Organization):
-            raise TypeError
-
         organization_message = OrganizationMessage()
         organization_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -72,14 +52,9 @@ class Organization(Entity):
         return organization_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, OrganizationMessage]) -> "Organization":
-        if isinstance(obj, ByteString):
-            organization_message = OrganizationMessage()
-            organization_message.ParseFromString(obj)
-        elif isinstance(obj, OrganizationMessage):
-            organization_message = obj
-        else:
-            raise TypeError
+    def from_protobuf(obj: ByteString) -> "Organization":
+        organization_message = OrganizationMessage()
+        organization_message.ParseFromString(obj)
 
         return Organization(
             type=organization_message.entity.type,
@@ -94,9 +69,6 @@ class Organization(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj and obj["type"] == "Organization":
             return Organization(
                 type=obj["type"],
@@ -108,6 +80,7 @@ class Organization(Entity):
                 phone=obj["phone"],
                 users_ids=obj["usersIds"]
             )
+
         return obj
 
 
@@ -115,9 +88,6 @@ _ENDPOINT = "api/organizations/"
 
 
 def get(organization_id: str = None) -> Union[Organization, List[Organization]]:
-    if organization_id is not None and not isinstance(organization_id, str):
-        raise TypeError
-
     if organization_id is None:
         organizations = _api_calls.get(_ENDPOINT).json(object_hook=Organization.from_json)
         for organization in organizations:
@@ -132,19 +102,11 @@ def get(organization_id: str = None) -> Union[Organization, List[Organization]]:
         return organization
 
 
-# def create(organization: Organization) -> Organization:
-#     if not isinstance(organization, Organization):
-#         raise TypeError
-#
-#     return _api_calls.post(_ENDPOINT, json=Organization.to_json(organization)).json(object_hook=Organization.from_json)
-#
-#
-# def delete(organization_id: str) -> None:
-#     if not isinstance(organization_id, str):
-#         raise TypeError
-#
-#     _api_calls.delete(_ENDPOINT + organization_id)
-
-
 def count() -> int:
     return _api_calls.get(_ENDPOINT + "count").json()
+
+
+__all__ = [
+    "Organization",
+    "get", "count"
+]

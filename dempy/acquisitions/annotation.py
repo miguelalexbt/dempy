@@ -1,7 +1,8 @@
-from typing import List, Dict, Any, Union, ByteString
 from functools import partial
-from .._base import Entity
-from .._protofiles import AnnotationObjectMessage, AnnotationPointMessage, AnnotationMessage
+from typing import List, Dict, Any, ByteString
+
+from dempy._base import Entity
+from dempy._protofiles import AnnotationObjectMessage, AnnotationPointMessage, AnnotationMessage
 
 
 class AnnotationObject:
@@ -18,9 +19,6 @@ class AnnotationObject:
 
     @staticmethod
     def to_protobuf(obj: "AnnotationObject") -> AnnotationObjectMessage:
-        if not isinstance(obj, AnnotationObject):
-            raise TypeError
-
         annotation_object_message = AnnotationObjectMessage()
         annotation_object_message.type = obj.type
 
@@ -38,15 +36,7 @@ class AnnotationObject:
         return annotation_object_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, AnnotationObjectMessage]) -> "AnnotationObject":
-        if isinstance(obj, ByteString):
-            annotation_object_message = AnnotationObjectMessage()
-            annotation_object_message.ParseFromString(obj)
-        elif isinstance(obj, AnnotationObjectMessage):
-            annotation_object_message = obj
-        else:
-            raise TypeError
-
+    def from_protobuf(annotation_object_message: AnnotationObjectMessage) -> "AnnotationObject":
         return AnnotationObject(
             type=annotation_object_message.type,
             text=annotation_object_message.text if annotation_object_message.HasField("text") else None,
@@ -56,9 +46,6 @@ class AnnotationObject:
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj:
             if obj["type"] == "AnnotationText":
                 return AnnotationObject(
@@ -73,7 +60,11 @@ class AnnotationObject:
                 )
             else:
                 raise ValueError
+
         return obj
+
+    def __repr__(self):
+        return f"<{self.type}>"
 
 
 class AnnotationPoint:
@@ -84,9 +75,6 @@ class AnnotationPoint:
 
     @staticmethod
     def to_protobuf(obj: "AnnotationPoint") -> AnnotationPointMessage:
-        if not isinstance(obj, AnnotationPoint):
-            raise TypeError
-
         annotation_point_message = AnnotationPointMessage()
         annotation_point_message.x = obj.x
         annotation_point_message.y = obj.y
@@ -94,15 +82,7 @@ class AnnotationPoint:
         return annotation_point_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, AnnotationPointMessage]) -> "AnnotationPoint":
-        if isinstance(obj, ByteString):
-            annotation_point_message = AnnotationPointMessage()
-            annotation_point_message.AnnotationPointMessage(obj)
-        elif isinstance(obj, AnnotationPointMessage):
-            annotation_point_message = obj
-        else:
-            raise TypeError
-
+    def from_protobuf(annotation_point_message: AnnotationPointMessage) -> "AnnotationPoint":
         return AnnotationPoint(
             x=annotation_point_message.x,
             y=annotation_point_message.y
@@ -110,18 +90,18 @@ class AnnotationPoint:
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         return AnnotationPoint(
             x=obj["x"],
             y=obj["y"]
         )
 
+    def __repr__(self):
+        return f"<{self.type} x=\"{self.x}\" y=\"{self.y}\">"
+
 
 class Annotation(Entity):
-    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, Any],
-                 acquisition_id: str, creator_id: str, annotation_object: AnnotationObject, color: str, notes: str, **kwargs):
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], acquisition_id: str, creator_id: str,
+                 annotation_object: AnnotationObject, color: str, notes: str, **kwargs):
         super().__init__(type, id, tags, metadata)
         self.acquisition_id = acquisition_id
         self.creator_id = creator_id
@@ -163,9 +143,6 @@ class Annotation(Entity):
 
     @staticmethod
     def to_protobuf(obj: "Annotation") -> AnnotationMessage:
-        if not isinstance(obj, Annotation):
-            raise TypeError
-
         annotation_message = AnnotationMessage()
         annotation_message.entity.CopyFrom(Entity.to_protobuf(obj))
         annotation_message.acquisition_id = obj.acquisition_id
@@ -221,14 +198,9 @@ class Annotation(Entity):
         return annotation_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, AnnotationMessage]) -> "Annotation":
-        if isinstance(obj, ByteString):
-            annotation_message = AnnotationMessage()
-            annotation_message.ParseFromString(obj)
-        elif isinstance(obj, AnnotationMessage):
-            annotation_message = obj
-        else:
-            raise TypeError
+    def from_protobuf(obj: ByteString) -> "Annotation":
+        annotation_message = AnnotationMessage()
+        annotation_message.ParseFromString(obj)
 
         return Annotation(
             type=annotation_message.entity.type,
@@ -248,7 +220,7 @@ class Annotation(Entity):
             width=annotation_message.width if annotation_message.HasField("width") else None,
             height=annotation_message.height if annotation_message.HasField("height") else None,
             timestamp=annotation_message.timestamp if annotation_message.HasField("timestamp") else None,
-            device_id= annotation_message.device_id if annotation_message.HasField("device_id") else None,
+            device_id=annotation_message.device_id if annotation_message.HasField("device_id") else None,
             sensor_id=annotation_message.sensor_id if annotation_message.HasField("sensor_id") else None,
             timestamp_start=annotation_message.timestamp_start if annotation_message.HasField("timestamp_start") else None,
             timestamp_end=annotation_message.timestamp_end if annotation_message.HasField("timestamp_end") else None,
@@ -256,9 +228,6 @@ class Annotation(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj:
             if obj["type"].endswith("Annotation"):
                 annotation = partial(
@@ -325,4 +294,10 @@ class Annotation(Entity):
                 return AnnotationObject.from_json(obj)
             else:
                 raise ValueError
+
         return obj
+
+
+__all__ = [
+    "AnnotationObject", "AnnotationPoint", "Annotation"
+]

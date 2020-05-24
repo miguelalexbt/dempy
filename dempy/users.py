@@ -1,12 +1,13 @@
 from typing import Union, List, Dict, Any, ByteString
-from . import cache, _api_calls
-from ._base import Entity
-from ._protofiles import UserMessage
+
+from dempy import cache, _api_calls
+from dempy._base import Entity
+from dempy._protofiles import UserMessage
 
 
 class User(Entity):
-    def __init__(self, type: str = "User", id: str = "", first_name: str = "", last_name: str = "",
-                 email: str = "", username: str = "", password: str = "", external_reference: str = None, active: bool = True):
+    def __init__(self, type: str, id: str, first_name: str, last_name: str, email: str, username: str, password: str,
+                 external_reference: str, active: bool):
         super().__init__(type, id, list(), dict())
         self.first_name = first_name
         self.last_name = last_name
@@ -18,9 +19,6 @@ class User(Entity):
 
     @staticmethod
     def to_protobuf(obj: "User") -> UserMessage:
-        if not isinstance(obj, User):
-            raise TypeError
-
         user_message = UserMessage()
         user_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -42,14 +40,9 @@ class User(Entity):
         return user_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, UserMessage]) -> "User":
-        if isinstance(obj, ByteString):
-            user_message = UserMessage()
-            user_message.ParseFromString(obj)
-        elif isinstance(obj, UserMessage):
-            user_message = obj
-        else:
-            raise TypeError
+    def from_protobuf(obj: ByteString) -> "User":
+        user_message = UserMessage()
+        user_message.ParseFromString(obj)
 
         return User(
             type=user_message.entity.type,
@@ -65,9 +58,6 @@ class User(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj and obj["type"] == "User":
             return User(
                 type=obj["type"],
@@ -80,6 +70,7 @@ class User(Entity):
                 external_reference=obj["externalReference"],
                 active=obj["active"]
             )
+
         return obj
 
 
@@ -87,9 +78,6 @@ _ENDPOINT = "api/users/"
 
 
 def get(user_id: str = None) -> Union[User, List[User]]:
-    if user_id is not None and not isinstance(user_id, str):
-        raise TypeError
-
     if user_id is None:
         users = _api_calls.get(_ENDPOINT).json(object_hook=User.from_json)
         for user in users:
@@ -104,19 +92,11 @@ def get(user_id: str = None) -> Union[User, List[User]]:
         return user
 
 
-# def create(user: User) -> User:
-#     if not isinstance(user, User):
-#         raise TypeError
-#
-#     return _api_calls.post(_ENDPOINT, json=User.to_json(user)).json(object_hook=User.from_json)
-#
-#
-# def delete(user_id: str):
-#     if not isinstance(user_id, str):
-#         raise TypeError
-#
-#     _api_calls.delete(_ENDPOINT + user_id)
-
-
 def count() -> int:
     return _api_calls.get(_ENDPOINT + "count").json()
+
+
+__all__ = [
+    "User",
+    "get", "count"
+]

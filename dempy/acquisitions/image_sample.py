@@ -1,28 +1,23 @@
 from typing import List, Dict, Any, ByteString, Union
-from .._base import Entity
-from .._protofiles import ImageMessage
+
+from dempy._base import Entity
+from dempy._protofiles import ImageMessage
 
 
 class ImageSample(Entity):
-    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, Any],
-                 timestamp: int, acquisition_id: str, device_id: str, sensor_id: str,
-                 media_type: str, image_source: str, has_rotation_metadata: bool):
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
+                 sensor_id: str, media_type: str, image_source: str, has_rotation_metadata: bool):
         super().__init__(type, id, tags, metadata)
-
         self.timestamp = timestamp
         self.acquisition_id = acquisition_id
         self.device_id = device_id
         self.sensor_id = sensor_id
-
         self.media_type = media_type
         self.image_source = image_source
         self.has_rotation_metadata = has_rotation_metadata
 
     @staticmethod
     def to_protobuf(obj: "ImageSample") -> ImageMessage:
-        if not isinstance(obj, ImageSample):
-            raise TypeError
-
         image_message = ImageMessage()
         image_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -42,13 +37,7 @@ class ImageSample(Entity):
 
     @staticmethod
     def from_protobuf(obj: Union[ByteString, ImageMessage]) -> "ImageSample":
-        if isinstance(obj, ByteString):
-            image_message = ImageMessage()
-            image_message.ParseFromString(obj)
-        elif isinstance(obj, ImageMessage):
-            image_message = obj
-        else:
-            raise TypeError
+        image_message = obj if isinstance(obj, ImageMessage) else ImageMessage().ParseFromString(obj)
 
         return ImageSample(
             type=image_message.entity.type,
@@ -66,9 +55,6 @@ class ImageSample(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj and obj["type"] == "ImageSample":
             return ImageSample(
                 type=obj["type"],
@@ -83,4 +69,10 @@ class ImageSample(Entity):
                 image_source=obj["imageSource"],
                 has_rotation_metadata=obj["hasRotationMetadata"]
             )
+
         return obj
+
+
+__all__ = [
+    "ImageSample"
+]

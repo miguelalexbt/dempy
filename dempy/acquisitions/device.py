@@ -1,34 +1,31 @@
-from typing import List, Union, Dict, Any, ByteString
-from .._base import Entity
-from .sensor import Sensor
-from .._protofiles import DeviceMessage
+from typing import Union, List, Dict, Any
+
+from dempy._base import Entity
+from dempy._protofiles import DeviceMessage
+from dempy.acquisitions.sensor import Sensor
 
 
 class Device(Entity):
-    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, Any],
-                 sync_offset: int, time_unit: str,
-                 serial_number: str, manufacturer: str, model_name: str,
-                 sensors: List[Sensor]):
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], sync_offset: int, time_unit: str, serial_number: str,
+                 manufacturer: str, model_name: str, sensors: List[Sensor]):
         super().__init__(type, id, tags, metadata)
-
         self.sync_offset = sync_offset
         self.time_unit = time_unit
-
         self.serial_number = serial_number
         self.manufacturer = manufacturer
         self.model_name = model_name
-
         self._sensors = sensors
 
     @property
     def sensors(self):
         class Inner:
             @staticmethod
-            def get(sensor_id: str = None) -> Union[Sensor, List[Sensor]]:
-                if sensor_id is not None and not isinstance(sensor_id, str):
-                    raise TypeError
-
+            def get(sensor_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[Sensor, List[Sensor]]:
                 if sensor_id is None:
+                    if len(tags) > 0 or len(metadata) > 0:
+                        return [s for s in self._sensors if
+                                len([k for k in s.metadata if k in metadata and s.metadata[k] == metadata[k]]) > 0]
+
                     return self._sensors
                 else:
                     try:
@@ -45,9 +42,6 @@ class Device(Entity):
 
     @staticmethod
     def to_protobuf(obj: "Device") -> DeviceMessage:
-        if not isinstance(obj, Device):
-            raise TypeError
-
         device_message = DeviceMessage()
         device_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -67,15 +61,7 @@ class Device(Entity):
         return device_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, DeviceMessage]) -> "Device":
-        if isinstance(obj, ByteString):
-            device_message = DeviceMessage()
-            device_message.ParseFromString(obj)
-        elif isinstance(obj, DeviceMessage):
-            device_message = obj
-        else:
-            raise TypeError
-
+    def from_protobuf(device_message: DeviceMessage) -> "Device":
         return Device(
             type=device_message.entity.type,
             id=device_message.entity.id,
@@ -91,9 +77,6 @@ class Device(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj:
             if obj["type"] == "Device":
                 return Device(
@@ -113,3 +96,8 @@ class Device(Entity):
             else:
                 raise ValueError
         return obj
+
+
+__all__ = [
+    "Device"
+]

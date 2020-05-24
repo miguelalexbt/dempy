@@ -1,68 +1,53 @@
 import os
-import subprocess
 import platform
+import subprocess
 from itertools import chain
 from typing import Union, List, Dict, Any, Callable, ByteString
-from .. import cache, _api_calls
-from .._base import Entity
-from .._utils import SampleList, AnnotationList
-from .subject import Subject
-from .device import Device
-from .sensor import Sensor
-from .image_sample import ImageSample
-from .video_sample import VideoSample
-from .timeseries_sample import TimeseriesSample
-from .annotation import Annotation
-from .._protofiles import AcquisitionMessage
 
 import matplotlib as mpt
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+
+from dempy import cache, _api_calls
+from dempy._base import Entity
+from dempy._protofiles import AcquisitionMessage
+from dempy.acquisitions._utils import SampleList, AnnotationList
+from dempy.acquisitions.annotation import Annotation
+from dempy.acquisitions.device import Device
+from dempy.acquisitions.image_sample import ImageSample
+from dempy.acquisitions.sensor import Sensor
+from dempy.acquisitions.subject import Subject
+from dempy.acquisitions.timeseries_sample import TimeseriesSample
+from dempy.acquisitions.video_sample import VideoSample
+
 mpt.use("TkAgg")
 
 
 class Acquisition(Entity):
-    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, Any],
-                 creation_timestamp: int, sync_offset: int, time_unit: str,
-                 owner_id: str, creator_id: str, dataset_id: str,
-                 subject: Subject, devices: List[Device],
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], creation_timestamp: int, sync_offset: int,
+                 time_unit: str, owner_id: str, creator_id: str, dataset_id: str, subject: Subject, devices: List[Device],
                  has_timeseries_samples: bool, has_image_samples: bool, has_video_samples: bool):
         super().__init__(type, id, tags, metadata)
-
         self.creation_timestamp = creation_timestamp
         self.sync_offset = sync_offset
         self.time_unit = time_unit
-
         self.owner_id = owner_id
         self.creator_id = creator_id
         self.dataset_id = dataset_id
-
         self.has_timeseries_samples = has_timeseries_samples
         self.has_image_samples = has_image_samples
         self.has_video_samples = has_video_samples
-
         self._subject = subject
         self._devices = devices
 
     @property
     def subject(self):
         class Inner:
-            # _SUBJECT_ENDPOINT = _ENDPOINT + "{}/subjects/".format(self.id)
+            _SUBJECT_ENDPOINT = _ENDPOINT + "{}/subjects/".format(self.id)
 
             @staticmethod
             def get() -> Subject:
                 return self._subject
-                # return _api_calls.get(Inner._SUBJECT_ENDPOINT).json(object_hook=Subject.from_json)
-
-            # @staticmethod
-            # def create(subject: Subject) -> Subject:
-            #     return _api_calls.put(Inner._SUBJECT_ENDPOINT, json=Subject.to_json(subject)).json(object_hook=Subject.from_json)
-
-            # @staticmethod
-            # def delete(subject_id: str) -> None:
-            #     if not isinstance(subject_id, str):
-            #         raise TypeError()
-            #     _api_calls.delete(Inner._SUBJECT_ENDPOINT + subject_id)
 
         return Inner()
 
@@ -72,11 +57,12 @@ class Acquisition(Entity):
             _DEVICES_ENDPOINT = _ENDPOINT + "{}/devices/".format(self.id)
 
             @staticmethod
-            def get(device_id: str = None) -> Union[Device, List[Device]]:
-                if device_id is not None and not isinstance(device_id, str):
-                    raise TypeError
-
+            def get(device_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[Device, List[Device]]:
                 if device_id is None:
+                    if len(tags) > 0 or len(metadata) > 0:
+                        return [d for d in self._devices if
+                                len([k for k in d.metadata if k in metadata and d.metadata[k] == metadata[k]]) > 0]
+
                     return self._devices
                 else:
                     try:
@@ -107,11 +93,19 @@ class Acquisition(Entity):
             _TIMESERIES_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/timeseries/".format(self.id)
 
             @staticmethod
-            def get() -> SampleList:
+            def get(tags: List[str] = [], metadata: Dict[str, str] = {}) -> SampleList:
+                if len(tags) > 0 or len(metadata) > 0:
+                    processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
+                    samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT, params={"tags": tags, **processed_metadata}) \
+                        .json(object_hook=TimeseriesSample.from_json)
+                    samples.sort(key=lambda sample: sample.timestamp)
+                    return SampleList(samples)
+
                 try:
                     samples = cache._get_cached_data("samples/{}/".format(self.id), "timeseries", SampleList.from_protobuf)
                 except FileNotFoundError:
-                    samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT).json(object_hook=TimeseriesSample.from_json)
+                    samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT) \
+                        .json(object_hook=TimeseriesSample.from_json)
                     samples.sort(key=lambda sample: sample.timestamp)
                     samples = SampleList(samples)
                     cache._cache_data("samples/{}/".format(self.id), "timeseries", samples, SampleList.to_protobuf)
@@ -139,7 +133,8 @@ class Acquisition(Entity):
 
                     # Axis limit
                     axis.set_xlim([0, timestamps[-1]])
-                    axis.set_ylim([min(chain(samples_x, samples_y, samples_z, samples_u, samples_w)), max(chain(samples_x, samples_y, samples_z, samples_u, samples_w))])
+                    axis.set_ylim([min(chain(samples_x, samples_y, samples_z, samples_u, samples_w)),
+                                   max(chain(samples_x, samples_y, samples_z, samples_u, samples_w))])
 
                     # Axis formatter
                     axis.xaxis.set_major_formatter(ticker.FormatStrFormatter("%.0f"))
@@ -165,9 +160,6 @@ class Acquisition(Entity):
                         labels.append("w")
 
                     axis.legend(labels=labels, loc="upper right")
-
-                if not isinstance(device_id, str) or (sensor_id is not None and not isinstance(sensor_id, str)):
-                    raise TypeError
 
                 device = self.devices.get(device_id=device_id)
                 device_time_unit = device.time_unit if device.time_unit is not None else self.time_unit
@@ -198,11 +190,14 @@ class Acquisition(Entity):
             _IMAGE_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/images/".format(self.id)
 
             @staticmethod
-            def get(sample_id: str = None) -> Union[ImageSample, SampleList]:
-                if sample_id is not None and not isinstance(sample_id, str):
-                    raise TypeError
-
+            def get(sample_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[ImageSample, SampleList]:
                 if sample_id is None:
+                    if len(tags) > 0 or len(metadata) > 0:
+                        processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
+                        samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT, params={"tags": tags, **processed_metadata}) \
+                            .json(object_hook=ImageSample.from_json)
+                        return SampleList(samples)
+
                     samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(object_hook=ImageSample.from_json)
                     for sample in samples:
                         cache._cache_data("samples/{}/images/".format(self.id), sample.id, sample, ImageSample.to_protobuf)
@@ -217,9 +212,6 @@ class Acquisition(Entity):
 
             @staticmethod
             def raw(sample_id: str) -> ByteString:
-                if not isinstance(sample_id, str):
-                    raise TypeError
-
                 try:
                     image = cache._get_cached_data("samples/{}/images/raw/".format(self.id), sample_id)
                 except FileNotFoundError:
@@ -235,9 +227,6 @@ class Acquisition(Entity):
 
             @staticmethod
             def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
-                if not isinstance(sample_id, str):
-                    raise TypeError
-
                 self.image_samples.raw(sample_id)
                 image_path = cache._build_cache_path("samples/{}/images/raw/".format(self.id), sample_id)
                 image_path = cache._add_file_extension(image_path)
@@ -262,11 +251,14 @@ class Acquisition(Entity):
             _VIDEO_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/videos/".format(self.id)
 
             @staticmethod
-            def get(sample_id: str = None) -> Union[VideoSample, SampleList]:
-                if sample_id is not None and not isinstance(sample_id, str):
-                    raise TypeError
-
+            def get(sample_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[VideoSample, SampleList]:
                 if sample_id is None:
+                    if len(tags) > 0 or len(metadata) > 0:
+                        processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
+                        samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT, params={"tags": tags, **processed_metadata}) \
+                            .json(object_hook=VideoSample.from_json)
+                        return SampleList(samples)
+
                     samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT).json(object_hook=VideoSample.from_json)
                     for sample in samples:
                         cache._cache_data("samples/{}/videos/".format(self.id), sample.id, sample, VideoSample.to_protobuf)
@@ -281,9 +273,6 @@ class Acquisition(Entity):
 
             @staticmethod
             def raw(sample_id: str) -> ByteString:
-                if not isinstance(sample_id, str):
-                    raise TypeError
-
                 try:
                     video = cache._get_cached_data("samples/{}/videos/raw/".format(self.id), sample_id)
                 except FileNotFoundError:
@@ -299,9 +288,6 @@ class Acquisition(Entity):
 
             @staticmethod
             def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
-                if not isinstance(sample_id, str):
-                    raise TypeError
-
                 self.video_samples.raw(sample_id)
                 video_path = cache._build_cache_path("samples/{}/videos/raw/".format(self.id), sample_id)
                 video_path = cache._add_file_extension(video_path)
@@ -326,11 +312,14 @@ class Acquisition(Entity):
             _ANNOTATIONS_ENDPOINT = _ENDPOINT + "{}/annotations/".format(self.id)
 
             @staticmethod
-            def get(annotation_id: str = None) -> AnnotationList:
-                if annotation_id is not None and not isinstance(annotation_id, str):
-                    raise TypeError
-
+            def get(annotation_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> AnnotationList:
                 if annotation_id is None:
+                    if len(tags) > 0 or len(metadata) > 0:
+                        processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
+                        annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT, params={"tags": tags, **processed_metadata}) \
+                            .json(object_hook=Annotation.from_json)
+                        return AnnotationList(annotations)
+
                     annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT).json(object_hook=Annotation.from_json)
                     for annotation in annotations:
                         cache._cache_data("annotations", annotation.id, annotation, Annotation.to_protobuf)
@@ -351,9 +340,6 @@ class Acquisition(Entity):
 
     @staticmethod
     def to_protobuf(obj: "Acquisition") -> AcquisitionMessage:
-        if not isinstance(obj, Acquisition):
-            raise TypeError
-
         acquisition_message = AcquisitionMessage()
         acquisition_message.entity.CopyFrom(Entity.to_protobuf(obj))
         acquisition_message.creation_timestamp = obj.creation_timestamp
@@ -378,14 +364,9 @@ class Acquisition(Entity):
         return acquisition_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, AcquisitionMessage]) -> "Acquisition":
-        if isinstance(obj, ByteString):
-            acquisition_message = AcquisitionMessage()
-            acquisition_message.ParseFromString(obj)
-        elif isinstance(obj, AcquisitionMessage):
-            acquisition_message = obj
-        else:
-            raise TypeError
+    def from_protobuf(obj: ByteString) -> "Acquisition":
+        acquisition_message = AcquisitionMessage()
+        acquisition_message.ParseFromString(obj)
 
         return Acquisition(
             type=acquisition_message.entity.type,
@@ -407,9 +388,6 @@ class Acquisition(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj:
             if obj["type"] == "Acquisition":
                 return Acquisition(
@@ -437,18 +415,19 @@ class Acquisition(Entity):
                 return Sensor.from_json(obj)
             else:
                 raise ValueError
+
         return obj
 
 
 _ENDPOINT = "api/acquisitions/"
 
 
-def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []) -> Union[Acquisition, List[Acquisition]]:
-    if (acquisition_id is not None and not isinstance(acquisition_id, str)) or (dataset_id is not None and not isinstance(dataset_id, str)):
-        raise TypeError
-
+def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = [], metadata: Dict[str, Any] = {}) \
+        -> Union[Acquisition, List[Acquisition]]:
     if acquisition_id is None:
-        acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags}).json(object_hook=Acquisition.from_json)
+        processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
+        acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags, **processed_metadata}) \
+            .json(object_hook=Acquisition.from_json)
         for acquisition in acquisitions:
             cache._cache_data("acquisitions", acquisition.id, acquisition, Acquisition.to_protobuf)
         return acquisitions
@@ -463,3 +442,9 @@ def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []
 
 def count() -> int:
     return _api_calls.get(_ENDPOINT + "count").json()
+
+
+__all__ = [
+    "Acquisition",
+    "get", "count"
+]

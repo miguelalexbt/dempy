@@ -1,13 +1,13 @@
-from typing import List, Union, Dict, Any, ByteString
-from .._base import Entity
-from .._protofiles import SubjectMessage
+from typing import List, Dict, Any
+
+from dempy._base import Entity
+from dempy._protofiles import SubjectMessage
 
 
 class Subject(Entity):
-    def __init__(self, type: str, id: str, description: str, metadata: Dict[str, Any], tags: List[str],
-                 first_name: str, last_name: str, birthdate_timestamp: int):
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], birthdate_timestamp: int, description: str,
+                 first_name: str, last_name: str):
         super().__init__(type, id, tags, metadata)
-
         self.birthdate_timestamp = birthdate_timestamp
         self.description = description
         self.first_name = first_name
@@ -15,9 +15,6 @@ class Subject(Entity):
 
     @staticmethod
     def to_protobuf(obj: "Subject") -> SubjectMessage:
-        if not isinstance(obj, Subject):
-            raise TypeError
-
         subject_message = SubjectMessage()
         subject_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -33,15 +30,7 @@ class Subject(Entity):
         return subject_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, SubjectMessage]) -> "Subject":
-        if isinstance(obj, ByteString):
-            subject_message = SubjectMessage()
-            subject_message.ParseFromString(obj)
-        elif isinstance(obj, SubjectMessage):
-            subject_message = obj
-        else:
-            raise TypeError
-
+    def from_protobuf(subject_message: SubjectMessage) -> "Subject":
         return Subject(
             type=subject_message.entity.type,
             id=subject_message.entity.id,
@@ -55,9 +44,6 @@ class Subject(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj and obj["type"].endswith("Subject"):
             return Subject(
                 type=obj["type"],
@@ -70,3 +56,8 @@ class Subject(Entity):
                 last_name=obj["lastName"]
             )
         return obj
+
+
+__all__ = [
+    "Subject"
+]

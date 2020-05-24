@@ -1,19 +1,16 @@
 from typing import Union, List, Dict, Any, ByteString
-from . import cache, _api_calls
-from ._base import Entity
-from .acquisitions import Acquisition, get as _get_acquisition
-from ._protofiles import DatasetMessage
+
+from dempy import cache, _api_calls
+from dempy._base import Entity
+from dempy._protofiles import DatasetMessage
+from dempy.acquisitions import Acquisition, get as _get_acquisition
 
 
 class Dataset(Entity):
-    def __init__(self, type: str, id: str, tags: List[str],
-                 name: str, description: str,
-                 creator_id: str, owner_id: str):
+    def __init__(self, type: str, id: str, tags: List[str], name: str, description: str, creator_id: str, owner_id: str):
         super().__init__(type, id, tags, dict())
-
         self.name = name
         self.description = description
-
         self.creator_id = creator_id
         self.owner_id = owner_id
 
@@ -23,22 +20,8 @@ class Dataset(Entity):
             _ACQUISITIONS_ENDPOINT = _ENDPOINT + "{}/acquisitions/".format(self.id)
 
             @staticmethod
-            def get() -> Union[Acquisition, List[Acquisition]]:
-                return _get_acquisition(dataset_id=self.id)
-
-            # @staticmethod
-            # def add(acquisition_id: str) -> None:
-            #     if not isinstance(acquisition_id, str):
-            #         raise TypeError
-            #
-            #     _api_calls.put(Inner._ACQUISITIONS_ENDPOINT + acquisition_id)
-
-            # @staticmethod
-            # def remove(acquisition_id: str) -> None:
-            #     if not isinstance(acquisition_id, str):
-            #         raise TypeError
-            #
-            #     _api_calls.delete(Inner._ACQUISITIONS_ENDPOINT + acquisition_id)
+            def get(tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[Acquisition, List[Acquisition]]:
+                return _get_acquisition(dataset_id=self.id, tags=tags, metadata=metadata)
 
             @staticmethod
             def count() -> int:
@@ -48,9 +31,6 @@ class Dataset(Entity):
 
     @staticmethod
     def to_protobuf(obj: "Dataset") -> DatasetMessage:
-        if not isinstance(obj, Dataset):
-            raise TypeError
-
         dataset_message = DatasetMessage()
         dataset_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -66,14 +46,9 @@ class Dataset(Entity):
         return dataset_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, DatasetMessage]) -> "Dataset":
-        if isinstance(obj, ByteString):
-            dataset_message = DatasetMessage()
-            dataset_message.ParseFromString(obj)
-        elif isinstance(obj, DatasetMessage):
-            dataset_message = obj
-        else:
-            raise TypeError
+    def from_protobuf(obj: ByteString) -> "Dataset":
+        dataset_message = DatasetMessage()
+        dataset_message.ParseFromString(obj)
 
         return Dataset(
             type=dataset_message.entity.type,
@@ -87,9 +62,6 @@ class Dataset(Entity):
 
     @staticmethod
     def from_json(obj: Dict[str, Any]) -> Any:
-        if not isinstance(obj, Dict):
-            raise TypeError
-
         if "type" in obj and obj["type"] == "Dataset":
             return Dataset(
                 type=obj["type"],
@@ -100,6 +72,7 @@ class Dataset(Entity):
                 creator_id=obj["creatorId"],
                 owner_id=obj["ownerId"],
             )
+
         return obj
 
 
@@ -107,9 +80,6 @@ _ENDPOINT = "api/datasets/"
 
 
 def get(dataset_id: str = None, tags: List[str] = []) -> Union[Dataset, List[Dataset]]:
-    if (dataset_id is not None and not isinstance(dataset_id, str)) or not isinstance(tags, List):
-        raise TypeError
-
     if dataset_id is None:
         datasets = _api_calls.get(_ENDPOINT, params={"tags": tags}).json(object_hook=Dataset.from_json)
         for dataset in datasets:
@@ -126,3 +96,9 @@ def get(dataset_id: str = None, tags: List[str] = []) -> Union[Dataset, List[Dat
 
 def count() -> int:
     return _api_calls.get(_ENDPOINT + "count").json()
+
+
+__all__ = [
+    "Dataset",
+    "get", "count"
+]
