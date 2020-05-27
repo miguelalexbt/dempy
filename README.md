@@ -6,7 +6,7 @@ A package that simplifies access and management of datasets and their annotation
 ### Getting started
 
 #### Documentation
-* Check out our fancy [Documentation](dempy.github.io)
+* Check out our fancy [Documentation](https://miguelalexbt.github.io/dempy/)
 
 #### Install
 
