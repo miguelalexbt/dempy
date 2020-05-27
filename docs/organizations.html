@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>dempy.organizations API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>dempy.organizations</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import Union, List, Dict, Any, ByteString
+
+from dempy import cache, _api_calls
+from dempy._base import Entity
+from dempy._protofiles import OrganizationMessage
+from dempy.users import User, get as _get_user
+
+
+class Organization(Entity):
+    &#34;&#34;&#34;Organization class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, name: str, description: str, url: str, email: str, phone: str, users_ids: List[str]):
+        super().__init__(type, id, list(), dict())
+        self.name = name
+        self.description = description
+        self.url = url
+        self.email = email
+        self.phone = phone
+        self._users_ids = users_ids
+
+    @property
+    def users(self):
+        &#34;&#34;&#34;Users&#39; API&#34;&#34;&#34;
+        class Inner:
+            _USERS_ENDPOINT = _ENDPOINT + &#34;{}/users/&#34;.format(self.id)
+
+            @staticmethod
+            def get() -&gt; List[User]:
+                &#34;&#34;&#34;Get all the users that belong to this organization
+
+                Returns:
+                    List[User] -- list of users
+                &#34;&#34;&#34;
+                return [_get_user(u) for u in self._users_ids]
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of users on this organization
+
+                Returns:
+                    int -- number of users
+                &#34;&#34;&#34;
+                return len(self._users_ids)
+
+        return Inner()
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Organization&#34;) -&gt; OrganizationMessage:
+        &#34;&#34;&#34;Encode an organization to a Protobuf message
+
+        Arguments:
+            obj {Organization} -- organization to be encoded
+
+        Returns:
+            OrganizationMessage -- encoded organization
+        &#34;&#34;&#34;
+        organization_message = OrganizationMessage()
+        organization_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        organization_message.name = obj.name
+
+        if obj.description is not None:
+            organization_message.description = obj.description
+        if obj.url is not None:
+            organization_message.url = obj.url
+        if obj.email is not None:
+            organization_message.email = obj.email
+        if obj.phone is not None:
+            organization_message.phone = obj.phone
+
+        organization_message.users_ids.extend(obj._users_ids)
+
+        return organization_message
+
+    @staticmethod
+    def from_protobuf(obj: ByteString) -&gt; &#34;Organization&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Organization}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Organization -- decoded organization
+        &#34;&#34;&#34;
+        organization_message = OrganizationMessage()
+        organization_message.ParseFromString(obj)
+
+        return Organization(
+            type=organization_message.entity.type,
+            id=organization_message.entity.id,
+            name=organization_message.name,
+            description=organization_message.description if organization_message.HasField(&#34;description&#34;) else None,
+            url=organization_message.url if organization_message.HasField(&#34;url&#34;) else None,
+            email=organization_message.email if organization_message.HasField(&#34;email&#34;) else None,
+            phone=organization_message.phone if organization_message.HasField(&#34;phone&#34;) else None,
+            users_ids=organization_message.users_ids
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Organization}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;Organization&#34;:
+            return Organization(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                name=obj[&#34;name&#34;],
+                description=obj[&#34;description&#34;],
+                url=obj[&#34;url&#34;],
+                email=obj[&#34;email&#34;],
+                phone=obj[&#34;phone&#34;],
+                users_ids=obj[&#34;usersIds&#34;]
+            )
+
+        return obj
+
+
+_ENDPOINT = &#34;api/organizations/&#34;
+
+
+def get(organization_id: str = None) -&gt; Union[Organization, List[Organization]]:
+    &#34;&#34;&#34;Get an organization identified by `organization_id` or a list of all organizations
+
+    Keyword Arguments:
+        organization_id {str} -- id of organization (default: {None})
+
+    Returns:
+        Union[Organization, List[Organization]] -- organization or list of organizations
+    &#34;&#34;&#34;
+    if organization_id is None:
+        organizations = _api_calls.get(_ENDPOINT).json(object_hook=Organization.from_json)
+        for organization in organizations:
+            cache._cache_data(&#34;organizations&#34;, organization.id, organization, Organization.to_protobuf)
+        return organizations
+    else:
+        try:
+            organization = cache._get_cached_data(&#34;organizations&#34;, organization_id, Organization.from_protobuf)
+        except FileNotFoundError:
+            organization = _api_calls.get(_ENDPOINT + organization_id).json(object_hook=Organization.from_json)
+            cache._cache_data(&#34;organizations&#34;, organization_id, organization, Organization.to_protobuf)
+        return organization
+
+
+def count() -&gt; int:
+    &#34;&#34;&#34;Get the number of organizations
+
+    Returns:
+        int -- number of organizations
+    &#34;&#34;&#34;
+    return _api_calls.get(_ENDPOINT + &#34;count&#34;).json()
+
+
+__all__ = [
+    &#34;Organization&#34;,
+    &#34;get&#34;, &#34;count&#34;
+]</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="dempy.organizations.count"><code class="name flex">
+<span>def <span class="ident">count</span></span>(<span>) -> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get the number of organizations</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int -- number</code> of <code>organizations</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def count() -&gt; int:
+    &#34;&#34;&#34;Get the number of organizations
+
+    Returns:
+        int -- number of organizations
+    &#34;&#34;&#34;
+    return _api_calls.get(_ENDPOINT + &#34;count&#34;).json()</code></pre>
+</details>
+</dd>
+<dt id="dempy.organizations.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>organization_id: str = None) -> Union[<a title="dempy.organizations.Organization" href="#dempy.organizations.Organization">Organization</a>, List[<a title="dempy.organizations.Organization" href="#dempy.organizations.Organization">Organization</a>]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get an organization identified by <code>organization_id</code> or a list of all organizations</p>
+<p>Keyword Arguments:
+organization_id {str} &ndash; id of organization (default: {None})</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Union[Organization, List[Organization]] -- organization</code> or <code>list</code> of <code>organizations</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(organization_id: str = None) -&gt; Union[Organization, List[Organization]]:
+    &#34;&#34;&#34;Get an organization identified by `organization_id` or a list of all organizations
+
+    Keyword Arguments:
+        organization_id {str} -- id of organization (default: {None})
+
+    Returns:
+        Union[Organization, List[Organization]] -- organization or list of organizations
+    &#34;&#34;&#34;
+    if organization_id is None:
+        organizations = _api_calls.get(_ENDPOINT).json(object_hook=Organization.from_json)
+        for organization in organizations:
+            cache._cache_data(&#34;organizations&#34;, organization.id, organization, Organization.to_protobuf)
+        return organizations
+    else:
+        try:
+            organization = cache._get_cached_data(&#34;organizations&#34;, organization_id, Organization.from_protobuf)
+        except FileNotFoundError:
+            organization = _api_calls.get(_ENDPOINT + organization_id).json(object_hook=Organization.from_json)
+            cache._cache_data(&#34;organizations&#34;, organization_id, organization, Organization.to_protobuf)
+        return organization</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="dempy.organizations.Organization"><code class="flex name class">
+<span>class <span class="ident">Organization</span></span>
+<span>(</span><span>type: str, id: str, name: str, description: str, url: str, email: str, phone: str, users_ids: List[str])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Organization class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Organization(Entity):
+    &#34;&#34;&#34;Organization class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, name: str, description: str, url: str, email: str, phone: str, users_ids: List[str]):
+        super().__init__(type, id, list(), dict())
+        self.name = name
+        self.description = description
+        self.url = url
+        self.email = email
+        self.phone = phone
+        self._users_ids = users_ids
+
+    @property
+    def users(self):
+        &#34;&#34;&#34;Users&#39; API&#34;&#34;&#34;
+        class Inner:
+            _USERS_ENDPOINT = _ENDPOINT + &#34;{}/users/&#34;.format(self.id)
+
+            @staticmethod
+            def get() -&gt; List[User]:
+                &#34;&#34;&#34;Get all the users that belong to this organization
+
+                Returns:
+                    List[User] -- list of users
+                &#34;&#34;&#34;
+                return [_get_user(u) for u in self._users_ids]
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of users on this organization
+
+                Returns:
+                    int -- number of users
+                &#34;&#34;&#34;
+                return len(self._users_ids)
+
+        return Inner()
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Organization&#34;) -&gt; OrganizationMessage:
+        &#34;&#34;&#34;Encode an organization to a Protobuf message
+
+        Arguments:
+            obj {Organization} -- organization to be encoded
+
+        Returns:
+            OrganizationMessage -- encoded organization
+        &#34;&#34;&#34;
+        organization_message = OrganizationMessage()
+        organization_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        organization_message.name = obj.name
+
+        if obj.description is not None:
+            organization_message.description = obj.description
+        if obj.url is not None:
+            organization_message.url = obj.url
+        if obj.email is not None:
+            organization_message.email = obj.email
+        if obj.phone is not None:
+            organization_message.phone = obj.phone
+
+        organization_message.users_ids.extend(obj._users_ids)
+
+        return organization_message
+
+    @staticmethod
+    def from_protobuf(obj: ByteString) -&gt; &#34;Organization&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Organization}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Organization -- decoded organization
+        &#34;&#34;&#34;
+        organization_message = OrganizationMessage()
+        organization_message.ParseFromString(obj)
+
+        return Organization(
+            type=organization_message.entity.type,
+            id=organization_message.entity.id,
+            name=organization_message.name,
+            description=organization_message.description if organization_message.HasField(&#34;description&#34;) else None,
+            url=organization_message.url if organization_message.HasField(&#34;url&#34;) else None,
+            email=organization_message.email if organization_message.HasField(&#34;email&#34;) else None,
+            phone=organization_message.phone if organization_message.HasField(&#34;phone&#34;) else None,
+            users_ids=organization_message.users_ids
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Organization}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;Organization&#34;:
+            return Organization(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                name=obj[&#34;name&#34;],
+                description=obj[&#34;description&#34;],
+                url=obj[&#34;url&#34;],
+                email=obj[&#34;email&#34;],
+                phone=obj[&#34;phone&#34;],
+                users_ids=obj[&#34;usersIds&#34;]
+            )
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.organizations.Organization.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {Organization}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {Organization}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;Organization&#34;:
+        return Organization(
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            name=obj[&#34;name&#34;],
+            description=obj[&#34;description&#34;],
+            url=obj[&#34;url&#34;],
+            email=obj[&#34;email&#34;],
+            phone=obj[&#34;phone&#34;],
+            users_ids=obj[&#34;usersIds&#34;]
+        )
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.organizations.Organization.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: ByteString) -> <a title="dempy.organizations.Organization" href="#dempy.organizations.Organization">Organization</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {Organization}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {ByteString} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Organization -- decoded organization</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: ByteString) -&gt; &#34;Organization&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {Organization}
+
+    Arguments:
+        obj {ByteString} -- message to be decoded
+
+    Returns:
+        Organization -- decoded organization
+    &#34;&#34;&#34;
+    organization_message = OrganizationMessage()
+    organization_message.ParseFromString(obj)
+
+    return Organization(
+        type=organization_message.entity.type,
+        id=organization_message.entity.id,
+        name=organization_message.name,
+        description=organization_message.description if organization_message.HasField(&#34;description&#34;) else None,
+        url=organization_message.url if organization_message.HasField(&#34;url&#34;) else None,
+        email=organization_message.email if organization_message.HasField(&#34;email&#34;) else None,
+        phone=organization_message.phone if organization_message.HasField(&#34;phone&#34;) else None,
+        users_ids=organization_message.users_ids
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.organizations.Organization.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: Organization) -> dempy_pb2.Organization</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an organization to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Organization} &ndash; organization to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>OrganizationMessage -- encoded organization</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;Organization&#34;) -&gt; OrganizationMessage:
+    &#34;&#34;&#34;Encode an organization to a Protobuf message
+
+    Arguments:
+        obj {Organization} -- organization to be encoded
+
+    Returns:
+        OrganizationMessage -- encoded organization
+    &#34;&#34;&#34;
+    organization_message = OrganizationMessage()
+    organization_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    organization_message.name = obj.name
+
+    if obj.description is not None:
+        organization_message.description = obj.description
+    if obj.url is not None:
+        organization_message.url = obj.url
+    if obj.email is not None:
+        organization_message.email = obj.email
+    if obj.phone is not None:
+        organization_message.phone = obj.phone
+
+    organization_message.users_ids.extend(obj._users_ids)
+
+    return organization_message</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="dempy.organizations.Organization.users"><code class="name">var <span class="ident">users</span></code></dt>
+<dd>
+<div class="desc"><p>Users' API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def users(self):
+    &#34;&#34;&#34;Users&#39; API&#34;&#34;&#34;
+    class Inner:
+        _USERS_ENDPOINT = _ENDPOINT + &#34;{}/users/&#34;.format(self.id)
+
+        @staticmethod
+        def get() -&gt; List[User]:
+            &#34;&#34;&#34;Get all the users that belong to this organization
+
+            Returns:
+                List[User] -- list of users
+            &#34;&#34;&#34;
+            return [_get_user(u) for u in self._users_ids]
+
+        @staticmethod
+        def count() -&gt; int:
+            &#34;&#34;&#34;Get the number of users on this organization
+
+            Returns:
+                int -- number of users
+            &#34;&#34;&#34;
+            return len(self._users_ids)
+
+    return Inner()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="dempy" href="index.html">dempy</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="dempy.organizations.count" href="#dempy.organizations.count">count</a></code></li>
+<li><code><a title="dempy.organizations.get" href="#dempy.organizations.get">get</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="dempy.organizations.Organization" href="#dempy.organizations.Organization">Organization</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.organizations.Organization.from_json" href="#dempy.organizations.Organization.from_json">from_json</a></code></li>
+<li><code><a title="dempy.organizations.Organization.from_protobuf" href="#dempy.organizations.Organization.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.organizations.Organization.to_protobuf" href="#dempy.organizations.Organization.to_protobuf">to_protobuf</a></code></li>
+<li><code><a title="dempy.organizations.Organization.users" href="#dempy.organizations.Organization.users">users</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -6,6 +6,7 @@ from dempy._protofiles import AnnotationObjectMessage, AnnotationPointMessage, A
 
 
 class AnnotationObject:
+    """AnnotationObject class"""
     def __init__(self, type: str, **kwargs):
         self.type = type
 
@@ -19,6 +20,14 @@ class AnnotationObject:
 
     @staticmethod
     def to_protobuf(obj: "AnnotationObject") -> AnnotationObjectMessage:
+        """Encode an annotation object to a Protobuf message
+
+        Arguments:
+            obj {AnnotationObject} -- annotation object to be encoded
+
+        Returns:
+            AnnotationObjectMessage -- encoded annotation object
+        """
         annotation_object_message = AnnotationObjectMessage()
         annotation_object_message.type = obj.type
 
@@ -37,6 +46,14 @@ class AnnotationObject:
 
     @staticmethod
     def from_protobuf(annotation_object_message: AnnotationObjectMessage) -> "AnnotationObject":
+        """Decode a Protobuf message to {AnnotationObject}
+
+        Arguments:
+            obj {AnnotationObjectMessage} -- message to be decoded
+
+        Returns:
+            AnnotationObject -- decoded annotation object
+        """
         return AnnotationObject(
             type=annotation_object_message.type,
             text=annotation_object_message.text if annotation_object_message.HasField("text") else None,
@@ -45,7 +62,18 @@ class AnnotationObject:
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {AnnotationObject}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj:
             if obj["type"] == "AnnotationText":
                 return AnnotationObject(
@@ -75,6 +103,14 @@ class AnnotationPoint:
 
     @staticmethod
     def to_protobuf(obj: "AnnotationPoint") -> AnnotationPointMessage:
+        """Encode an annotation point to a Protobuf message
+
+        Arguments:
+            obj {AnnotationPoint} -- annotation point to be encoded
+
+        Returns:
+            AnnotationPointMessage -- encoded annotation point
+        """
         annotation_point_message = AnnotationPointMessage()
         annotation_point_message.x = obj.x
         annotation_point_message.y = obj.y
@@ -83,13 +119,32 @@ class AnnotationPoint:
 
     @staticmethod
     def from_protobuf(annotation_point_message: AnnotationPointMessage) -> "AnnotationPoint":
+        """Decode a Protobuf message to {AnnotationPoint}
+
+        Arguments:
+            obj {AnnotationPointMessage} -- message to be decoded
+
+        Returns:
+            AnnotationPoint -- decoded annotation point
+        """
         return AnnotationPoint(
             x=annotation_point_message.x,
             y=annotation_point_message.y
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {AnnotationPoint}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         return AnnotationPoint(
             x=obj["x"],
             y=obj["y"]
@@ -100,6 +155,7 @@ class AnnotationPoint:
 
 
 class Annotation(Entity):
+    """Annotation class"""
     def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], acquisition_id: str, creator_id: str,
                  annotation_object: AnnotationObject, color: str, notes: str, **kwargs):
         super().__init__(type, id, tags, metadata)
@@ -143,6 +199,14 @@ class Annotation(Entity):
 
     @staticmethod
     def to_protobuf(obj: "Annotation") -> AnnotationMessage:
+        """Encode an annotation to a Protobuf message
+
+        Arguments:
+            obj {Annotation} -- annotation to be encoded
+
+        Returns:
+            AnnotationMessage -- encoded annotation
+        """
         annotation_message = AnnotationMessage()
         annotation_message.entity.CopyFrom(Entity.to_protobuf(obj))
         annotation_message.acquisition_id = obj.acquisition_id
@@ -199,6 +263,14 @@ class Annotation(Entity):
 
     @staticmethod
     def from_protobuf(obj: ByteString) -> "Annotation":
+        """Decode a Protobuf message to {Annotation}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Annotation -- decoded annotation
+        """
         annotation_message = AnnotationMessage()
         annotation_message.ParseFromString(obj)
 
@@ -227,7 +299,18 @@ class Annotation(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {Annotation}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj:
             if obj["type"].endswith("Annotation"):
                 annotation = partial(

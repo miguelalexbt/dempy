@@ -1,0 +1,1367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>dempy.acquisitions.annotation API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>dempy.acquisitions.annotation</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from functools import partial
+from typing import List, Dict, Any, ByteString
+
+from dempy._base import Entity
+from dempy._protofiles import AnnotationObjectMessage, AnnotationPointMessage, AnnotationMessage
+
+
+class AnnotationObject:
+    &#34;&#34;&#34;AnnotationObject class&#34;&#34;&#34;
+    def __init__(self, type: str, **kwargs):
+        self.type = type
+
+        if self.type == &#34;AnnotationText&#34;:
+            self.text: str = kwargs.get(&#34;text&#34;)
+        elif self.type == &#34;AnnotationImage&#34;:
+            self.media_type: str = kwargs.get(&#34;media_type&#34;)
+            self.image_source: str = kwargs.get(&#34;image_source&#34;)
+        else:
+            raise ValueError
+
+    @staticmethod
+    def to_protobuf(obj: &#34;AnnotationObject&#34;) -&gt; AnnotationObjectMessage:
+        &#34;&#34;&#34;Encode an annotation object to a Protobuf message
+
+        Arguments:
+            obj {AnnotationObject} -- annotation object to be encoded
+
+        Returns:
+            AnnotationObjectMessage -- encoded annotation object
+        &#34;&#34;&#34;
+        annotation_object_message = AnnotationObjectMessage()
+        annotation_object_message.type = obj.type
+
+        if obj.type == &#34;AnnotationText&#34;:
+            if obj.text is not None:
+                annotation_object_message.text = obj.text
+        elif obj.type == &#34;AnnotationImage&#34;:
+            if obj.media_type is not None:
+                annotation_object_message.media_type = obj.media_type
+            if obj.image_source is not None:
+                annotation_object_message.image_source = obj.image_source
+        else:
+            raise ValueError
+
+        return annotation_object_message
+
+    @staticmethod
+    def from_protobuf(annotation_object_message: AnnotationObjectMessage) -&gt; &#34;AnnotationObject&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {AnnotationObject}
+
+        Arguments:
+            obj {AnnotationObjectMessage} -- message to be decoded
+
+        Returns:
+            AnnotationObject -- decoded annotation object
+        &#34;&#34;&#34;
+        return AnnotationObject(
+            type=annotation_object_message.type,
+            text=annotation_object_message.text if annotation_object_message.HasField(&#34;text&#34;) else None,
+            media_type=annotation_object_message.media_type if annotation_object_message.HasField(&#34;media_type&#34;) else None,
+            image_source=annotation_object_message.image_source if annotation_object_message.HasField(&#34;image_source&#34;) else None,
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {AnnotationObject}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj:
+            if obj[&#34;type&#34;] == &#34;AnnotationText&#34;:
+                return AnnotationObject(
+                    type=obj[&#34;type&#34;],
+                    text=obj[&#34;text&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;AnnotationImage&#34;:
+                return AnnotationObject(
+                    type=obj[&#34;type&#34;],
+                    media_type=obj[&#34;mediatype&#34;],
+                    image_source=obj[&#34;imageSource&#34;]
+                )
+            else:
+                raise ValueError
+
+        return obj
+
+    def __repr__(self):
+        return f&#34;&lt;{self.type}&gt;&#34;
+
+
+class AnnotationPoint:
+    def __init__(self, x: float, y: float):
+        self.type = &#34;AnnotationPoint&#34;
+        self.x = x
+        self.y = y
+
+    @staticmethod
+    def to_protobuf(obj: &#34;AnnotationPoint&#34;) -&gt; AnnotationPointMessage:
+        &#34;&#34;&#34;Encode an annotation point to a Protobuf message
+
+        Arguments:
+            obj {AnnotationPoint} -- annotation point to be encoded
+
+        Returns:
+            AnnotationPointMessage -- encoded annotation point
+        &#34;&#34;&#34;
+        annotation_point_message = AnnotationPointMessage()
+        annotation_point_message.x = obj.x
+        annotation_point_message.y = obj.y
+
+        return annotation_point_message
+
+    @staticmethod
+    def from_protobuf(annotation_point_message: AnnotationPointMessage) -&gt; &#34;AnnotationPoint&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {AnnotationPoint}
+
+        Arguments:
+            obj {AnnotationPointMessage} -- message to be decoded
+
+        Returns:
+            AnnotationPoint -- decoded annotation point
+        &#34;&#34;&#34;
+        return AnnotationPoint(
+            x=annotation_point_message.x,
+            y=annotation_point_message.y
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {AnnotationPoint}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        return AnnotationPoint(
+            x=obj[&#34;x&#34;],
+            y=obj[&#34;y&#34;]
+        )
+
+    def __repr__(self):
+        return f&#34;&lt;{self.type} x=\&#34;{self.x}\&#34; y=\&#34;{self.y}\&#34;&gt;&#34;
+
+
+class Annotation(Entity):
+    &#34;&#34;&#34;Annotation class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], acquisition_id: str, creator_id: str,
+                 annotation_object: AnnotationObject, color: str, notes: str, **kwargs):
+        super().__init__(type, id, tags, metadata)
+        self.acquisition_id = acquisition_id
+        self.creator_id = creator_id
+        self.annotation_object = annotation_object
+        self.color = color
+        self.notes = notes
+
+        if self.type == &#34;WholeImageAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+        elif self.type == &#34;PointAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.point: AnnotationPoint = kwargs.get(&#34;point&#34;)
+        elif self.type == &#34;CircleAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.center: AnnotationPoint = kwargs.get(&#34;center&#34;)
+            self.radius: float = kwargs.get(&#34;radius&#34;)
+        elif self.type == &#34;DrawAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.points: List[AnnotationPoint] = kwargs.get(&#34;points&#34;)
+        elif self.type == &#34;RectangleAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.point: AnnotationPoint = kwargs.get(&#34;point&#34;)
+            self.width: float = kwargs.get(&#34;width&#34;)
+            self.height: float = kwargs.get(&#34;height&#34;)
+        elif self.type == &#34;PolygonAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.points: List[AnnotationPoint] = kwargs.get(&#34;points&#34;)
+        elif self.type == &#34;TimeSeriesInstantAnnotation&#34;:
+            self.timestamp: int = kwargs.get(&#34;timestamp&#34;)
+            self.device_id: str = kwargs.get(&#34;device_id&#34;)
+            self.sensor_id: str = kwargs.get(&#34;sensor_id&#34;)
+        elif self.type == &#34;TimeSeriesIntervalAnnotation&#34;:
+            self.timestamp_start: int = kwargs.get(&#34;timestamp_start&#34;)
+            self.timestamp_end: int = kwargs.get(&#34;timestamp_end&#34;)
+            self.device_id: str = kwargs.get(&#34;device_id&#34;)
+            self.sensor_id: str = kwargs.get(&#34;sensor_id&#34;)
+        else:
+            raise ValueError
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Annotation&#34;) -&gt; AnnotationMessage:
+        &#34;&#34;&#34;Encode an annotation to a Protobuf message
+
+        Arguments:
+            obj {Annotation} -- annotation to be encoded
+
+        Returns:
+            AnnotationMessage -- encoded annotation
+        &#34;&#34;&#34;
+        annotation_message = AnnotationMessage()
+        annotation_message.entity.CopyFrom(Entity.to_protobuf(obj))
+        annotation_message.acquisition_id = obj.acquisition_id
+
+        if obj.creator_id is not None:
+            annotation_message.creator_id = obj.creator_id
+
+        annotation_message.annotation_object.CopyFrom(AnnotationObject.to_protobuf(obj.annotation_object))
+
+        if obj.color is not None:
+            annotation_message.color = obj.color
+        if obj.notes is not None:
+            annotation_message.notes = obj.notes
+
+        if obj.type == &#34;WholeImageAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+        elif obj.type == &#34;PointAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+        elif obj.type == &#34;CircleAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.center.CopyFrom(AnnotationPoint.to_protobuf(obj.center))
+            annotation_message.radius = obj.radius
+        elif obj.type == &#34;DrawAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+        elif obj.type == &#34;RectangleAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+            annotation_message.width = obj.width
+            annotation_message.height = obj.height
+        elif obj.type == &#34;PolygonAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+        elif obj.type == &#34;TimeSeriesInstantAnnotation&#34;:
+            annotation_message.timestamp = obj.timestamp
+
+            if obj.device_id is not None:
+                annotation_message.device_id = obj.device_id
+            if obj.sensor_id is not None:
+                annotation_message.sensor_id = obj.sensor_id
+        elif obj.type == &#34;TimeSeriesIntervalAnnotation&#34;:
+            annotation_message.timestamp_start = obj.timestamp_start
+            annotation_message.timestamp_end = obj.timestamp_end
+
+            if obj.device_id is not None:
+                annotation_message.device_id = obj.device_id
+            if obj.sensor_id is not None:
+                annotation_message.sensor_id = obj.sensor_id
+        else:
+            raise ValueError
+
+        return annotation_message
+
+    @staticmethod
+    def from_protobuf(obj: ByteString) -&gt; &#34;Annotation&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Annotation}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Annotation -- decoded annotation
+        &#34;&#34;&#34;
+        annotation_message = AnnotationMessage()
+        annotation_message.ParseFromString(obj)
+
+        return Annotation(
+            type=annotation_message.entity.type,
+            id=annotation_message.entity.id,
+            tags=annotation_message.entity.tags,
+            metadata=annotation_message.entity.metadata,
+            acquisition_id=annotation_message.acquisition_id,
+            creator_id=annotation_message.creator_id,
+            annotation_object=AnnotationObject.from_protobuf(annotation_message.annotation_object),
+            color=annotation_message.color if annotation_message.HasField(&#34;color&#34;) else None,
+            notes=annotation_message.notes if annotation_message.HasField(&#34;notes&#34;) else None,
+            annotated_sample_id=annotation_message.annotated_sample_id if annotation_message.HasField(&#34;annotated_sample_id&#34;) else None,
+            point=AnnotationPoint.from_protobuf(annotation_message.point) if annotation_message.HasField(&#34;point&#34;) else None,
+            center=AnnotationPoint.from_protobuf(annotation_message.center) if annotation_message.HasField(&#34;center&#34;) else None,
+            radius=annotation_message.radius if annotation_message.HasField(&#34;radius&#34;) else None,
+            points=[AnnotationPoint.from_protobuf(p) for p in annotation_message.points],
+            width=annotation_message.width if annotation_message.HasField(&#34;width&#34;) else None,
+            height=annotation_message.height if annotation_message.HasField(&#34;height&#34;) else None,
+            timestamp=annotation_message.timestamp if annotation_message.HasField(&#34;timestamp&#34;) else None,
+            device_id=annotation_message.device_id if annotation_message.HasField(&#34;device_id&#34;) else None,
+            sensor_id=annotation_message.sensor_id if annotation_message.HasField(&#34;sensor_id&#34;) else None,
+            timestamp_start=annotation_message.timestamp_start if annotation_message.HasField(&#34;timestamp_start&#34;) else None,
+            timestamp_end=annotation_message.timestamp_end if annotation_message.HasField(&#34;timestamp_end&#34;) else None,
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Annotation}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj:
+            if obj[&#34;type&#34;].endswith(&#34;Annotation&#34;):
+                annotation = partial(
+                    Annotation,
+                    type=obj[&#34;type&#34;],
+                    id=obj[&#34;id&#34;],
+                    tags=obj[&#34;tags&#34;],
+                    metadata=obj[&#34;metadata&#34;],
+                    acquisition_id=obj[&#34;acquisitionId&#34;],
+                    creator_id=obj[&#34;creatorId&#34;],
+                    annotation_object=obj[&#34;annotationObject&#34;],
+                    color=obj[&#34;color&#34;],
+                    notes=obj[&#34;notes&#34;]
+                )
+
+                if obj[&#34;type&#34;] == &#34;WholeImageAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;PointAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        point=AnnotationPoint.from_json(obj[&#34;point&#34;])
+                    )
+                elif obj[&#34;type&#34;] == &#34;CircleAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        center=AnnotationPoint.from_json(obj[&#34;center&#34;]),
+                        radius=obj[&#34;radius&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;DrawAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                    )
+                elif obj[&#34;type&#34;] == &#34;RectangleAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        point=AnnotationPoint.from_json(obj[&#34;point&#34;]),
+                        width=obj[&#34;width&#34;],
+                        height=obj[&#34;height&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;PolygonAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                    )
+                elif obj[&#34;type&#34;] == &#34;TimeSeriesInstantAnnotation&#34;:
+                    return annotation(
+                        timestamp=obj[&#34;timestamp&#34;],
+                        device_id=obj[&#34;deviceId&#34;],
+                        sensor_id=obj[&#34;sensorId&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;TimeSeriesIntervalAnnotation&#34;:
+                    return annotation(
+                        timestamp_start=obj[&#34;timestampStart&#34;],
+                        timestamp_end=obj[&#34;timestampEnd&#34;],
+                        device_id=obj[&#34;deviceId&#34;],
+                        sensor_id=obj[&#34;sensorId&#34;]
+                    )
+                else:
+                    raise ValueError
+            elif obj[&#34;type&#34;] == &#34;AnnotationText&#34; or obj[&#34;type&#34;] == &#34;AnnotationImage&#34;:
+                return AnnotationObject.from_json(obj)
+            else:
+                raise ValueError
+
+        return obj
+
+
+__all__ = [
+    &#34;AnnotationObject&#34;, &#34;AnnotationPoint&#34;, &#34;Annotation&#34;
+]</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="dempy.acquisitions.annotation.Annotation"><code class="flex name class">
+<span>class <span class="ident">Annotation</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], acquisition_id: str, creator_id: str, annotation_object: <a title="dempy.acquisitions.annotation.AnnotationObject" href="#dempy.acquisitions.annotation.AnnotationObject">AnnotationObject</a>, color: str, notes: str, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Annotation class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Annotation(Entity):
+    &#34;&#34;&#34;Annotation class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], acquisition_id: str, creator_id: str,
+                 annotation_object: AnnotationObject, color: str, notes: str, **kwargs):
+        super().__init__(type, id, tags, metadata)
+        self.acquisition_id = acquisition_id
+        self.creator_id = creator_id
+        self.annotation_object = annotation_object
+        self.color = color
+        self.notes = notes
+
+        if self.type == &#34;WholeImageAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+        elif self.type == &#34;PointAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.point: AnnotationPoint = kwargs.get(&#34;point&#34;)
+        elif self.type == &#34;CircleAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.center: AnnotationPoint = kwargs.get(&#34;center&#34;)
+            self.radius: float = kwargs.get(&#34;radius&#34;)
+        elif self.type == &#34;DrawAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.points: List[AnnotationPoint] = kwargs.get(&#34;points&#34;)
+        elif self.type == &#34;RectangleAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.point: AnnotationPoint = kwargs.get(&#34;point&#34;)
+            self.width: float = kwargs.get(&#34;width&#34;)
+            self.height: float = kwargs.get(&#34;height&#34;)
+        elif self.type == &#34;PolygonAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.points: List[AnnotationPoint] = kwargs.get(&#34;points&#34;)
+        elif self.type == &#34;TimeSeriesInstantAnnotation&#34;:
+            self.timestamp: int = kwargs.get(&#34;timestamp&#34;)
+            self.device_id: str = kwargs.get(&#34;device_id&#34;)
+            self.sensor_id: str = kwargs.get(&#34;sensor_id&#34;)
+        elif self.type == &#34;TimeSeriesIntervalAnnotation&#34;:
+            self.timestamp_start: int = kwargs.get(&#34;timestamp_start&#34;)
+            self.timestamp_end: int = kwargs.get(&#34;timestamp_end&#34;)
+            self.device_id: str = kwargs.get(&#34;device_id&#34;)
+            self.sensor_id: str = kwargs.get(&#34;sensor_id&#34;)
+        else:
+            raise ValueError
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Annotation&#34;) -&gt; AnnotationMessage:
+        &#34;&#34;&#34;Encode an annotation to a Protobuf message
+
+        Arguments:
+            obj {Annotation} -- annotation to be encoded
+
+        Returns:
+            AnnotationMessage -- encoded annotation
+        &#34;&#34;&#34;
+        annotation_message = AnnotationMessage()
+        annotation_message.entity.CopyFrom(Entity.to_protobuf(obj))
+        annotation_message.acquisition_id = obj.acquisition_id
+
+        if obj.creator_id is not None:
+            annotation_message.creator_id = obj.creator_id
+
+        annotation_message.annotation_object.CopyFrom(AnnotationObject.to_protobuf(obj.annotation_object))
+
+        if obj.color is not None:
+            annotation_message.color = obj.color
+        if obj.notes is not None:
+            annotation_message.notes = obj.notes
+
+        if obj.type == &#34;WholeImageAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+        elif obj.type == &#34;PointAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+        elif obj.type == &#34;CircleAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.center.CopyFrom(AnnotationPoint.to_protobuf(obj.center))
+            annotation_message.radius = obj.radius
+        elif obj.type == &#34;DrawAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+        elif obj.type == &#34;RectangleAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+            annotation_message.width = obj.width
+            annotation_message.height = obj.height
+        elif obj.type == &#34;PolygonAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+        elif obj.type == &#34;TimeSeriesInstantAnnotation&#34;:
+            annotation_message.timestamp = obj.timestamp
+
+            if obj.device_id is not None:
+                annotation_message.device_id = obj.device_id
+            if obj.sensor_id is not None:
+                annotation_message.sensor_id = obj.sensor_id
+        elif obj.type == &#34;TimeSeriesIntervalAnnotation&#34;:
+            annotation_message.timestamp_start = obj.timestamp_start
+            annotation_message.timestamp_end = obj.timestamp_end
+
+            if obj.device_id is not None:
+                annotation_message.device_id = obj.device_id
+            if obj.sensor_id is not None:
+                annotation_message.sensor_id = obj.sensor_id
+        else:
+            raise ValueError
+
+        return annotation_message
+
+    @staticmethod
+    def from_protobuf(obj: ByteString) -&gt; &#34;Annotation&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Annotation}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Annotation -- decoded annotation
+        &#34;&#34;&#34;
+        annotation_message = AnnotationMessage()
+        annotation_message.ParseFromString(obj)
+
+        return Annotation(
+            type=annotation_message.entity.type,
+            id=annotation_message.entity.id,
+            tags=annotation_message.entity.tags,
+            metadata=annotation_message.entity.metadata,
+            acquisition_id=annotation_message.acquisition_id,
+            creator_id=annotation_message.creator_id,
+            annotation_object=AnnotationObject.from_protobuf(annotation_message.annotation_object),
+            color=annotation_message.color if annotation_message.HasField(&#34;color&#34;) else None,
+            notes=annotation_message.notes if annotation_message.HasField(&#34;notes&#34;) else None,
+            annotated_sample_id=annotation_message.annotated_sample_id if annotation_message.HasField(&#34;annotated_sample_id&#34;) else None,
+            point=AnnotationPoint.from_protobuf(annotation_message.point) if annotation_message.HasField(&#34;point&#34;) else None,
+            center=AnnotationPoint.from_protobuf(annotation_message.center) if annotation_message.HasField(&#34;center&#34;) else None,
+            radius=annotation_message.radius if annotation_message.HasField(&#34;radius&#34;) else None,
+            points=[AnnotationPoint.from_protobuf(p) for p in annotation_message.points],
+            width=annotation_message.width if annotation_message.HasField(&#34;width&#34;) else None,
+            height=annotation_message.height if annotation_message.HasField(&#34;height&#34;) else None,
+            timestamp=annotation_message.timestamp if annotation_message.HasField(&#34;timestamp&#34;) else None,
+            device_id=annotation_message.device_id if annotation_message.HasField(&#34;device_id&#34;) else None,
+            sensor_id=annotation_message.sensor_id if annotation_message.HasField(&#34;sensor_id&#34;) else None,
+            timestamp_start=annotation_message.timestamp_start if annotation_message.HasField(&#34;timestamp_start&#34;) else None,
+            timestamp_end=annotation_message.timestamp_end if annotation_message.HasField(&#34;timestamp_end&#34;) else None,
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Annotation}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj:
+            if obj[&#34;type&#34;].endswith(&#34;Annotation&#34;):
+                annotation = partial(
+                    Annotation,
+                    type=obj[&#34;type&#34;],
+                    id=obj[&#34;id&#34;],
+                    tags=obj[&#34;tags&#34;],
+                    metadata=obj[&#34;metadata&#34;],
+                    acquisition_id=obj[&#34;acquisitionId&#34;],
+                    creator_id=obj[&#34;creatorId&#34;],
+                    annotation_object=obj[&#34;annotationObject&#34;],
+                    color=obj[&#34;color&#34;],
+                    notes=obj[&#34;notes&#34;]
+                )
+
+                if obj[&#34;type&#34;] == &#34;WholeImageAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;PointAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        point=AnnotationPoint.from_json(obj[&#34;point&#34;])
+                    )
+                elif obj[&#34;type&#34;] == &#34;CircleAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        center=AnnotationPoint.from_json(obj[&#34;center&#34;]),
+                        radius=obj[&#34;radius&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;DrawAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                    )
+                elif obj[&#34;type&#34;] == &#34;RectangleAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        point=AnnotationPoint.from_json(obj[&#34;point&#34;]),
+                        width=obj[&#34;width&#34;],
+                        height=obj[&#34;height&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;PolygonAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                    )
+                elif obj[&#34;type&#34;] == &#34;TimeSeriesInstantAnnotation&#34;:
+                    return annotation(
+                        timestamp=obj[&#34;timestamp&#34;],
+                        device_id=obj[&#34;deviceId&#34;],
+                        sensor_id=obj[&#34;sensorId&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;TimeSeriesIntervalAnnotation&#34;:
+                    return annotation(
+                        timestamp_start=obj[&#34;timestampStart&#34;],
+                        timestamp_end=obj[&#34;timestampEnd&#34;],
+                        device_id=obj[&#34;deviceId&#34;],
+                        sensor_id=obj[&#34;sensorId&#34;]
+                    )
+                else:
+                    raise ValueError
+            elif obj[&#34;type&#34;] == &#34;AnnotationText&#34; or obj[&#34;type&#34;] == &#34;AnnotationImage&#34;:
+                return AnnotationObject.from_json(obj)
+            else:
+                raise ValueError
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.acquisitions.annotation.Annotation.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {Annotation}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>unexpected object or sub-object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {Annotation}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Raises:
+        ValueError: unexpected object or sub-object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj:
+        if obj[&#34;type&#34;].endswith(&#34;Annotation&#34;):
+            annotation = partial(
+                Annotation,
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                acquisition_id=obj[&#34;acquisitionId&#34;],
+                creator_id=obj[&#34;creatorId&#34;],
+                annotation_object=obj[&#34;annotationObject&#34;],
+                color=obj[&#34;color&#34;],
+                notes=obj[&#34;notes&#34;]
+            )
+
+            if obj[&#34;type&#34;] == &#34;WholeImageAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;PointAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    point=AnnotationPoint.from_json(obj[&#34;point&#34;])
+                )
+            elif obj[&#34;type&#34;] == &#34;CircleAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    center=AnnotationPoint.from_json(obj[&#34;center&#34;]),
+                    radius=obj[&#34;radius&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;DrawAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                )
+            elif obj[&#34;type&#34;] == &#34;RectangleAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    point=AnnotationPoint.from_json(obj[&#34;point&#34;]),
+                    width=obj[&#34;width&#34;],
+                    height=obj[&#34;height&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;PolygonAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                )
+            elif obj[&#34;type&#34;] == &#34;TimeSeriesInstantAnnotation&#34;:
+                return annotation(
+                    timestamp=obj[&#34;timestamp&#34;],
+                    device_id=obj[&#34;deviceId&#34;],
+                    sensor_id=obj[&#34;sensorId&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;TimeSeriesIntervalAnnotation&#34;:
+                return annotation(
+                    timestamp_start=obj[&#34;timestampStart&#34;],
+                    timestamp_end=obj[&#34;timestampEnd&#34;],
+                    device_id=obj[&#34;deviceId&#34;],
+                    sensor_id=obj[&#34;sensorId&#34;]
+                )
+            else:
+                raise ValueError
+        elif obj[&#34;type&#34;] == &#34;AnnotationText&#34; or obj[&#34;type&#34;] == &#34;AnnotationImage&#34;:
+            return AnnotationObject.from_json(obj)
+        else:
+            raise ValueError
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.acquisitions.annotation.Annotation.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: ByteString) -> <a title="dempy.acquisitions.annotation.Annotation" href="#dempy.acquisitions.annotation.Annotation">Annotation</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {Annotation}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {ByteString} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Annotation -- decoded annotation</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: ByteString) -&gt; &#34;Annotation&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {Annotation}
+
+    Arguments:
+        obj {ByteString} -- message to be decoded
+
+    Returns:
+        Annotation -- decoded annotation
+    &#34;&#34;&#34;
+    annotation_message = AnnotationMessage()
+    annotation_message.ParseFromString(obj)
+
+    return Annotation(
+        type=annotation_message.entity.type,
+        id=annotation_message.entity.id,
+        tags=annotation_message.entity.tags,
+        metadata=annotation_message.entity.metadata,
+        acquisition_id=annotation_message.acquisition_id,
+        creator_id=annotation_message.creator_id,
+        annotation_object=AnnotationObject.from_protobuf(annotation_message.annotation_object),
+        color=annotation_message.color if annotation_message.HasField(&#34;color&#34;) else None,
+        notes=annotation_message.notes if annotation_message.HasField(&#34;notes&#34;) else None,
+        annotated_sample_id=annotation_message.annotated_sample_id if annotation_message.HasField(&#34;annotated_sample_id&#34;) else None,
+        point=AnnotationPoint.from_protobuf(annotation_message.point) if annotation_message.HasField(&#34;point&#34;) else None,
+        center=AnnotationPoint.from_protobuf(annotation_message.center) if annotation_message.HasField(&#34;center&#34;) else None,
+        radius=annotation_message.radius if annotation_message.HasField(&#34;radius&#34;) else None,
+        points=[AnnotationPoint.from_protobuf(p) for p in annotation_message.points],
+        width=annotation_message.width if annotation_message.HasField(&#34;width&#34;) else None,
+        height=annotation_message.height if annotation_message.HasField(&#34;height&#34;) else None,
+        timestamp=annotation_message.timestamp if annotation_message.HasField(&#34;timestamp&#34;) else None,
+        device_id=annotation_message.device_id if annotation_message.HasField(&#34;device_id&#34;) else None,
+        sensor_id=annotation_message.sensor_id if annotation_message.HasField(&#34;sensor_id&#34;) else None,
+        timestamp_start=annotation_message.timestamp_start if annotation_message.HasField(&#34;timestamp_start&#34;) else None,
+        timestamp_end=annotation_message.timestamp_end if annotation_message.HasField(&#34;timestamp_end&#34;) else None,
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.acquisitions.annotation.Annotation.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: Annotation) -> dempy_pb2.Annotation</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an annotation to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Annotation} &ndash; annotation to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AnnotationMessage -- encoded annotation</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;Annotation&#34;) -&gt; AnnotationMessage:
+    &#34;&#34;&#34;Encode an annotation to a Protobuf message
+
+    Arguments:
+        obj {Annotation} -- annotation to be encoded
+
+    Returns:
+        AnnotationMessage -- encoded annotation
+    &#34;&#34;&#34;
+    annotation_message = AnnotationMessage()
+    annotation_message.entity.CopyFrom(Entity.to_protobuf(obj))
+    annotation_message.acquisition_id = obj.acquisition_id
+
+    if obj.creator_id is not None:
+        annotation_message.creator_id = obj.creator_id
+
+    annotation_message.annotation_object.CopyFrom(AnnotationObject.to_protobuf(obj.annotation_object))
+
+    if obj.color is not None:
+        annotation_message.color = obj.color
+    if obj.notes is not None:
+        annotation_message.notes = obj.notes
+
+    if obj.type == &#34;WholeImageAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+    elif obj.type == &#34;PointAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+    elif obj.type == &#34;CircleAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.center.CopyFrom(AnnotationPoint.to_protobuf(obj.center))
+        annotation_message.radius = obj.radius
+    elif obj.type == &#34;DrawAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+    elif obj.type == &#34;RectangleAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+        annotation_message.width = obj.width
+        annotation_message.height = obj.height
+    elif obj.type == &#34;PolygonAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+    elif obj.type == &#34;TimeSeriesInstantAnnotation&#34;:
+        annotation_message.timestamp = obj.timestamp
+
+        if obj.device_id is not None:
+            annotation_message.device_id = obj.device_id
+        if obj.sensor_id is not None:
+            annotation_message.sensor_id = obj.sensor_id
+    elif obj.type == &#34;TimeSeriesIntervalAnnotation&#34;:
+        annotation_message.timestamp_start = obj.timestamp_start
+        annotation_message.timestamp_end = obj.timestamp_end
+
+        if obj.device_id is not None:
+            annotation_message.device_id = obj.device_id
+        if obj.sensor_id is not None:
+            annotation_message.sensor_id = obj.sensor_id
+    else:
+        raise ValueError
+
+    return annotation_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.acquisitions.annotation.AnnotationObject"><code class="flex name class">
+<span>class <span class="ident">AnnotationObject</span></span>
+<span>(</span><span>type: str, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>AnnotationObject class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AnnotationObject:
+    &#34;&#34;&#34;AnnotationObject class&#34;&#34;&#34;
+    def __init__(self, type: str, **kwargs):
+        self.type = type
+
+        if self.type == &#34;AnnotationText&#34;:
+            self.text: str = kwargs.get(&#34;text&#34;)
+        elif self.type == &#34;AnnotationImage&#34;:
+            self.media_type: str = kwargs.get(&#34;media_type&#34;)
+            self.image_source: str = kwargs.get(&#34;image_source&#34;)
+        else:
+            raise ValueError
+
+    @staticmethod
+    def to_protobuf(obj: &#34;AnnotationObject&#34;) -&gt; AnnotationObjectMessage:
+        &#34;&#34;&#34;Encode an annotation object to a Protobuf message
+
+        Arguments:
+            obj {AnnotationObject} -- annotation object to be encoded
+
+        Returns:
+            AnnotationObjectMessage -- encoded annotation object
+        &#34;&#34;&#34;
+        annotation_object_message = AnnotationObjectMessage()
+        annotation_object_message.type = obj.type
+
+        if obj.type == &#34;AnnotationText&#34;:
+            if obj.text is not None:
+                annotation_object_message.text = obj.text
+        elif obj.type == &#34;AnnotationImage&#34;:
+            if obj.media_type is not None:
+                annotation_object_message.media_type = obj.media_type
+            if obj.image_source is not None:
+                annotation_object_message.image_source = obj.image_source
+        else:
+            raise ValueError
+
+        return annotation_object_message
+
+    @staticmethod
+    def from_protobuf(annotation_object_message: AnnotationObjectMessage) -&gt; &#34;AnnotationObject&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {AnnotationObject}
+
+        Arguments:
+            obj {AnnotationObjectMessage} -- message to be decoded
+
+        Returns:
+            AnnotationObject -- decoded annotation object
+        &#34;&#34;&#34;
+        return AnnotationObject(
+            type=annotation_object_message.type,
+            text=annotation_object_message.text if annotation_object_message.HasField(&#34;text&#34;) else None,
+            media_type=annotation_object_message.media_type if annotation_object_message.HasField(&#34;media_type&#34;) else None,
+            image_source=annotation_object_message.image_source if annotation_object_message.HasField(&#34;image_source&#34;) else None,
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {AnnotationObject}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj:
+            if obj[&#34;type&#34;] == &#34;AnnotationText&#34;:
+                return AnnotationObject(
+                    type=obj[&#34;type&#34;],
+                    text=obj[&#34;text&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;AnnotationImage&#34;:
+                return AnnotationObject(
+                    type=obj[&#34;type&#34;],
+                    media_type=obj[&#34;mediatype&#34;],
+                    image_source=obj[&#34;imageSource&#34;]
+                )
+            else:
+                raise ValueError
+
+        return obj
+
+    def __repr__(self):
+        return f&#34;&lt;{self.type}&gt;&#34;</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.acquisitions.annotation.AnnotationObject.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {AnnotationObject}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>unexpected object or sub-object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {AnnotationObject}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Raises:
+        ValueError: unexpected object or sub-object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj:
+        if obj[&#34;type&#34;] == &#34;AnnotationText&#34;:
+            return AnnotationObject(
+                type=obj[&#34;type&#34;],
+                text=obj[&#34;text&#34;]
+            )
+        elif obj[&#34;type&#34;] == &#34;AnnotationImage&#34;:
+            return AnnotationObject(
+                type=obj[&#34;type&#34;],
+                media_type=obj[&#34;mediatype&#34;],
+                image_source=obj[&#34;imageSource&#34;]
+            )
+        else:
+            raise ValueError
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.acquisitions.annotation.AnnotationObject.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>annotation_object_message: dempy_pb2.AnnotationObject) -> <a title="dempy.acquisitions.annotation.AnnotationObject" href="#dempy.acquisitions.annotation.AnnotationObject">AnnotationObject</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {AnnotationObject}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {AnnotationObjectMessage} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AnnotationObject -- decoded annotation object</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(annotation_object_message: AnnotationObjectMessage) -&gt; &#34;AnnotationObject&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {AnnotationObject}
+
+    Arguments:
+        obj {AnnotationObjectMessage} -- message to be decoded
+
+    Returns:
+        AnnotationObject -- decoded annotation object
+    &#34;&#34;&#34;
+    return AnnotationObject(
+        type=annotation_object_message.type,
+        text=annotation_object_message.text if annotation_object_message.HasField(&#34;text&#34;) else None,
+        media_type=annotation_object_message.media_type if annotation_object_message.HasField(&#34;media_type&#34;) else None,
+        image_source=annotation_object_message.image_source if annotation_object_message.HasField(&#34;image_source&#34;) else None,
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.acquisitions.annotation.AnnotationObject.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: AnnotationObject) -> dempy_pb2.AnnotationObject</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an annotation object to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {AnnotationObject} &ndash; annotation object to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AnnotationObjectMessage -- encoded annotation object</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;AnnotationObject&#34;) -&gt; AnnotationObjectMessage:
+    &#34;&#34;&#34;Encode an annotation object to a Protobuf message
+
+    Arguments:
+        obj {AnnotationObject} -- annotation object to be encoded
+
+    Returns:
+        AnnotationObjectMessage -- encoded annotation object
+    &#34;&#34;&#34;
+    annotation_object_message = AnnotationObjectMessage()
+    annotation_object_message.type = obj.type
+
+    if obj.type == &#34;AnnotationText&#34;:
+        if obj.text is not None:
+            annotation_object_message.text = obj.text
+    elif obj.type == &#34;AnnotationImage&#34;:
+        if obj.media_type is not None:
+            annotation_object_message.media_type = obj.media_type
+        if obj.image_source is not None:
+            annotation_object_message.image_source = obj.image_source
+    else:
+        raise ValueError
+
+    return annotation_object_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.acquisitions.annotation.AnnotationPoint"><code class="flex name class">
+<span>class <span class="ident">AnnotationPoint</span></span>
+<span>(</span><span>x: float, y: float)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AnnotationPoint:
+    def __init__(self, x: float, y: float):
+        self.type = &#34;AnnotationPoint&#34;
+        self.x = x
+        self.y = y
+
+    @staticmethod
+    def to_protobuf(obj: &#34;AnnotationPoint&#34;) -&gt; AnnotationPointMessage:
+        &#34;&#34;&#34;Encode an annotation point to a Protobuf message
+
+        Arguments:
+            obj {AnnotationPoint} -- annotation point to be encoded
+
+        Returns:
+            AnnotationPointMessage -- encoded annotation point
+        &#34;&#34;&#34;
+        annotation_point_message = AnnotationPointMessage()
+        annotation_point_message.x = obj.x
+        annotation_point_message.y = obj.y
+
+        return annotation_point_message
+
+    @staticmethod
+    def from_protobuf(annotation_point_message: AnnotationPointMessage) -&gt; &#34;AnnotationPoint&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {AnnotationPoint}
+
+        Arguments:
+            obj {AnnotationPointMessage} -- message to be decoded
+
+        Returns:
+            AnnotationPoint -- decoded annotation point
+        &#34;&#34;&#34;
+        return AnnotationPoint(
+            x=annotation_point_message.x,
+            y=annotation_point_message.y
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {AnnotationPoint}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        return AnnotationPoint(
+            x=obj[&#34;x&#34;],
+            y=obj[&#34;y&#34;]
+        )
+
+    def __repr__(self):
+        return f&#34;&lt;{self.type} x=\&#34;{self.x}\&#34; y=\&#34;{self.y}\&#34;&gt;&#34;</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.acquisitions.annotation.AnnotationPoint.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {AnnotationPoint}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>unexpected object or sub-object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {AnnotationPoint}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Raises:
+        ValueError: unexpected object or sub-object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    return AnnotationPoint(
+        x=obj[&#34;x&#34;],
+        y=obj[&#34;y&#34;]
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.acquisitions.annotation.AnnotationPoint.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>annotation_point_message: dempy_pb2.AnnotationPoint) -> <a title="dempy.acquisitions.annotation.AnnotationPoint" href="#dempy.acquisitions.annotation.AnnotationPoint">AnnotationPoint</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {AnnotationPoint}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {AnnotationPointMessage} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AnnotationPoint -- decoded annotation point</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(annotation_point_message: AnnotationPointMessage) -&gt; &#34;AnnotationPoint&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {AnnotationPoint}
+
+    Arguments:
+        obj {AnnotationPointMessage} -- message to be decoded
+
+    Returns:
+        AnnotationPoint -- decoded annotation point
+    &#34;&#34;&#34;
+    return AnnotationPoint(
+        x=annotation_point_message.x,
+        y=annotation_point_message.y
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.acquisitions.annotation.AnnotationPoint.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: AnnotationPoint) -> dempy_pb2.AnnotationPoint</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an annotation point to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {AnnotationPoint} &ndash; annotation point to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AnnotationPointMessage -- encoded annotation point</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;AnnotationPoint&#34;) -&gt; AnnotationPointMessage:
+    &#34;&#34;&#34;Encode an annotation point to a Protobuf message
+
+    Arguments:
+        obj {AnnotationPoint} -- annotation point to be encoded
+
+    Returns:
+        AnnotationPointMessage -- encoded annotation point
+    &#34;&#34;&#34;
+    annotation_point_message = AnnotationPointMessage()
+    annotation_point_message.x = obj.x
+    annotation_point_message.y = obj.y
+
+    return annotation_point_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="dempy.acquisitions" href="index.html">dempy.acquisitions</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="dempy.acquisitions.annotation.Annotation" href="#dempy.acquisitions.annotation.Annotation">Annotation</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.acquisitions.annotation.Annotation.from_json" href="#dempy.acquisitions.annotation.Annotation.from_json">from_json</a></code></li>
+<li><code><a title="dempy.acquisitions.annotation.Annotation.from_protobuf" href="#dempy.acquisitions.annotation.Annotation.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.acquisitions.annotation.Annotation.to_protobuf" href="#dempy.acquisitions.annotation.Annotation.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.acquisitions.annotation.AnnotationObject" href="#dempy.acquisitions.annotation.AnnotationObject">AnnotationObject</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.acquisitions.annotation.AnnotationObject.from_json" href="#dempy.acquisitions.annotation.AnnotationObject.from_json">from_json</a></code></li>
+<li><code><a title="dempy.acquisitions.annotation.AnnotationObject.from_protobuf" href="#dempy.acquisitions.annotation.AnnotationObject.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.acquisitions.annotation.AnnotationObject.to_protobuf" href="#dempy.acquisitions.annotation.AnnotationObject.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.acquisitions.annotation.AnnotationPoint" href="#dempy.acquisitions.annotation.AnnotationPoint">AnnotationPoint</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.acquisitions.annotation.AnnotationPoint.from_json" href="#dempy.acquisitions.annotation.AnnotationPoint.from_json">from_json</a></code></li>
+<li><code><a title="dempy.acquisitions.annotation.AnnotationPoint.from_protobuf" href="#dempy.acquisitions.annotation.AnnotationPoint.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.acquisitions.annotation.AnnotationPoint.to_protobuf" href="#dempy.acquisitions.annotation.AnnotationPoint.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -24,6 +24,7 @@ mpt.use("TkAgg")
 
 
 class Acquisition(Entity):
+    """Acquisition class"""
     def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], creation_timestamp: int, sync_offset: int,
                  time_unit: str, owner_id: str, creator_id: str, dataset_id: str, subject: Subject, devices: List[Device],
                  has_timeseries_samples: bool, has_image_samples: bool, has_video_samples: bool):
@@ -41,23 +42,43 @@ class Acquisition(Entity):
         self._devices = devices
 
     @property
-    def subject(self):
+    def subject(self):    
+        """Subject's API"""
         class Inner:
             _SUBJECT_ENDPOINT = _ENDPOINT + "{}/subjects/".format(self.id)
 
             @staticmethod
             def get() -> Subject:
+                """Get subject from acquisition
+
+                Returns:
+                    Subject -- subject of the acquisition
+                """
                 return self._subject
 
         return Inner()
 
     @property
     def devices(self):
+        """Devices' API"""
         class Inner:
             _DEVICES_ENDPOINT = _ENDPOINT + "{}/devices/".format(self.id)
 
             @staticmethod
             def get(device_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[Device, List[Device]]:
+                """Get a device identified by `device_id` or list of devices on this acquisition
+
+                Keyword Arguments:
+                    device_id {str} -- id of the device (default: {None})
+                    tags {List[str]} -- tags of the devices (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the devices (default: {{}})
+
+                Raises:
+                    IndexError: device identified by `device_id` does not exist in this acquisition
+
+                Returns:
+                    Union[Device, List[Device]] -- device or list of devices
+                """
                 if device_id is None:
                     if len(tags) > 0 or len(metadata) > 0:
                         return [d for d in self._devices if
@@ -73,27 +94,42 @@ class Acquisition(Entity):
 
             @staticmethod
             def usage() -> Dict[str, List[str]]:
-                """Get a map identifying which device(s) and sensor(s) were used to acquire time series samples.proto
+                """Get a map identifying which device(s) and sensor(s) were used to acquire time series samples
 
                 Returns:
-                    Mapping[str, List[str]] -- Map of (key, value) pairs, with key being id of device and the value
-                    a list of sensor ids which were used to capture samples.proto
+                    Mapping[str, List[str]] -- map of (key, value) pairs, with key being id of device and the value
+                    a list of sensor ids which were used to capture samples
                 """
                 return _api_calls.get(Inner._DEVICES_ENDPOINT + "usage").json()
 
             @staticmethod
             def count() -> int:
+                """Get the number of devices on this acquisition
+
+                Returns:
+                    int -- number of devices
+                """
                 return len(self._devices)
 
         return Inner()
 
     @property
     def timeseries_samples(self):
+        """Timeseries samples' API"""
         class Inner:
             _TIMESERIES_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/timeseries/".format(self.id)
 
             @staticmethod
             def get(tags: List[str] = [], metadata: Dict[str, str] = {}) -> SampleList:
+                """Get all the timeseries samples that belong to this acquisition
+
+                Keyword Arguments:
+                    tags {List[str]} -- tags of the timeseries samples (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the timeseries samples (default: {{}})
+
+                Returns:
+                    SampleList -- list of timeseries samples
+                """
                 if len(tags) > 0 or len(metadata) > 0:
                     processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
                     samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT, params={"tags": tags, **processed_metadata}) \
@@ -113,10 +149,24 @@ class Acquisition(Entity):
 
             @staticmethod
             def count() -> int:
+                """Get the number of timeseries samples on this acquisition
+
+                Returns:
+                    int -- number of timeseries samples
+                """
                 return _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT + "count").json()
 
             @staticmethod
             def visualize(device_id: str, sensor_id: str = None) -> None:
+                """Graphically visualize the timeseries samples of a device identified by `device_id` 
+                or of a given sensor identified by `sensor_id` of said device
+
+                Arguments:
+                    device_id {str} -- id of the device
+
+                Keyword Arguments:
+                    sensor_id {str} -- id of the sensor (default: {None})
+                """
                 def visualize_sensor_samples(axis, sensor, sensor_samples):
                     timestamps = [s.timestamp for s in sensor_samples]
 
@@ -186,11 +236,22 @@ class Acquisition(Entity):
 
     @property
     def image_samples(self):
+        """Image samples' API"""
         class Inner:
             _IMAGE_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/images/".format(self.id)
 
             @staticmethod
             def get(sample_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[ImageSample, SampleList]:
+                """Get all the image samples that belong to this acquisition
+
+                Keyword Arguments:
+                    sample_id {str} -- id of the sample (default: {None})
+                    tags {List[str]} -- tags of image samples (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the image samples (default: {{}})
+
+                Returns:
+                    Union[ImageSample, SampleList] -- image sample or list of image samples
+                """
                 if sample_id is None:
                     if len(tags) > 0 or len(metadata) > 0:
                         processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
@@ -212,6 +273,14 @@ class Acquisition(Entity):
 
             @staticmethod
             def raw(sample_id: str) -> ByteString:
+                """Get actual image from image sample identified by `sample_id` on this acquisition
+
+                Arguments:
+                    sample_id {str} -- id of the sample
+
+                Returns:
+                    ByteString -- bytes of the image
+                """
                 try:
                     image = cache._get_cached_data("samples/{}/images/raw/".format(self.id), sample_id)
                 except FileNotFoundError:
@@ -223,10 +292,25 @@ class Acquisition(Entity):
 
             @staticmethod
             def count() -> int:
+                """Get the number of image samples on this acquisition
+
+                Returns:
+                    int -- number of image samples
+                """
                 return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + "count").json()
 
             @staticmethod
             def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
+                """Visualize the image of a sample identified by `sample_id`.
+                By default opens the predefined system image application.
+                A different callback can be given to open the image.
+
+                Arguments:
+                    sample_id {str} -- id of the sample
+
+                Keyword Arguments:
+                    backend {Callable[[str], None]} -- backend to open the image with (default: {None})
+                """
                 self.image_samples.raw(sample_id)
                 image_path = cache._build_cache_path("samples/{}/images/raw/".format(self.id), sample_id)
                 image_path = cache._add_file_extension(image_path)
@@ -247,11 +331,22 @@ class Acquisition(Entity):
 
     @property
     def video_samples(self):
+        """Video samples' API"""
         class Inner:
             _VIDEO_SAMPLE_ENDPOINT = _ENDPOINT + "{}/samples/videos/".format(self.id)
 
             @staticmethod
             def get(sample_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[VideoSample, SampleList]:
+                """Get all the video samples that belong to this acquisition
+
+                Keyword Arguments:
+                    sample_id {str} -- id of the sample (default: {None})
+                    tags {List[str]} -- tags of image samples (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the image samples (default: {{}})
+
+                Returns:
+                    Union[VideoSample, SampleList] -- video sample or list of video samples
+                """
                 if sample_id is None:
                     if len(tags) > 0 or len(metadata) > 0:
                         processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
@@ -273,6 +368,14 @@ class Acquisition(Entity):
 
             @staticmethod
             def raw(sample_id: str) -> ByteString:
+                """Get actual video from video sample identified by `sample_id` on this acquisition 
+
+                Arguments:
+                    sample_id {str} -- id of the sample
+
+                Returns:
+                    ByteString -- bytes of the video
+                """
                 try:
                     video = cache._get_cached_data("samples/{}/videos/raw/".format(self.id), sample_id)
                 except FileNotFoundError:
@@ -284,10 +387,25 @@ class Acquisition(Entity):
 
             @staticmethod
             def count() -> int:
+                """Get the number of video samples on this acquisition
+
+                Returns:
+                    int -- number of video samples
+                """
                 return _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + "count").json()
 
             @staticmethod
             def visualize(sample_id: str, backend: Callable[[str], None] = None) -> None:
+                """Visualize the video of a sample identified by `sample_id`.
+                By default opens the predefined system video application.
+                A different callback can be given to open the video.
+
+                Arguments:
+                    sample_id {str} -- id of the sample
+
+                Keyword Arguments:
+                    backend {Callable[[str], None]} -- backend to open the video with (default: {None})
+                """
                 self.video_samples.raw(sample_id)
                 video_path = cache._build_cache_path("samples/{}/videos/raw/".format(self.id), sample_id)
                 video_path = cache._add_file_extension(video_path)
@@ -308,11 +426,22 @@ class Acquisition(Entity):
 
     @property
     def annotations(self):
+        """Annotations' API"""
         class Inner:
             _ANNOTATIONS_ENDPOINT = _ENDPOINT + "{}/annotations/".format(self.id)
 
             @staticmethod
             def get(annotation_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> AnnotationList:
+                """Get all the annotations that belong to this acquisition
+
+                Keyword Arguments:
+                    annotation_id {str} -- id of the annotation (default: {None})
+                    tags {List[str]} -- tags of the annotation (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the annotation (default: {{}})
+
+                Returns:
+                    AnnotationList -- annotation or annotation of video samples
+                """
                 if annotation_id is None:
                     if len(tags) > 0 or len(metadata) > 0:
                         processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
@@ -334,12 +463,25 @@ class Acquisition(Entity):
 
             @staticmethod
             def count() -> int:
+                """Get the number of annotations on this acquisition
+
+                Returns:
+                    int -- number of annotations
+                """
                 return _api_calls.get(Inner._ANNOTATIONS_ENDPOINT + "count").json()
 
         return Inner()
 
     @staticmethod
     def to_protobuf(obj: "Acquisition") -> AcquisitionMessage:
+        """Encode an acquisition to a Protobuf message
+
+        Arguments:
+            obj {Acquisition} -- acquisition to be encoded
+
+        Returns:
+            AcquisitionMessage -- encoded acquisition
+        """
         acquisition_message = AcquisitionMessage()
         acquisition_message.entity.CopyFrom(Entity.to_protobuf(obj))
         acquisition_message.creation_timestamp = obj.creation_timestamp
@@ -365,6 +507,14 @@ class Acquisition(Entity):
 
     @staticmethod
     def from_protobuf(obj: ByteString) -> "Acquisition":
+        """Decode a Protobuf message to {Acquisition}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Acquisition -- decoded acquisition
+        """
         acquisition_message = AcquisitionMessage()
         acquisition_message.ParseFromString(obj)
 
@@ -387,7 +537,18 @@ class Acquisition(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {Acquisition}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj:
             if obj["type"] == "Acquisition":
                 return Acquisition(
@@ -422,8 +583,19 @@ class Acquisition(Entity):
 _ENDPOINT = "api/acquisitions/"
 
 
-def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = [], metadata: Dict[str, Any] = {}) \
-        -> Union[Acquisition, List[Acquisition]]:
+def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) \
+    -> Union[Acquisition, List[Acquisition]]:
+    """Get an acquisition identified by `acquisition_id` or a list of all the acquisitions
+
+    Keyword Arguments:
+        acquisition_id {str} -- id of the acquisition (default: {None})
+        dataset_id {str} -- id of the dataset to which the acquisitions belong to (default: {None})
+        tags {List[str]} -- tags of the acquisitions (default: {[]})
+        metadata {Dict[str, str]} -- metadata of the acquisitions (default: {{}})
+
+    Returns:
+        Union[Acquisition, List[Acquisition]] -- acquisition or list of acquisitions
+    """
     if acquisition_id is None:
         processed_metadata = {f"metadata.{k}": metadata[k] for k in metadata}
         acquisitions = _api_calls.get(_ENDPOINT, params={"datasetId": dataset_id, "tags": tags, **processed_metadata}) \
@@ -441,6 +613,11 @@ def get(acquisition_id: str = None, dataset_id: str = None, tags: List[str] = []
 
 
 def count() -> int:
+    """Get number of acquisitions
+
+    Returns:
+        int -- number of acquisitions
+    """
     return _api_calls.get(_ENDPOINT + "count").json()
 
 

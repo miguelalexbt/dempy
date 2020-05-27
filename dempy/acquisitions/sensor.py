@@ -5,6 +5,7 @@ from dempy._protofiles import SensorMessage
 
 
 class Sensor(Entity):
+    """Sensor class"""
     def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], sync_offset: int, time_unit: str, serial_number: str,
                  manufacturer: str, model_name: str, sensor_type: str):
         super().__init__(type, id, tags, metadata)
@@ -17,6 +18,14 @@ class Sensor(Entity):
 
     @staticmethod
     def to_protobuf(obj: "Sensor") -> SensorMessage:
+        """Encode an sensor to a Protobuf message
+
+        Arguments:
+            obj {Sensor} -- sensor to be encoded
+
+        Returns:
+            SensorMessage -- encoded sensor
+        """
         sensor_message = SensorMessage()
         sensor_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -37,6 +46,14 @@ class Sensor(Entity):
 
     @staticmethod
     def from_protobuf(sensor_message: SensorMessage) -> "Sensor":
+        """Decode a Protobuf message to {Sensor}
+
+        Arguments:
+            obj {SensorMessage} -- message to be decoded
+
+        Returns:
+            Sensor -- decoded sensor
+        """
         return Sensor(
             type=sensor_message.entity.type,
             id=sensor_message.entity.id,
@@ -51,7 +68,15 @@ class Sensor(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {Sensor}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj and obj["type"] == "Sensor":
             return Sensor(
                 type=obj["type"],
@@ -65,6 +90,7 @@ class Sensor(Entity):
                 model_name=obj["modelName"],
                 sensor_type=obj["sensorType"],
             )
+
         return obj
 
 

@@ -17,6 +17,9 @@ def main():
     org = dempy.organizations.get("5729b044-800e-425a-8a58-a4b4c9aa86e4")
     print(f"Users [{org.users.count()}]:", f"cached {len(org.users.get())}")
 
+    acq = dempy.acquisitions.get()[0]
+    acq.subject.get()
+
     print("---")
 
     print("Testing - Datasets")

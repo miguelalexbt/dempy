@@ -8,6 +8,7 @@ from dempy import config
 
 
 def clear() -> None:
+    """Clear the cache directory"""
     shutil.rmtree(config.cache_dir)
 
 

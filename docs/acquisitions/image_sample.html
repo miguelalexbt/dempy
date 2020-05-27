@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>dempy.acquisitions.image_sample API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>dempy.acquisitions.image_sample</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import List, Dict, Any, ByteString, Union
+
+from dempy._base import Entity
+from dempy._protofiles import ImageMessage
+
+
+class ImageSample(Entity):
+    &#34;&#34;&#34;ImageSample class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
+                 sensor_id: str, media_type: str, image_source: str, has_rotation_metadata: bool):
+        super().__init__(type, id, tags, metadata)
+        self.timestamp = timestamp
+        self.acquisition_id = acquisition_id
+        self.device_id = device_id
+        self.sensor_id = sensor_id
+        self.media_type = media_type
+        self.image_source = image_source
+        self.has_rotation_metadata = has_rotation_metadata
+
+    @staticmethod
+    def to_protobuf(obj: &#34;ImageSample&#34;) -&gt; ImageMessage:
+        &#34;&#34;&#34;Encode a image sample to a Protobuf message
+
+        Arguments:
+            obj {ImageSample} -- image sample to be encoded
+
+        Returns:
+            ImageMessage -- encoded image sample
+        &#34;&#34;&#34;
+        image_message = ImageMessage()
+        image_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        image_message.timestamp = obj.timestamp
+        image_message.acquisition_id = obj.acquisition_id
+
+        if obj.device_id is not None:
+            image_message.device_id = obj.device_id
+        if obj.sensor_id is not None:
+            image_message.sensor_id = obj.sensor_id
+
+        image_message.media_type = obj.media_type
+        image_message.image_source = obj.image_source
+        image_message.has_rotation_metadata = obj.has_rotation_metadata
+
+        return image_message
+
+    @staticmethod
+    def from_protobuf(obj: Union[ByteString, ImageMessage]) -&gt; &#34;ImageSample&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {ImageSample}
+
+        Arguments:
+            obj {Union[ByteString, ImageMessage]} -- message to be decoded
+
+        Returns:
+            ImageSample -- decoded image sample
+        &#34;&#34;&#34;
+        image_message = obj if isinstance(obj, ImageMessage) else ImageMessage().ParseFromString(obj)
+
+        return ImageSample(
+            type=image_message.entity.type,
+            id=image_message.entity.id,
+            tags=image_message.entity.tags,
+            metadata=image_message.entity.metadata,
+            timestamp=image_message.timestamp,
+            acquisition_id=image_message.acquisition_id,
+            device_id=image_message.device_id if image_message.HasField(&#34;device_id&#34;) else None,
+            sensor_id=image_message.sensor_id if image_message.HasField(&#34;sensor_id&#34;) else None,
+            media_type=image_message.media_type,
+            image_source=image_message.image_source,
+            has_rotation_metadata=image_message.has_rotation_metadata
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {ImageSample}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;ImageSample&#34;:
+            return ImageSample(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                timestamp=obj[&#34;timestamp&#34;],
+                acquisition_id=obj[&#34;acquisitionId&#34;],
+                device_id=obj[&#34;deviceId&#34;],
+                sensor_id=obj[&#34;sensorId&#34;],
+                media_type=obj[&#34;mediaType&#34;],
+                image_source=obj[&#34;imageSource&#34;],
+                has_rotation_metadata=obj[&#34;hasRotationMetadata&#34;]
+            )
+
+        return obj
+
+
+__all__ = [
+    &#34;ImageSample&#34;
+]</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="dempy.acquisitions.image_sample.ImageSample"><code class="flex name class">
+<span>class <span class="ident">ImageSample</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str, sensor_id: str, media_type: str, image_source: str, has_rotation_metadata: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ImageSample class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ImageSample(Entity):
+    &#34;&#34;&#34;ImageSample class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
+                 sensor_id: str, media_type: str, image_source: str, has_rotation_metadata: bool):
+        super().__init__(type, id, tags, metadata)
+        self.timestamp = timestamp
+        self.acquisition_id = acquisition_id
+        self.device_id = device_id
+        self.sensor_id = sensor_id
+        self.media_type = media_type
+        self.image_source = image_source
+        self.has_rotation_metadata = has_rotation_metadata
+
+    @staticmethod
+    def to_protobuf(obj: &#34;ImageSample&#34;) -&gt; ImageMessage:
+        &#34;&#34;&#34;Encode a image sample to a Protobuf message
+
+        Arguments:
+            obj {ImageSample} -- image sample to be encoded
+
+        Returns:
+            ImageMessage -- encoded image sample
+        &#34;&#34;&#34;
+        image_message = ImageMessage()
+        image_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        image_message.timestamp = obj.timestamp
+        image_message.acquisition_id = obj.acquisition_id
+
+        if obj.device_id is not None:
+            image_message.device_id = obj.device_id
+        if obj.sensor_id is not None:
+            image_message.sensor_id = obj.sensor_id
+
+        image_message.media_type = obj.media_type
+        image_message.image_source = obj.image_source
+        image_message.has_rotation_metadata = obj.has_rotation_metadata
+
+        return image_message
+
+    @staticmethod
+    def from_protobuf(obj: Union[ByteString, ImageMessage]) -&gt; &#34;ImageSample&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {ImageSample}
+
+        Arguments:
+            obj {Union[ByteString, ImageMessage]} -- message to be decoded
+
+        Returns:
+            ImageSample -- decoded image sample
+        &#34;&#34;&#34;
+        image_message = obj if isinstance(obj, ImageMessage) else ImageMessage().ParseFromString(obj)
+
+        return ImageSample(
+            type=image_message.entity.type,
+            id=image_message.entity.id,
+            tags=image_message.entity.tags,
+            metadata=image_message.entity.metadata,
+            timestamp=image_message.timestamp,
+            acquisition_id=image_message.acquisition_id,
+            device_id=image_message.device_id if image_message.HasField(&#34;device_id&#34;) else None,
+            sensor_id=image_message.sensor_id if image_message.HasField(&#34;sensor_id&#34;) else None,
+            media_type=image_message.media_type,
+            image_source=image_message.image_source,
+            has_rotation_metadata=image_message.has_rotation_metadata
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {ImageSample}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;ImageSample&#34;:
+            return ImageSample(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                timestamp=obj[&#34;timestamp&#34;],
+                acquisition_id=obj[&#34;acquisitionId&#34;],
+                device_id=obj[&#34;deviceId&#34;],
+                sensor_id=obj[&#34;sensorId&#34;],
+                media_type=obj[&#34;mediaType&#34;],
+                image_source=obj[&#34;imageSource&#34;],
+                has_rotation_metadata=obj[&#34;hasRotationMetadata&#34;]
+            )
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.acquisitions.image_sample.ImageSample.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {ImageSample}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {ImageSample}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;ImageSample&#34;:
+        return ImageSample(
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            tags=obj[&#34;tags&#34;],
+            metadata=obj[&#34;metadata&#34;],
+            timestamp=obj[&#34;timestamp&#34;],
+            acquisition_id=obj[&#34;acquisitionId&#34;],
+            device_id=obj[&#34;deviceId&#34;],
+            sensor_id=obj[&#34;sensorId&#34;],
+            media_type=obj[&#34;mediaType&#34;],
+            image_source=obj[&#34;imageSource&#34;],
+            has_rotation_metadata=obj[&#34;hasRotationMetadata&#34;]
+        )
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.acquisitions.image_sample.ImageSample.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: Union[ByteString, dempy_pb2.ImageSample]) -> <a title="dempy.acquisitions.image_sample.ImageSample" href="#dempy.acquisitions.image_sample.ImageSample">ImageSample</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {ImageSample}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Union[ByteString, ImageMessage]} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ImageSample -- decoded image sample</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: Union[ByteString, ImageMessage]) -&gt; &#34;ImageSample&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {ImageSample}
+
+    Arguments:
+        obj {Union[ByteString, ImageMessage]} -- message to be decoded
+
+    Returns:
+        ImageSample -- decoded image sample
+    &#34;&#34;&#34;
+    image_message = obj if isinstance(obj, ImageMessage) else ImageMessage().ParseFromString(obj)
+
+    return ImageSample(
+        type=image_message.entity.type,
+        id=image_message.entity.id,
+        tags=image_message.entity.tags,
+        metadata=image_message.entity.metadata,
+        timestamp=image_message.timestamp,
+        acquisition_id=image_message.acquisition_id,
+        device_id=image_message.device_id if image_message.HasField(&#34;device_id&#34;) else None,
+        sensor_id=image_message.sensor_id if image_message.HasField(&#34;sensor_id&#34;) else None,
+        media_type=image_message.media_type,
+        image_source=image_message.image_source,
+        has_rotation_metadata=image_message.has_rotation_metadata
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.acquisitions.image_sample.ImageSample.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: ImageSample) -> dempy_pb2.ImageSample</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode a image sample to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {ImageSample} &ndash; image sample to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ImageMessage -- encoded image sample</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;ImageSample&#34;) -&gt; ImageMessage:
+    &#34;&#34;&#34;Encode a image sample to a Protobuf message
+
+    Arguments:
+        obj {ImageSample} -- image sample to be encoded
+
+    Returns:
+        ImageMessage -- encoded image sample
+    &#34;&#34;&#34;
+    image_message = ImageMessage()
+    image_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    image_message.timestamp = obj.timestamp
+    image_message.acquisition_id = obj.acquisition_id
+
+    if obj.device_id is not None:
+        image_message.device_id = obj.device_id
+    if obj.sensor_id is not None:
+        image_message.sensor_id = obj.sensor_id
+
+    image_message.media_type = obj.media_type
+    image_message.image_source = obj.image_source
+    image_message.has_rotation_metadata = obj.has_rotation_metadata
+
+    return image_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="dempy.acquisitions" href="index.html">dempy.acquisitions</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="dempy.acquisitions.image_sample.ImageSample" href="#dempy.acquisitions.image_sample.ImageSample">ImageSample</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.acquisitions.image_sample.ImageSample.from_json" href="#dempy.acquisitions.image_sample.ImageSample.from_json">from_json</a></code></li>
+<li><code><a title="dempy.acquisitions.image_sample.ImageSample.from_protobuf" href="#dempy.acquisitions.image_sample.ImageSample.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.acquisitions.image_sample.ImageSample.to_protobuf" href="#dempy.acquisitions.image_sample.ImageSample.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

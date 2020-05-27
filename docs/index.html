@@ -1,0 +1,4355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>dempy API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Package <code>dempy</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from dempy import acquisitions
+from dempy import cache
+from dempy import config
+from dempy import datasets
+from dempy import organizations
+from dempy import users
+from dempy.acquisitions import (
+    Acquisition, Subject, Device, Sensor, ImageSample, VideoSample, TimeseriesSample, Annotation
+)
+from dempy.datasets import Dataset
+from dempy.organizations import Organization
+from dempy.users import User
+
+__all__ = [
+    &#34;config&#34;, &#34;cache&#34;, &#34;users&#34;, &#34;organizations&#34;, &#34;datasets&#34;, &#34;acquisitions&#34;,
+    &#34;User&#34;, &#34;Organization&#34;, &#34;Dataset&#34;, &#34;Acquisition&#34;, &#34;Subject&#34;, &#34;Device&#34;, &#34;Sensor&#34;,
+    &#34;ImageSample&#34;, &#34;VideoSample&#34;, &#34;TimeseriesSample&#34;, &#34;Annotation&#34;
+]</code></pre>
+</details>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="dempy.acquisitions" href="acquisitions/index.html">dempy.acquisitions</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="dempy.cache" href="cache.html">dempy.cache</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="dempy.config" href="config.html">dempy.config</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="dempy.datasets" href="datasets.html">dempy.datasets</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="dempy.organizations" href="organizations.html">dempy.organizations</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="dempy.users" href="users.html">dempy.users</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="dempy.Acquisition"><code class="flex name class">
+<span>class <span class="ident">Acquisition</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], creation_timestamp: int, sync_offset: int, time_unit: str, owner_id: str, creator_id: str, dataset_id: str, subject: <a title="dempy.acquisitions.subject.Subject" href="acquisitions/subject.html#dempy.acquisitions.subject.Subject">Subject</a>, devices: List[<a title="dempy.acquisitions.device.Device" href="acquisitions/device.html#dempy.acquisitions.device.Device">Device</a>], has_timeseries_samples: bool, has_image_samples: bool, has_video_samples: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Acquisition class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Acquisition(Entity):
+    &#34;&#34;&#34;Acquisition class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], creation_timestamp: int, sync_offset: int,
+                 time_unit: str, owner_id: str, creator_id: str, dataset_id: str, subject: Subject, devices: List[Device],
+                 has_timeseries_samples: bool, has_image_samples: bool, has_video_samples: bool):
+        super().__init__(type, id, tags, metadata)
+        self.creation_timestamp = creation_timestamp
+        self.sync_offset = sync_offset
+        self.time_unit = time_unit
+        self.owner_id = owner_id
+        self.creator_id = creator_id
+        self.dataset_id = dataset_id
+        self.has_timeseries_samples = has_timeseries_samples
+        self.has_image_samples = has_image_samples
+        self.has_video_samples = has_video_samples
+        self._subject = subject
+        self._devices = devices
+
+    @property
+    def subject(self):    
+        &#34;&#34;&#34;Subject&#39;s API&#34;&#34;&#34;
+        class Inner:
+            _SUBJECT_ENDPOINT = _ENDPOINT + &#34;{}/subjects/&#34;.format(self.id)
+
+            @staticmethod
+            def get() -&gt; Subject:
+                &#34;&#34;&#34;Get subject from acquisition
+
+                Returns:
+                    Subject -- subject of the acquisition
+                &#34;&#34;&#34;
+                return self._subject
+
+        return Inner()
+
+    @property
+    def devices(self):
+        &#34;&#34;&#34;Devices&#39; API&#34;&#34;&#34;
+        class Inner:
+            _DEVICES_ENDPOINT = _ENDPOINT + &#34;{}/devices/&#34;.format(self.id)
+
+            @staticmethod
+            def get(device_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; Union[Device, List[Device]]:
+                &#34;&#34;&#34;Get a device identified by `device_id` or list of devices on this acquisition
+
+                Keyword Arguments:
+                    device_id {str} -- id of the device (default: {None})
+                    tags {List[str]} -- tags of the devices (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the devices (default: {{}})
+
+                Raises:
+                    IndexError: device identified by `device_id` does not exist in this acquisition
+
+                Returns:
+                    Union[Device, List[Device]] -- device or list of devices
+                &#34;&#34;&#34;
+                if device_id is None:
+                    if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                        return [d for d in self._devices if
+                                len([k for k in d.metadata if k in metadata and d.metadata[k] == metadata[k]]) &gt; 0]
+
+                    return self._devices
+                else:
+                    try:
+                        device = next((device for device in self._devices if device.id == device_id))
+                    except StopIteration:
+                        raise IndexError(f&#34;device id {device_id} does not exist in acquisition id {self.id}&#34;)
+                    return device
+
+            @staticmethod
+            def usage() -&gt; Dict[str, List[str]]:
+                &#34;&#34;&#34;Get a map identifying which device(s) and sensor(s) were used to acquire time series samples
+
+                Returns:
+                    Mapping[str, List[str]] -- map of (key, value) pairs, with key being id of device and the value
+                    a list of sensor ids which were used to capture samples
+                &#34;&#34;&#34;
+                return _api_calls.get(Inner._DEVICES_ENDPOINT + &#34;usage&#34;).json()
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of devices on this acquisition
+
+                Returns:
+                    int -- number of devices
+                &#34;&#34;&#34;
+                return len(self._devices)
+
+        return Inner()
+
+    @property
+    def timeseries_samples(self):
+        &#34;&#34;&#34;Timeseries samples&#39; API&#34;&#34;&#34;
+        class Inner:
+            _TIMESERIES_SAMPLE_ENDPOINT = _ENDPOINT + &#34;{}/samples/timeseries/&#34;.format(self.id)
+
+            @staticmethod
+            def get(tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; SampleList:
+                &#34;&#34;&#34;Get all the timeseries samples that belong to this acquisition
+
+                Keyword Arguments:
+                    tags {List[str]} -- tags of the timeseries samples (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the timeseries samples (default: {{}})
+
+                Returns:
+                    SampleList -- list of timeseries samples
+                &#34;&#34;&#34;
+                if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                    processed_metadata = {f&#34;metadata.{k}&#34;: metadata[k] for k in metadata}
+                    samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT, params={&#34;tags&#34;: tags, **processed_metadata}) \
+                        .json(object_hook=TimeseriesSample.from_json)
+                    samples.sort(key=lambda sample: sample.timestamp)
+                    return SampleList(samples)
+
+                try:
+                    samples = cache._get_cached_data(&#34;samples/{}/&#34;.format(self.id), &#34;timeseries&#34;, SampleList.from_protobuf)
+                except FileNotFoundError:
+                    samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT) \
+                        .json(object_hook=TimeseriesSample.from_json)
+                    samples.sort(key=lambda sample: sample.timestamp)
+                    samples = SampleList(samples)
+                    cache._cache_data(&#34;samples/{}/&#34;.format(self.id), &#34;timeseries&#34;, samples, SampleList.to_protobuf)
+                return samples
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of timeseries samples on this acquisition
+
+                Returns:
+                    int -- number of timeseries samples
+                &#34;&#34;&#34;
+                return _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT + &#34;count&#34;).json()
+
+            @staticmethod
+            def visualize(device_id: str, sensor_id: str = None) -&gt; None:
+                &#34;&#34;&#34;Graphically visualize the timeseries samples of a device identified by `device_id` 
+                or of a given sensor identified by `sensor_id` of said device
+
+                Arguments:
+                    device_id {str} -- id of the device
+
+                Keyword Arguments:
+                    sensor_id {str} -- id of the sensor (default: {None})
+                &#34;&#34;&#34;
+                def visualize_sensor_samples(axis, sensor, sensor_samples):
+                    timestamps = [s.timestamp for s in sensor_samples]
+
+                    # Sample x, y, z, u, w
+                    samples_x = [s.x for s in sensor_samples if hasattr(s, &#34;x&#34;)]
+                    samples_y = [s.y for s in sensor_samples if hasattr(s, &#34;y&#34;)]
+                    samples_z = [s.z for s in sensor_samples if hasattr(s, &#34;z&#34;)]
+                    samples_u = [s.u for s in sensor_samples if hasattr(s, &#34;u&#34;)]
+                    samples_w = [s.w for s in sensor_samples if hasattr(s, &#34;w&#34;)]
+
+                    # Title and x label
+                    axis.set_title(f&#34;{sensor.sensor_type}\n{sensor.id}&#34;, loc=&#34;left&#34;)
+                    axis.set_xlabel(sensor.time_unit if sensor.time_unit is not None else device_time_unit)
+
+                    # Axis limit
+                    axis.set_xlim([0, timestamps[-1]])
+                    axis.set_ylim([min(chain(samples_x, samples_y, samples_z, samples_u, samples_w)),
+                                   max(chain(samples_x, samples_y, samples_z, samples_u, samples_w))])
+
+                    # Axis formatter
+                    axis.xaxis.set_major_formatter(ticker.FormatStrFormatter(&#34;%.0f&#34;))
+                    axis.yaxis.set_major_formatter(ticker.FormatStrFormatter(&#34;%.0f&#34;))
+
+                    # Axis plot
+                    labels = []
+
+                    if len(samples_x) &gt; 0:
+                        axis.plot(timestamps, samples_x, color=&#34;cornflowerblue&#34;)
+                        labels.append(&#34;x&#34;)
+                    if len(samples_y) &gt; 0:
+                        axis.plot(timestamps, samples_y, color=&#34;mediumseagreen&#34;)
+                        labels.append(&#34;y&#34;)
+                    if len(samples_z) &gt; 0:
+                        axis.plot(timestamps, samples_z, color=&#34;indianred&#34;)
+                        labels.append(&#34;z&#34;)
+                    if len(samples_u) &gt; 0:
+                        axis.plot(timestamps, samples_u, color=&#34;mediumorchid&#34;)
+                        labels.append(&#34;u&#34;)
+                    if len(samples_w) &gt; 0:
+                        axis.plot(timestamps, samples_w, color=&#34;slategray&#34;)
+                        labels.append(&#34;w&#34;)
+
+                    axis.legend(labels=labels, loc=&#34;upper right&#34;)
+
+                device = self.devices.get(device_id=device_id)
+                device_time_unit = device.time_unit if device.time_unit is not None else self.time_unit
+
+                if sensor_id is None:
+                    fig, axs = plt.subplots(nrows=device.sensors.count(), figsize=(15, 10), dpi=80, constrained_layout=True)
+                    fig.suptitle(f&#34;{device.model_name} ({device.manufacturer})\n{device.id}&#34;, wrap=True)
+
+                    device_samples = self.timeseries_samples.get().by_device(device_id=device.id)
+
+                    for i, sensor in enumerate(device.sensors.get()):
+                        visualize_sensor_samples(axs[i], sensor, device_samples.by_sensor(sensor.id))
+                else:
+                    fig, ax = plt.subplots(nrows=1, figsize=(10, 4), dpi=80, constrained_layout=True)
+                    fig.suptitle(f&#34;{device.model_name} ({device.manufacturer})\n{device.id}&#34;, wrap=True)
+
+                    sensor_samples = self.timeseries_samples.get().by_sensor(sensor_id)
+
+                    visualize_sensor_samples(ax, device.sensors.get(sensor_id=sensor_id), sensor_samples)
+
+                plt.show()
+
+        return Inner()
+
+    @property
+    def image_samples(self):
+        &#34;&#34;&#34;Image samples&#39; API&#34;&#34;&#34;
+        class Inner:
+            _IMAGE_SAMPLE_ENDPOINT = _ENDPOINT + &#34;{}/samples/images/&#34;.format(self.id)
+
+            @staticmethod
+            def get(sample_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; Union[ImageSample, SampleList]:
+                &#34;&#34;&#34;Get all the image samples that belong to this acquisition
+
+                Keyword Arguments:
+                    sample_id {str} -- id of the sample (default: {None})
+                    tags {List[str]} -- tags of image samples (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the image samples (default: {{}})
+
+                Returns:
+                    Union[ImageSample, SampleList] -- image sample or list of image samples
+                &#34;&#34;&#34;
+                if sample_id is None:
+                    if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                        processed_metadata = {f&#34;metadata.{k}&#34;: metadata[k] for k in metadata}
+                        samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT, params={&#34;tags&#34;: tags, **processed_metadata}) \
+                            .json(object_hook=ImageSample.from_json)
+                        return SampleList(samples)
+
+                    samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(object_hook=ImageSample.from_json)
+                    for sample in samples:
+                        cache._cache_data(&#34;samples/{}/images/&#34;.format(self.id), sample.id, sample, ImageSample.to_protobuf)
+                    return SampleList(samples)
+                else:
+                    try:
+                        sample = cache._get_cached_data(&#34;samples/{}/images/&#34;.format(self.id), sample_id, ImageSample.from_protobuf)
+                    except FileNotFoundError:
+                        sample = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id).json(object_hook=ImageSample.from_json)
+                        cache._cache_data(&#34;samples/{}/images/&#34;.format(self.id), sample_id, sample, ImageSample.to_protobuf)
+                    return sample
+
+            @staticmethod
+            def raw(sample_id: str) -&gt; ByteString:
+                &#34;&#34;&#34;Get actual image from image sample identified by `sample_id` on this acquisition
+
+                Arguments:
+                    sample_id {str} -- id of the sample
+
+                Returns:
+                    ByteString -- bytes of the image
+                &#34;&#34;&#34;
+                try:
+                    image = cache._get_cached_data(&#34;samples/{}/images/raw/&#34;.format(self.id), sample_id)
+                except FileNotFoundError:
+                    image = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + &#34;/raw&#34;)
+                    file_ext = &#34;.&#34; + image.headers[&#34;Content-Type&#34;].split(&#34;/&#34;)[-1]
+                    cache._cache_data(&#34;samples/{}/images/raw/&#34;.format(self.id), sample_id + file_ext, image.content)
+
+                return image
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of image samples on this acquisition
+
+                Returns:
+                    int -- number of image samples
+                &#34;&#34;&#34;
+                return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + &#34;count&#34;).json()
+
+            @staticmethod
+            def visualize(sample_id: str, backend: Callable[[str], None] = None) -&gt; None:
+                &#34;&#34;&#34;Visualize the image of a sample identified by `sample_id`.
+                By default opens the predefined system image application.
+                A different callback can be given to open the image.
+
+                Arguments:
+                    sample_id {str} -- id of the sample
+
+                Keyword Arguments:
+                    backend {Callable[[str], None]} -- backend to open the image with (default: {None})
+                &#34;&#34;&#34;
+                self.image_samples.raw(sample_id)
+                image_path = cache._build_cache_path(&#34;samples/{}/images/raw/&#34;.format(self.id), sample_id)
+                image_path = cache._add_file_extension(image_path)
+
+                if backend is None:
+                    system = platform.system()
+
+                    if system == &#34;Darwin&#34;:
+                        subprocess.call((&#34;open&#34;, image_path))
+                    elif system == &#34;Windows&#34;:
+                        os.startfile(image_path)
+                    else:
+                        subprocess.call((&#34;xdg-open&#34;, image_path))
+                else:
+                    backend(image_path)
+
+        return Inner()
+
+    @property
+    def video_samples(self):
+        &#34;&#34;&#34;Video samples&#39; API&#34;&#34;&#34;
+        class Inner:
+            _VIDEO_SAMPLE_ENDPOINT = _ENDPOINT + &#34;{}/samples/videos/&#34;.format(self.id)
+
+            @staticmethod
+            def get(sample_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; Union[VideoSample, SampleList]:
+                &#34;&#34;&#34;Get all the video samples that belong to this acquisition
+
+                Keyword Arguments:
+                    sample_id {str} -- id of the sample (default: {None})
+                    tags {List[str]} -- tags of image samples (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the image samples (default: {{}})
+
+                Returns:
+                    Union[VideoSample, SampleList] -- video sample or list of video samples
+                &#34;&#34;&#34;
+                if sample_id is None:
+                    if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                        processed_metadata = {f&#34;metadata.{k}&#34;: metadata[k] for k in metadata}
+                        samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT, params={&#34;tags&#34;: tags, **processed_metadata}) \
+                            .json(object_hook=VideoSample.from_json)
+                        return SampleList(samples)
+
+                    samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT).json(object_hook=VideoSample.from_json)
+                    for sample in samples:
+                        cache._cache_data(&#34;samples/{}/videos/&#34;.format(self.id), sample.id, sample, VideoSample.to_protobuf)
+                    return SampleList(samples)
+                else:
+                    try:
+                        sample = cache._get_cached_data(&#34;samples/{}/videos/&#34;.format(self.id), sample_id, VideoSample.from_protobuf)
+                    except FileNotFoundError:
+                        sample = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id).json(object_hook=VideoSample.from_json)
+                        cache._cache_data(&#34;samples/{}/videos/&#34;.format(self.id), sample_id, sample, VideoSample.to_protobuf)
+                    return sample
+
+            @staticmethod
+            def raw(sample_id: str) -&gt; ByteString:
+                &#34;&#34;&#34;Get actual video from video sample identified by `sample_id` on this acquisition 
+
+                Arguments:
+                    sample_id {str} -- id of the sample
+
+                Returns:
+                    ByteString -- bytes of the video
+                &#34;&#34;&#34;
+                try:
+                    video = cache._get_cached_data(&#34;samples/{}/videos/raw/&#34;.format(self.id), sample_id)
+                except FileNotFoundError:
+                    video = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id + &#34;/raw&#34;)
+                    file_ext = &#34;.&#34; + video.headers[&#34;Content-Type&#34;].split(&#34;/&#34;)[-1]
+                    cache._cache_data(&#34;samples/{}/videos/raw/&#34;.format(self.id), sample_id + file_ext, video.content)
+
+                return video
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of video samples on this acquisition
+
+                Returns:
+                    int -- number of video samples
+                &#34;&#34;&#34;
+                return _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + &#34;count&#34;).json()
+
+            @staticmethod
+            def visualize(sample_id: str, backend: Callable[[str], None] = None) -&gt; None:
+                &#34;&#34;&#34;Visualize the video of a sample identified by `sample_id`.
+                By default opens the predefined system video application.
+                A different callback can be given to open the video.
+
+                Arguments:
+                    sample_id {str} -- id of the sample
+
+                Keyword Arguments:
+                    backend {Callable[[str], None]} -- backend to open the video with (default: {None})
+                &#34;&#34;&#34;
+                self.video_samples.raw(sample_id)
+                video_path = cache._build_cache_path(&#34;samples/{}/videos/raw/&#34;.format(self.id), sample_id)
+                video_path = cache._add_file_extension(video_path)
+
+                if backend is None:
+                    system = platform.system()
+
+                    if system == &#34;Darwin&#34;:
+                        subprocess.call((&#34;open&#34;, video_path))
+                    elif system == &#34;Windows&#34;:
+                        os.startfile(video_path)
+                    else:
+                        subprocess.call((&#34;xdg-open&#34;, video_path))
+                else:
+                    backend(video_path)
+
+        return Inner()
+
+    @property
+    def annotations(self):
+        &#34;&#34;&#34;Annotations&#39; API&#34;&#34;&#34;
+        class Inner:
+            _ANNOTATIONS_ENDPOINT = _ENDPOINT + &#34;{}/annotations/&#34;.format(self.id)
+
+            @staticmethod
+            def get(annotation_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; AnnotationList:
+                &#34;&#34;&#34;Get all the annotations that belong to this acquisition
+
+                Keyword Arguments:
+                    annotation_id {str} -- id of the annotation (default: {None})
+                    tags {List[str]} -- tags of the annotation (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the annotation (default: {{}})
+
+                Returns:
+                    AnnotationList -- annotation or annotation of video samples
+                &#34;&#34;&#34;
+                if annotation_id is None:
+                    if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                        processed_metadata = {f&#34;metadata.{k}&#34;: metadata[k] for k in metadata}
+                        annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT, params={&#34;tags&#34;: tags, **processed_metadata}) \
+                            .json(object_hook=Annotation.from_json)
+                        return AnnotationList(annotations)
+
+                    annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT).json(object_hook=Annotation.from_json)
+                    for annotation in annotations:
+                        cache._cache_data(&#34;annotations&#34;, annotation.id, annotation, Annotation.to_protobuf)
+                    return AnnotationList(annotations)
+                else:
+                    try:
+                        annotation = cache._get_cached_data(&#34;annotations&#34;, annotation_id, Annotation.from_protobuf)
+                    except FileNotFoundError:
+                        annotation = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT + annotation_id).json(object_hook=Annotation.from_json)
+                        cache._cache_data(&#34;annotations&#34;, annotation_id, annotation, Annotation.to_protobuf)
+                    return annotation
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of annotations on this acquisition
+
+                Returns:
+                    int -- number of annotations
+                &#34;&#34;&#34;
+                return _api_calls.get(Inner._ANNOTATIONS_ENDPOINT + &#34;count&#34;).json()
+
+        return Inner()
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Acquisition&#34;) -&gt; AcquisitionMessage:
+        &#34;&#34;&#34;Encode an acquisition to a Protobuf message
+
+        Arguments:
+            obj {Acquisition} -- acquisition to be encoded
+
+        Returns:
+            AcquisitionMessage -- encoded acquisition
+        &#34;&#34;&#34;
+        acquisition_message = AcquisitionMessage()
+        acquisition_message.entity.CopyFrom(Entity.to_protobuf(obj))
+        acquisition_message.creation_timestamp = obj.creation_timestamp
+
+        if obj.sync_offset is not None:
+            acquisition_message.sync_offset = obj.sync_offset
+        if obj.time_unit is not None:
+            acquisition_message.time_unit = obj.time_unit
+        if obj.owner_id is not None:
+            acquisition_message.owner_id = obj.owner_id
+        if obj.creator_id is not None:
+            acquisition_message.creator_id = obj.creator_id
+        if obj.dataset_id is not None:
+            acquisition_message.dataset_id = obj.dataset_id
+
+        acquisition_message.subject.CopyFrom(Subject.to_protobuf(obj._subject))
+        acquisition_message.devices.extend([Device.to_protobuf(d) for d in obj._devices])
+        acquisition_message.has_timeseries_samples = obj.has_timeseries_samples
+        acquisition_message.has_image_samples = obj.has_image_samples
+        acquisition_message.has_video_samples = obj.has_video_samples
+
+        return acquisition_message
+
+    @staticmethod
+    def from_protobuf(obj: ByteString) -&gt; &#34;Acquisition&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Acquisition}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Acquisition -- decoded acquisition
+        &#34;&#34;&#34;
+        acquisition_message = AcquisitionMessage()
+        acquisition_message.ParseFromString(obj)
+
+        return Acquisition(
+            type=acquisition_message.entity.type,
+            id=acquisition_message.entity.id,
+            tags=acquisition_message.entity.tags,
+            metadata=acquisition_message.entity.metadata,
+            creation_timestamp=acquisition_message.creation_timestamp,
+            sync_offset=acquisition_message.sync_offset if acquisition_message.HasField(&#34;sync_offset&#34;) else None,
+            time_unit=acquisition_message.time_unit,
+            owner_id=acquisition_message.owner_id if acquisition_message.HasField(&#34;owner_id&#34;) else None,
+            creator_id=acquisition_message.creator_id if acquisition_message.HasField(&#34;creator_id&#34;) else None,
+            dataset_id=acquisition_message.dataset_id if acquisition_message.HasField(&#34;dataset_id&#34;) else None,
+            subject=Subject.from_protobuf(acquisition_message.subject),
+            devices=[Device.from_protobuf(d) for d in acquisition_message.devices],
+            has_timeseries_samples=acquisition_message.has_timeseries_samples,
+            has_image_samples=acquisition_message.has_image_samples,
+            has_video_samples=acquisition_message.has_video_samples
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Acquisition}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj:
+            if obj[&#34;type&#34;] == &#34;Acquisition&#34;:
+                return Acquisition(
+                    type=obj[&#34;type&#34;],
+                    id=obj[&#34;id&#34;],
+                    tags=obj[&#34;tags&#34;],
+                    metadata=obj[&#34;metadata&#34;],
+                    creation_timestamp=obj[&#34;creationTimestamp&#34;],
+                    sync_offset=obj[&#34;syncOffset&#34;],
+                    time_unit=obj[&#34;timeUnit&#34;],
+                    owner_id=obj[&#34;ownerId&#34;],
+                    creator_id=obj[&#34;creatorId&#34;],
+                    dataset_id=obj[&#34;datasetId&#34;],
+                    subject=obj[&#34;subject&#34;],
+                    devices=obj[&#34;devices&#34;],
+                    has_timeseries_samples=obj[&#34;hasTimeSeriesSamples&#34;],
+                    has_image_samples=obj[&#34;hasImageSamples&#34;],
+                    has_video_samples=obj[&#34;hasVideoSamples&#34;]
+                )
+            elif obj[&#34;type&#34;].endswith(&#34;Subject&#34;):
+                return Subject.from_json(obj)
+            elif obj[&#34;type&#34;] == &#34;Device&#34;:
+                return Device.from_json(obj)
+            elif obj[&#34;type&#34;] == &#34;Sensor&#34;:
+                return Sensor.from_json(obj)
+            else:
+                raise ValueError
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.Acquisition.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {Acquisition}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>unexpected object or sub-object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {Acquisition}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Raises:
+        ValueError: unexpected object or sub-object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj:
+        if obj[&#34;type&#34;] == &#34;Acquisition&#34;:
+            return Acquisition(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                creation_timestamp=obj[&#34;creationTimestamp&#34;],
+                sync_offset=obj[&#34;syncOffset&#34;],
+                time_unit=obj[&#34;timeUnit&#34;],
+                owner_id=obj[&#34;ownerId&#34;],
+                creator_id=obj[&#34;creatorId&#34;],
+                dataset_id=obj[&#34;datasetId&#34;],
+                subject=obj[&#34;subject&#34;],
+                devices=obj[&#34;devices&#34;],
+                has_timeseries_samples=obj[&#34;hasTimeSeriesSamples&#34;],
+                has_image_samples=obj[&#34;hasImageSamples&#34;],
+                has_video_samples=obj[&#34;hasVideoSamples&#34;]
+            )
+        elif obj[&#34;type&#34;].endswith(&#34;Subject&#34;):
+            return Subject.from_json(obj)
+        elif obj[&#34;type&#34;] == &#34;Device&#34;:
+            return Device.from_json(obj)
+        elif obj[&#34;type&#34;] == &#34;Sensor&#34;:
+            return Sensor.from_json(obj)
+        else:
+            raise ValueError
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.Acquisition.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: ByteString) -> <a title="dempy.acquisitions.acquisition.Acquisition" href="acquisitions/acquisition.html#dempy.acquisitions.acquisition.Acquisition">Acquisition</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {Acquisition}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {ByteString} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Acquisition -- decoded acquisition</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: ByteString) -&gt; &#34;Acquisition&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {Acquisition}
+
+    Arguments:
+        obj {ByteString} -- message to be decoded
+
+    Returns:
+        Acquisition -- decoded acquisition
+    &#34;&#34;&#34;
+    acquisition_message = AcquisitionMessage()
+    acquisition_message.ParseFromString(obj)
+
+    return Acquisition(
+        type=acquisition_message.entity.type,
+        id=acquisition_message.entity.id,
+        tags=acquisition_message.entity.tags,
+        metadata=acquisition_message.entity.metadata,
+        creation_timestamp=acquisition_message.creation_timestamp,
+        sync_offset=acquisition_message.sync_offset if acquisition_message.HasField(&#34;sync_offset&#34;) else None,
+        time_unit=acquisition_message.time_unit,
+        owner_id=acquisition_message.owner_id if acquisition_message.HasField(&#34;owner_id&#34;) else None,
+        creator_id=acquisition_message.creator_id if acquisition_message.HasField(&#34;creator_id&#34;) else None,
+        dataset_id=acquisition_message.dataset_id if acquisition_message.HasField(&#34;dataset_id&#34;) else None,
+        subject=Subject.from_protobuf(acquisition_message.subject),
+        devices=[Device.from_protobuf(d) for d in acquisition_message.devices],
+        has_timeseries_samples=acquisition_message.has_timeseries_samples,
+        has_image_samples=acquisition_message.has_image_samples,
+        has_video_samples=acquisition_message.has_video_samples
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.Acquisition.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: Acquisition) -> dempy_pb2.Acquisition</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an acquisition to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Acquisition} &ndash; acquisition to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AcquisitionMessage -- encoded acquisition</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;Acquisition&#34;) -&gt; AcquisitionMessage:
+    &#34;&#34;&#34;Encode an acquisition to a Protobuf message
+
+    Arguments:
+        obj {Acquisition} -- acquisition to be encoded
+
+    Returns:
+        AcquisitionMessage -- encoded acquisition
+    &#34;&#34;&#34;
+    acquisition_message = AcquisitionMessage()
+    acquisition_message.entity.CopyFrom(Entity.to_protobuf(obj))
+    acquisition_message.creation_timestamp = obj.creation_timestamp
+
+    if obj.sync_offset is not None:
+        acquisition_message.sync_offset = obj.sync_offset
+    if obj.time_unit is not None:
+        acquisition_message.time_unit = obj.time_unit
+    if obj.owner_id is not None:
+        acquisition_message.owner_id = obj.owner_id
+    if obj.creator_id is not None:
+        acquisition_message.creator_id = obj.creator_id
+    if obj.dataset_id is not None:
+        acquisition_message.dataset_id = obj.dataset_id
+
+    acquisition_message.subject.CopyFrom(Subject.to_protobuf(obj._subject))
+    acquisition_message.devices.extend([Device.to_protobuf(d) for d in obj._devices])
+    acquisition_message.has_timeseries_samples = obj.has_timeseries_samples
+    acquisition_message.has_image_samples = obj.has_image_samples
+    acquisition_message.has_video_samples = obj.has_video_samples
+
+    return acquisition_message</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="dempy.Acquisition.annotations"><code class="name">var <span class="ident">annotations</span></code></dt>
+<dd>
+<div class="desc"><p>Annotations' API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def annotations(self):
+    &#34;&#34;&#34;Annotations&#39; API&#34;&#34;&#34;
+    class Inner:
+        _ANNOTATIONS_ENDPOINT = _ENDPOINT + &#34;{}/annotations/&#34;.format(self.id)
+
+        @staticmethod
+        def get(annotation_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; AnnotationList:
+            &#34;&#34;&#34;Get all the annotations that belong to this acquisition
+
+            Keyword Arguments:
+                annotation_id {str} -- id of the annotation (default: {None})
+                tags {List[str]} -- tags of the annotation (default: {[]})
+                metadata {Dict[str, str]} -- metadata of the annotation (default: {{}})
+
+            Returns:
+                AnnotationList -- annotation or annotation of video samples
+            &#34;&#34;&#34;
+            if annotation_id is None:
+                if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                    processed_metadata = {f&#34;metadata.{k}&#34;: metadata[k] for k in metadata}
+                    annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT, params={&#34;tags&#34;: tags, **processed_metadata}) \
+                        .json(object_hook=Annotation.from_json)
+                    return AnnotationList(annotations)
+
+                annotations = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT).json(object_hook=Annotation.from_json)
+                for annotation in annotations:
+                    cache._cache_data(&#34;annotations&#34;, annotation.id, annotation, Annotation.to_protobuf)
+                return AnnotationList(annotations)
+            else:
+                try:
+                    annotation = cache._get_cached_data(&#34;annotations&#34;, annotation_id, Annotation.from_protobuf)
+                except FileNotFoundError:
+                    annotation = _api_calls.get(Inner._ANNOTATIONS_ENDPOINT + annotation_id).json(object_hook=Annotation.from_json)
+                    cache._cache_data(&#34;annotations&#34;, annotation_id, annotation, Annotation.to_protobuf)
+                return annotation
+
+        @staticmethod
+        def count() -&gt; int:
+            &#34;&#34;&#34;Get the number of annotations on this acquisition
+
+            Returns:
+                int -- number of annotations
+            &#34;&#34;&#34;
+            return _api_calls.get(Inner._ANNOTATIONS_ENDPOINT + &#34;count&#34;).json()
+
+    return Inner()</code></pre>
+</details>
+</dd>
+<dt id="dempy.Acquisition.devices"><code class="name">var <span class="ident">devices</span></code></dt>
+<dd>
+<div class="desc"><p>Devices' API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def devices(self):
+    &#34;&#34;&#34;Devices&#39; API&#34;&#34;&#34;
+    class Inner:
+        _DEVICES_ENDPOINT = _ENDPOINT + &#34;{}/devices/&#34;.format(self.id)
+
+        @staticmethod
+        def get(device_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; Union[Device, List[Device]]:
+            &#34;&#34;&#34;Get a device identified by `device_id` or list of devices on this acquisition
+
+            Keyword Arguments:
+                device_id {str} -- id of the device (default: {None})
+                tags {List[str]} -- tags of the devices (default: {[]})
+                metadata {Dict[str, str]} -- metadata of the devices (default: {{}})
+
+            Raises:
+                IndexError: device identified by `device_id` does not exist in this acquisition
+
+            Returns:
+                Union[Device, List[Device]] -- device or list of devices
+            &#34;&#34;&#34;
+            if device_id is None:
+                if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                    return [d for d in self._devices if
+                            len([k for k in d.metadata if k in metadata and d.metadata[k] == metadata[k]]) &gt; 0]
+
+                return self._devices
+            else:
+                try:
+                    device = next((device for device in self._devices if device.id == device_id))
+                except StopIteration:
+                    raise IndexError(f&#34;device id {device_id} does not exist in acquisition id {self.id}&#34;)
+                return device
+
+        @staticmethod
+        def usage() -&gt; Dict[str, List[str]]:
+            &#34;&#34;&#34;Get a map identifying which device(s) and sensor(s) were used to acquire time series samples
+
+            Returns:
+                Mapping[str, List[str]] -- map of (key, value) pairs, with key being id of device and the value
+                a list of sensor ids which were used to capture samples
+            &#34;&#34;&#34;
+            return _api_calls.get(Inner._DEVICES_ENDPOINT + &#34;usage&#34;).json()
+
+        @staticmethod
+        def count() -&gt; int:
+            &#34;&#34;&#34;Get the number of devices on this acquisition
+
+            Returns:
+                int -- number of devices
+            &#34;&#34;&#34;
+            return len(self._devices)
+
+    return Inner()</code></pre>
+</details>
+</dd>
+<dt id="dempy.Acquisition.image_samples"><code class="name">var <span class="ident">image_samples</span></code></dt>
+<dd>
+<div class="desc"><p>Image samples' API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def image_samples(self):
+    &#34;&#34;&#34;Image samples&#39; API&#34;&#34;&#34;
+    class Inner:
+        _IMAGE_SAMPLE_ENDPOINT = _ENDPOINT + &#34;{}/samples/images/&#34;.format(self.id)
+
+        @staticmethod
+        def get(sample_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; Union[ImageSample, SampleList]:
+            &#34;&#34;&#34;Get all the image samples that belong to this acquisition
+
+            Keyword Arguments:
+                sample_id {str} -- id of the sample (default: {None})
+                tags {List[str]} -- tags of image samples (default: {[]})
+                metadata {Dict[str, str]} -- metadata of the image samples (default: {{}})
+
+            Returns:
+                Union[ImageSample, SampleList] -- image sample or list of image samples
+            &#34;&#34;&#34;
+            if sample_id is None:
+                if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                    processed_metadata = {f&#34;metadata.{k}&#34;: metadata[k] for k in metadata}
+                    samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT, params={&#34;tags&#34;: tags, **processed_metadata}) \
+                        .json(object_hook=ImageSample.from_json)
+                    return SampleList(samples)
+
+                samples = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT).json(object_hook=ImageSample.from_json)
+                for sample in samples:
+                    cache._cache_data(&#34;samples/{}/images/&#34;.format(self.id), sample.id, sample, ImageSample.to_protobuf)
+                return SampleList(samples)
+            else:
+                try:
+                    sample = cache._get_cached_data(&#34;samples/{}/images/&#34;.format(self.id), sample_id, ImageSample.from_protobuf)
+                except FileNotFoundError:
+                    sample = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id).json(object_hook=ImageSample.from_json)
+                    cache._cache_data(&#34;samples/{}/images/&#34;.format(self.id), sample_id, sample, ImageSample.to_protobuf)
+                return sample
+
+        @staticmethod
+        def raw(sample_id: str) -&gt; ByteString:
+            &#34;&#34;&#34;Get actual image from image sample identified by `sample_id` on this acquisition
+
+            Arguments:
+                sample_id {str} -- id of the sample
+
+            Returns:
+                ByteString -- bytes of the image
+            &#34;&#34;&#34;
+            try:
+                image = cache._get_cached_data(&#34;samples/{}/images/raw/&#34;.format(self.id), sample_id)
+            except FileNotFoundError:
+                image = _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + sample_id + &#34;/raw&#34;)
+                file_ext = &#34;.&#34; + image.headers[&#34;Content-Type&#34;].split(&#34;/&#34;)[-1]
+                cache._cache_data(&#34;samples/{}/images/raw/&#34;.format(self.id), sample_id + file_ext, image.content)
+
+            return image
+
+        @staticmethod
+        def count() -&gt; int:
+            &#34;&#34;&#34;Get the number of image samples on this acquisition
+
+            Returns:
+                int -- number of image samples
+            &#34;&#34;&#34;
+            return _api_calls.get(Inner._IMAGE_SAMPLE_ENDPOINT + &#34;count&#34;).json()
+
+        @staticmethod
+        def visualize(sample_id: str, backend: Callable[[str], None] = None) -&gt; None:
+            &#34;&#34;&#34;Visualize the image of a sample identified by `sample_id`.
+            By default opens the predefined system image application.
+            A different callback can be given to open the image.
+
+            Arguments:
+                sample_id {str} -- id of the sample
+
+            Keyword Arguments:
+                backend {Callable[[str], None]} -- backend to open the image with (default: {None})
+            &#34;&#34;&#34;
+            self.image_samples.raw(sample_id)
+            image_path = cache._build_cache_path(&#34;samples/{}/images/raw/&#34;.format(self.id), sample_id)
+            image_path = cache._add_file_extension(image_path)
+
+            if backend is None:
+                system = platform.system()
+
+                if system == &#34;Darwin&#34;:
+                    subprocess.call((&#34;open&#34;, image_path))
+                elif system == &#34;Windows&#34;:
+                    os.startfile(image_path)
+                else:
+                    subprocess.call((&#34;xdg-open&#34;, image_path))
+            else:
+                backend(image_path)
+
+    return Inner()</code></pre>
+</details>
+</dd>
+<dt id="dempy.Acquisition.subject"><code class="name">var <span class="ident">subject</span></code></dt>
+<dd>
+<div class="desc"><p>Subject's API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def subject(self):    
+    &#34;&#34;&#34;Subject&#39;s API&#34;&#34;&#34;
+    class Inner:
+        _SUBJECT_ENDPOINT = _ENDPOINT + &#34;{}/subjects/&#34;.format(self.id)
+
+        @staticmethod
+        def get() -&gt; Subject:
+            &#34;&#34;&#34;Get subject from acquisition
+
+            Returns:
+                Subject -- subject of the acquisition
+            &#34;&#34;&#34;
+            return self._subject
+
+    return Inner()</code></pre>
+</details>
+</dd>
+<dt id="dempy.Acquisition.timeseries_samples"><code class="name">var <span class="ident">timeseries_samples</span></code></dt>
+<dd>
+<div class="desc"><p>Timeseries samples' API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def timeseries_samples(self):
+    &#34;&#34;&#34;Timeseries samples&#39; API&#34;&#34;&#34;
+    class Inner:
+        _TIMESERIES_SAMPLE_ENDPOINT = _ENDPOINT + &#34;{}/samples/timeseries/&#34;.format(self.id)
+
+        @staticmethod
+        def get(tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; SampleList:
+            &#34;&#34;&#34;Get all the timeseries samples that belong to this acquisition
+
+            Keyword Arguments:
+                tags {List[str]} -- tags of the timeseries samples (default: {[]})
+                metadata {Dict[str, str]} -- metadata of the timeseries samples (default: {{}})
+
+            Returns:
+                SampleList -- list of timeseries samples
+            &#34;&#34;&#34;
+            if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                processed_metadata = {f&#34;metadata.{k}&#34;: metadata[k] for k in metadata}
+                samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT, params={&#34;tags&#34;: tags, **processed_metadata}) \
+                    .json(object_hook=TimeseriesSample.from_json)
+                samples.sort(key=lambda sample: sample.timestamp)
+                return SampleList(samples)
+
+            try:
+                samples = cache._get_cached_data(&#34;samples/{}/&#34;.format(self.id), &#34;timeseries&#34;, SampleList.from_protobuf)
+            except FileNotFoundError:
+                samples = _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT) \
+                    .json(object_hook=TimeseriesSample.from_json)
+                samples.sort(key=lambda sample: sample.timestamp)
+                samples = SampleList(samples)
+                cache._cache_data(&#34;samples/{}/&#34;.format(self.id), &#34;timeseries&#34;, samples, SampleList.to_protobuf)
+            return samples
+
+        @staticmethod
+        def count() -&gt; int:
+            &#34;&#34;&#34;Get the number of timeseries samples on this acquisition
+
+            Returns:
+                int -- number of timeseries samples
+            &#34;&#34;&#34;
+            return _api_calls.get(Inner._TIMESERIES_SAMPLE_ENDPOINT + &#34;count&#34;).json()
+
+        @staticmethod
+        def visualize(device_id: str, sensor_id: str = None) -&gt; None:
+            &#34;&#34;&#34;Graphically visualize the timeseries samples of a device identified by `device_id` 
+            or of a given sensor identified by `sensor_id` of said device
+
+            Arguments:
+                device_id {str} -- id of the device
+
+            Keyword Arguments:
+                sensor_id {str} -- id of the sensor (default: {None})
+            &#34;&#34;&#34;
+            def visualize_sensor_samples(axis, sensor, sensor_samples):
+                timestamps = [s.timestamp for s in sensor_samples]
+
+                # Sample x, y, z, u, w
+                samples_x = [s.x for s in sensor_samples if hasattr(s, &#34;x&#34;)]
+                samples_y = [s.y for s in sensor_samples if hasattr(s, &#34;y&#34;)]
+                samples_z = [s.z for s in sensor_samples if hasattr(s, &#34;z&#34;)]
+                samples_u = [s.u for s in sensor_samples if hasattr(s, &#34;u&#34;)]
+                samples_w = [s.w for s in sensor_samples if hasattr(s, &#34;w&#34;)]
+
+                # Title and x label
+                axis.set_title(f&#34;{sensor.sensor_type}\n{sensor.id}&#34;, loc=&#34;left&#34;)
+                axis.set_xlabel(sensor.time_unit if sensor.time_unit is not None else device_time_unit)
+
+                # Axis limit
+                axis.set_xlim([0, timestamps[-1]])
+                axis.set_ylim([min(chain(samples_x, samples_y, samples_z, samples_u, samples_w)),
+                               max(chain(samples_x, samples_y, samples_z, samples_u, samples_w))])
+
+                # Axis formatter
+                axis.xaxis.set_major_formatter(ticker.FormatStrFormatter(&#34;%.0f&#34;))
+                axis.yaxis.set_major_formatter(ticker.FormatStrFormatter(&#34;%.0f&#34;))
+
+                # Axis plot
+                labels = []
+
+                if len(samples_x) &gt; 0:
+                    axis.plot(timestamps, samples_x, color=&#34;cornflowerblue&#34;)
+                    labels.append(&#34;x&#34;)
+                if len(samples_y) &gt; 0:
+                    axis.plot(timestamps, samples_y, color=&#34;mediumseagreen&#34;)
+                    labels.append(&#34;y&#34;)
+                if len(samples_z) &gt; 0:
+                    axis.plot(timestamps, samples_z, color=&#34;indianred&#34;)
+                    labels.append(&#34;z&#34;)
+                if len(samples_u) &gt; 0:
+                    axis.plot(timestamps, samples_u, color=&#34;mediumorchid&#34;)
+                    labels.append(&#34;u&#34;)
+                if len(samples_w) &gt; 0:
+                    axis.plot(timestamps, samples_w, color=&#34;slategray&#34;)
+                    labels.append(&#34;w&#34;)
+
+                axis.legend(labels=labels, loc=&#34;upper right&#34;)
+
+            device = self.devices.get(device_id=device_id)
+            device_time_unit = device.time_unit if device.time_unit is not None else self.time_unit
+
+            if sensor_id is None:
+                fig, axs = plt.subplots(nrows=device.sensors.count(), figsize=(15, 10), dpi=80, constrained_layout=True)
+                fig.suptitle(f&#34;{device.model_name} ({device.manufacturer})\n{device.id}&#34;, wrap=True)
+
+                device_samples = self.timeseries_samples.get().by_device(device_id=device.id)
+
+                for i, sensor in enumerate(device.sensors.get()):
+                    visualize_sensor_samples(axs[i], sensor, device_samples.by_sensor(sensor.id))
+            else:
+                fig, ax = plt.subplots(nrows=1, figsize=(10, 4), dpi=80, constrained_layout=True)
+                fig.suptitle(f&#34;{device.model_name} ({device.manufacturer})\n{device.id}&#34;, wrap=True)
+
+                sensor_samples = self.timeseries_samples.get().by_sensor(sensor_id)
+
+                visualize_sensor_samples(ax, device.sensors.get(sensor_id=sensor_id), sensor_samples)
+
+            plt.show()
+
+    return Inner()</code></pre>
+</details>
+</dd>
+<dt id="dempy.Acquisition.video_samples"><code class="name">var <span class="ident">video_samples</span></code></dt>
+<dd>
+<div class="desc"><p>Video samples' API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def video_samples(self):
+    &#34;&#34;&#34;Video samples&#39; API&#34;&#34;&#34;
+    class Inner:
+        _VIDEO_SAMPLE_ENDPOINT = _ENDPOINT + &#34;{}/samples/videos/&#34;.format(self.id)
+
+        @staticmethod
+        def get(sample_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; Union[VideoSample, SampleList]:
+            &#34;&#34;&#34;Get all the video samples that belong to this acquisition
+
+            Keyword Arguments:
+                sample_id {str} -- id of the sample (default: {None})
+                tags {List[str]} -- tags of image samples (default: {[]})
+                metadata {Dict[str, str]} -- metadata of the image samples (default: {{}})
+
+            Returns:
+                Union[VideoSample, SampleList] -- video sample or list of video samples
+            &#34;&#34;&#34;
+            if sample_id is None:
+                if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                    processed_metadata = {f&#34;metadata.{k}&#34;: metadata[k] for k in metadata}
+                    samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT, params={&#34;tags&#34;: tags, **processed_metadata}) \
+                        .json(object_hook=VideoSample.from_json)
+                    return SampleList(samples)
+
+                samples = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT).json(object_hook=VideoSample.from_json)
+                for sample in samples:
+                    cache._cache_data(&#34;samples/{}/videos/&#34;.format(self.id), sample.id, sample, VideoSample.to_protobuf)
+                return SampleList(samples)
+            else:
+                try:
+                    sample = cache._get_cached_data(&#34;samples/{}/videos/&#34;.format(self.id), sample_id, VideoSample.from_protobuf)
+                except FileNotFoundError:
+                    sample = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id).json(object_hook=VideoSample.from_json)
+                    cache._cache_data(&#34;samples/{}/videos/&#34;.format(self.id), sample_id, sample, VideoSample.to_protobuf)
+                return sample
+
+        @staticmethod
+        def raw(sample_id: str) -&gt; ByteString:
+            &#34;&#34;&#34;Get actual video from video sample identified by `sample_id` on this acquisition 
+
+            Arguments:
+                sample_id {str} -- id of the sample
+
+            Returns:
+                ByteString -- bytes of the video
+            &#34;&#34;&#34;
+            try:
+                video = cache._get_cached_data(&#34;samples/{}/videos/raw/&#34;.format(self.id), sample_id)
+            except FileNotFoundError:
+                video = _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + sample_id + &#34;/raw&#34;)
+                file_ext = &#34;.&#34; + video.headers[&#34;Content-Type&#34;].split(&#34;/&#34;)[-1]
+                cache._cache_data(&#34;samples/{}/videos/raw/&#34;.format(self.id), sample_id + file_ext, video.content)
+
+            return video
+
+        @staticmethod
+        def count() -&gt; int:
+            &#34;&#34;&#34;Get the number of video samples on this acquisition
+
+            Returns:
+                int -- number of video samples
+            &#34;&#34;&#34;
+            return _api_calls.get(Inner._VIDEO_SAMPLE_ENDPOINT + &#34;count&#34;).json()
+
+        @staticmethod
+        def visualize(sample_id: str, backend: Callable[[str], None] = None) -&gt; None:
+            &#34;&#34;&#34;Visualize the video of a sample identified by `sample_id`.
+            By default opens the predefined system video application.
+            A different callback can be given to open the video.
+
+            Arguments:
+                sample_id {str} -- id of the sample
+
+            Keyword Arguments:
+                backend {Callable[[str], None]} -- backend to open the video with (default: {None})
+            &#34;&#34;&#34;
+            self.video_samples.raw(sample_id)
+            video_path = cache._build_cache_path(&#34;samples/{}/videos/raw/&#34;.format(self.id), sample_id)
+            video_path = cache._add_file_extension(video_path)
+
+            if backend is None:
+                system = platform.system()
+
+                if system == &#34;Darwin&#34;:
+                    subprocess.call((&#34;open&#34;, video_path))
+                elif system == &#34;Windows&#34;:
+                    os.startfile(video_path)
+                else:
+                    subprocess.call((&#34;xdg-open&#34;, video_path))
+            else:
+                backend(video_path)
+
+    return Inner()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.Annotation"><code class="flex name class">
+<span>class <span class="ident">Annotation</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], acquisition_id: str, creator_id: str, annotation_object: <a title="dempy.acquisitions.annotation.AnnotationObject" href="acquisitions/annotation.html#dempy.acquisitions.annotation.AnnotationObject">AnnotationObject</a>, color: str, notes: str, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Annotation class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Annotation(Entity):
+    &#34;&#34;&#34;Annotation class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], acquisition_id: str, creator_id: str,
+                 annotation_object: AnnotationObject, color: str, notes: str, **kwargs):
+        super().__init__(type, id, tags, metadata)
+        self.acquisition_id = acquisition_id
+        self.creator_id = creator_id
+        self.annotation_object = annotation_object
+        self.color = color
+        self.notes = notes
+
+        if self.type == &#34;WholeImageAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+        elif self.type == &#34;PointAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.point: AnnotationPoint = kwargs.get(&#34;point&#34;)
+        elif self.type == &#34;CircleAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.center: AnnotationPoint = kwargs.get(&#34;center&#34;)
+            self.radius: float = kwargs.get(&#34;radius&#34;)
+        elif self.type == &#34;DrawAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.points: List[AnnotationPoint] = kwargs.get(&#34;points&#34;)
+        elif self.type == &#34;RectangleAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.point: AnnotationPoint = kwargs.get(&#34;point&#34;)
+            self.width: float = kwargs.get(&#34;width&#34;)
+            self.height: float = kwargs.get(&#34;height&#34;)
+        elif self.type == &#34;PolygonAnnotation&#34;:
+            self.annotated_sample_id: str = kwargs.get(&#34;annotated_sample_id&#34;)
+            self.points: List[AnnotationPoint] = kwargs.get(&#34;points&#34;)
+        elif self.type == &#34;TimeSeriesInstantAnnotation&#34;:
+            self.timestamp: int = kwargs.get(&#34;timestamp&#34;)
+            self.device_id: str = kwargs.get(&#34;device_id&#34;)
+            self.sensor_id: str = kwargs.get(&#34;sensor_id&#34;)
+        elif self.type == &#34;TimeSeriesIntervalAnnotation&#34;:
+            self.timestamp_start: int = kwargs.get(&#34;timestamp_start&#34;)
+            self.timestamp_end: int = kwargs.get(&#34;timestamp_end&#34;)
+            self.device_id: str = kwargs.get(&#34;device_id&#34;)
+            self.sensor_id: str = kwargs.get(&#34;sensor_id&#34;)
+        else:
+            raise ValueError
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Annotation&#34;) -&gt; AnnotationMessage:
+        &#34;&#34;&#34;Encode an annotation to a Protobuf message
+
+        Arguments:
+            obj {Annotation} -- annotation to be encoded
+
+        Returns:
+            AnnotationMessage -- encoded annotation
+        &#34;&#34;&#34;
+        annotation_message = AnnotationMessage()
+        annotation_message.entity.CopyFrom(Entity.to_protobuf(obj))
+        annotation_message.acquisition_id = obj.acquisition_id
+
+        if obj.creator_id is not None:
+            annotation_message.creator_id = obj.creator_id
+
+        annotation_message.annotation_object.CopyFrom(AnnotationObject.to_protobuf(obj.annotation_object))
+
+        if obj.color is not None:
+            annotation_message.color = obj.color
+        if obj.notes is not None:
+            annotation_message.notes = obj.notes
+
+        if obj.type == &#34;WholeImageAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+        elif obj.type == &#34;PointAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+        elif obj.type == &#34;CircleAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.center.CopyFrom(AnnotationPoint.to_protobuf(obj.center))
+            annotation_message.radius = obj.radius
+        elif obj.type == &#34;DrawAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+        elif obj.type == &#34;RectangleAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+            annotation_message.width = obj.width
+            annotation_message.height = obj.height
+        elif obj.type == &#34;PolygonAnnotation&#34;:
+            annotation_message.annotated_sample_id = obj.annotated_sample_id
+            annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+        elif obj.type == &#34;TimeSeriesInstantAnnotation&#34;:
+            annotation_message.timestamp = obj.timestamp
+
+            if obj.device_id is not None:
+                annotation_message.device_id = obj.device_id
+            if obj.sensor_id is not None:
+                annotation_message.sensor_id = obj.sensor_id
+        elif obj.type == &#34;TimeSeriesIntervalAnnotation&#34;:
+            annotation_message.timestamp_start = obj.timestamp_start
+            annotation_message.timestamp_end = obj.timestamp_end
+
+            if obj.device_id is not None:
+                annotation_message.device_id = obj.device_id
+            if obj.sensor_id is not None:
+                annotation_message.sensor_id = obj.sensor_id
+        else:
+            raise ValueError
+
+        return annotation_message
+
+    @staticmethod
+    def from_protobuf(obj: ByteString) -&gt; &#34;Annotation&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Annotation}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Annotation -- decoded annotation
+        &#34;&#34;&#34;
+        annotation_message = AnnotationMessage()
+        annotation_message.ParseFromString(obj)
+
+        return Annotation(
+            type=annotation_message.entity.type,
+            id=annotation_message.entity.id,
+            tags=annotation_message.entity.tags,
+            metadata=annotation_message.entity.metadata,
+            acquisition_id=annotation_message.acquisition_id,
+            creator_id=annotation_message.creator_id,
+            annotation_object=AnnotationObject.from_protobuf(annotation_message.annotation_object),
+            color=annotation_message.color if annotation_message.HasField(&#34;color&#34;) else None,
+            notes=annotation_message.notes if annotation_message.HasField(&#34;notes&#34;) else None,
+            annotated_sample_id=annotation_message.annotated_sample_id if annotation_message.HasField(&#34;annotated_sample_id&#34;) else None,
+            point=AnnotationPoint.from_protobuf(annotation_message.point) if annotation_message.HasField(&#34;point&#34;) else None,
+            center=AnnotationPoint.from_protobuf(annotation_message.center) if annotation_message.HasField(&#34;center&#34;) else None,
+            radius=annotation_message.radius if annotation_message.HasField(&#34;radius&#34;) else None,
+            points=[AnnotationPoint.from_protobuf(p) for p in annotation_message.points],
+            width=annotation_message.width if annotation_message.HasField(&#34;width&#34;) else None,
+            height=annotation_message.height if annotation_message.HasField(&#34;height&#34;) else None,
+            timestamp=annotation_message.timestamp if annotation_message.HasField(&#34;timestamp&#34;) else None,
+            device_id=annotation_message.device_id if annotation_message.HasField(&#34;device_id&#34;) else None,
+            sensor_id=annotation_message.sensor_id if annotation_message.HasField(&#34;sensor_id&#34;) else None,
+            timestamp_start=annotation_message.timestamp_start if annotation_message.HasField(&#34;timestamp_start&#34;) else None,
+            timestamp_end=annotation_message.timestamp_end if annotation_message.HasField(&#34;timestamp_end&#34;) else None,
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Annotation}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj:
+            if obj[&#34;type&#34;].endswith(&#34;Annotation&#34;):
+                annotation = partial(
+                    Annotation,
+                    type=obj[&#34;type&#34;],
+                    id=obj[&#34;id&#34;],
+                    tags=obj[&#34;tags&#34;],
+                    metadata=obj[&#34;metadata&#34;],
+                    acquisition_id=obj[&#34;acquisitionId&#34;],
+                    creator_id=obj[&#34;creatorId&#34;],
+                    annotation_object=obj[&#34;annotationObject&#34;],
+                    color=obj[&#34;color&#34;],
+                    notes=obj[&#34;notes&#34;]
+                )
+
+                if obj[&#34;type&#34;] == &#34;WholeImageAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;PointAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        point=AnnotationPoint.from_json(obj[&#34;point&#34;])
+                    )
+                elif obj[&#34;type&#34;] == &#34;CircleAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        center=AnnotationPoint.from_json(obj[&#34;center&#34;]),
+                        radius=obj[&#34;radius&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;DrawAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                    )
+                elif obj[&#34;type&#34;] == &#34;RectangleAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        point=AnnotationPoint.from_json(obj[&#34;point&#34;]),
+                        width=obj[&#34;width&#34;],
+                        height=obj[&#34;height&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;PolygonAnnotation&#34;:
+                    return annotation(
+                        annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                        points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                    )
+                elif obj[&#34;type&#34;] == &#34;TimeSeriesInstantAnnotation&#34;:
+                    return annotation(
+                        timestamp=obj[&#34;timestamp&#34;],
+                        device_id=obj[&#34;deviceId&#34;],
+                        sensor_id=obj[&#34;sensorId&#34;]
+                    )
+                elif obj[&#34;type&#34;] == &#34;TimeSeriesIntervalAnnotation&#34;:
+                    return annotation(
+                        timestamp_start=obj[&#34;timestampStart&#34;],
+                        timestamp_end=obj[&#34;timestampEnd&#34;],
+                        device_id=obj[&#34;deviceId&#34;],
+                        sensor_id=obj[&#34;sensorId&#34;]
+                    )
+                else:
+                    raise ValueError
+            elif obj[&#34;type&#34;] == &#34;AnnotationText&#34; or obj[&#34;type&#34;] == &#34;AnnotationImage&#34;:
+                return AnnotationObject.from_json(obj)
+            else:
+                raise ValueError
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.Annotation.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {Annotation}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>unexpected object or sub-object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {Annotation}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Raises:
+        ValueError: unexpected object or sub-object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj:
+        if obj[&#34;type&#34;].endswith(&#34;Annotation&#34;):
+            annotation = partial(
+                Annotation,
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                acquisition_id=obj[&#34;acquisitionId&#34;],
+                creator_id=obj[&#34;creatorId&#34;],
+                annotation_object=obj[&#34;annotationObject&#34;],
+                color=obj[&#34;color&#34;],
+                notes=obj[&#34;notes&#34;]
+            )
+
+            if obj[&#34;type&#34;] == &#34;WholeImageAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;PointAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    point=AnnotationPoint.from_json(obj[&#34;point&#34;])
+                )
+            elif obj[&#34;type&#34;] == &#34;CircleAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    center=AnnotationPoint.from_json(obj[&#34;center&#34;]),
+                    radius=obj[&#34;radius&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;DrawAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                )
+            elif obj[&#34;type&#34;] == &#34;RectangleAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    point=AnnotationPoint.from_json(obj[&#34;point&#34;]),
+                    width=obj[&#34;width&#34;],
+                    height=obj[&#34;height&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;PolygonAnnotation&#34;:
+                return annotation(
+                    annotated_sample_id=obj[&#34;annotatedSampleId&#34;],
+                    points=[AnnotationPoint.from_json(p) for p in obj[&#34;points&#34;]]
+                )
+            elif obj[&#34;type&#34;] == &#34;TimeSeriesInstantAnnotation&#34;:
+                return annotation(
+                    timestamp=obj[&#34;timestamp&#34;],
+                    device_id=obj[&#34;deviceId&#34;],
+                    sensor_id=obj[&#34;sensorId&#34;]
+                )
+            elif obj[&#34;type&#34;] == &#34;TimeSeriesIntervalAnnotation&#34;:
+                return annotation(
+                    timestamp_start=obj[&#34;timestampStart&#34;],
+                    timestamp_end=obj[&#34;timestampEnd&#34;],
+                    device_id=obj[&#34;deviceId&#34;],
+                    sensor_id=obj[&#34;sensorId&#34;]
+                )
+            else:
+                raise ValueError
+        elif obj[&#34;type&#34;] == &#34;AnnotationText&#34; or obj[&#34;type&#34;] == &#34;AnnotationImage&#34;:
+            return AnnotationObject.from_json(obj)
+        else:
+            raise ValueError
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.Annotation.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: ByteString) -> <a title="dempy.acquisitions.annotation.Annotation" href="acquisitions/annotation.html#dempy.acquisitions.annotation.Annotation">Annotation</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {Annotation}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {ByteString} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Annotation -- decoded annotation</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: ByteString) -&gt; &#34;Annotation&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {Annotation}
+
+    Arguments:
+        obj {ByteString} -- message to be decoded
+
+    Returns:
+        Annotation -- decoded annotation
+    &#34;&#34;&#34;
+    annotation_message = AnnotationMessage()
+    annotation_message.ParseFromString(obj)
+
+    return Annotation(
+        type=annotation_message.entity.type,
+        id=annotation_message.entity.id,
+        tags=annotation_message.entity.tags,
+        metadata=annotation_message.entity.metadata,
+        acquisition_id=annotation_message.acquisition_id,
+        creator_id=annotation_message.creator_id,
+        annotation_object=AnnotationObject.from_protobuf(annotation_message.annotation_object),
+        color=annotation_message.color if annotation_message.HasField(&#34;color&#34;) else None,
+        notes=annotation_message.notes if annotation_message.HasField(&#34;notes&#34;) else None,
+        annotated_sample_id=annotation_message.annotated_sample_id if annotation_message.HasField(&#34;annotated_sample_id&#34;) else None,
+        point=AnnotationPoint.from_protobuf(annotation_message.point) if annotation_message.HasField(&#34;point&#34;) else None,
+        center=AnnotationPoint.from_protobuf(annotation_message.center) if annotation_message.HasField(&#34;center&#34;) else None,
+        radius=annotation_message.radius if annotation_message.HasField(&#34;radius&#34;) else None,
+        points=[AnnotationPoint.from_protobuf(p) for p in annotation_message.points],
+        width=annotation_message.width if annotation_message.HasField(&#34;width&#34;) else None,
+        height=annotation_message.height if annotation_message.HasField(&#34;height&#34;) else None,
+        timestamp=annotation_message.timestamp if annotation_message.HasField(&#34;timestamp&#34;) else None,
+        device_id=annotation_message.device_id if annotation_message.HasField(&#34;device_id&#34;) else None,
+        sensor_id=annotation_message.sensor_id if annotation_message.HasField(&#34;sensor_id&#34;) else None,
+        timestamp_start=annotation_message.timestamp_start if annotation_message.HasField(&#34;timestamp_start&#34;) else None,
+        timestamp_end=annotation_message.timestamp_end if annotation_message.HasField(&#34;timestamp_end&#34;) else None,
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.Annotation.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: Annotation) -> dempy_pb2.Annotation</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an annotation to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Annotation} &ndash; annotation to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AnnotationMessage -- encoded annotation</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;Annotation&#34;) -&gt; AnnotationMessage:
+    &#34;&#34;&#34;Encode an annotation to a Protobuf message
+
+    Arguments:
+        obj {Annotation} -- annotation to be encoded
+
+    Returns:
+        AnnotationMessage -- encoded annotation
+    &#34;&#34;&#34;
+    annotation_message = AnnotationMessage()
+    annotation_message.entity.CopyFrom(Entity.to_protobuf(obj))
+    annotation_message.acquisition_id = obj.acquisition_id
+
+    if obj.creator_id is not None:
+        annotation_message.creator_id = obj.creator_id
+
+    annotation_message.annotation_object.CopyFrom(AnnotationObject.to_protobuf(obj.annotation_object))
+
+    if obj.color is not None:
+        annotation_message.color = obj.color
+    if obj.notes is not None:
+        annotation_message.notes = obj.notes
+
+    if obj.type == &#34;WholeImageAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+    elif obj.type == &#34;PointAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+    elif obj.type == &#34;CircleAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.center.CopyFrom(AnnotationPoint.to_protobuf(obj.center))
+        annotation_message.radius = obj.radius
+    elif obj.type == &#34;DrawAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+    elif obj.type == &#34;RectangleAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.point.CopyFrom(AnnotationPoint.to_protobuf(obj.point))
+        annotation_message.width = obj.width
+        annotation_message.height = obj.height
+    elif obj.type == &#34;PolygonAnnotation&#34;:
+        annotation_message.annotated_sample_id = obj.annotated_sample_id
+        annotation_message.points.extend([AnnotationPoint.to_protobuf(p) for p in obj.points])
+    elif obj.type == &#34;TimeSeriesInstantAnnotation&#34;:
+        annotation_message.timestamp = obj.timestamp
+
+        if obj.device_id is not None:
+            annotation_message.device_id = obj.device_id
+        if obj.sensor_id is not None:
+            annotation_message.sensor_id = obj.sensor_id
+    elif obj.type == &#34;TimeSeriesIntervalAnnotation&#34;:
+        annotation_message.timestamp_start = obj.timestamp_start
+        annotation_message.timestamp_end = obj.timestamp_end
+
+        if obj.device_id is not None:
+            annotation_message.device_id = obj.device_id
+        if obj.sensor_id is not None:
+            annotation_message.sensor_id = obj.sensor_id
+    else:
+        raise ValueError
+
+    return annotation_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.Dataset"><code class="flex name class">
+<span>class <span class="ident">Dataset</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], name: str, description: str, creator_id: str, owner_id: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Dataset class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Dataset(Entity):
+    &#34;&#34;&#34;Dataset class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], name: str, description: str, creator_id: str, owner_id: str):
+        super().__init__(type, id, tags, dict())
+        self.name = name
+        self.description = description
+        self.creator_id = creator_id
+        self.owner_id = owner_id
+
+    @property
+    def acquisitions(self):
+        &#34;&#34;&#34;Acquisitions&#39; API&#34;&#34;&#34;
+        class Inner:
+            _ACQUISITIONS_ENDPOINT = _ENDPOINT + &#34;{}/acquisitions/&#34;.format(self.id)
+
+            @staticmethod
+            def get(tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; List[Acquisition]:
+                &#34;&#34;&#34;Get acquisitions that belong to this dataset
+
+                Keyword Arguments:
+                    tags {List[str]} -- tags of the acquisitions (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the acquisitions (default: {{}})
+
+                Returns:
+                    List[Acquisition] --list of acquisitions
+                &#34;&#34;&#34;
+                return _get_acquisition(dataset_id=self.id, tags=tags, metadata=metadata)
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of acquisitions on this dataset
+
+                Returns:
+                    int -- number of acquisitions
+                &#34;&#34;&#34;
+                return _api_calls.get(Inner._ACQUISITIONS_ENDPOINT + &#34;count&#34;).json()
+
+        return Inner()
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Dataset&#34;) -&gt; DatasetMessage:
+        &#34;&#34;&#34;Encode an dataset to a Protobuf message
+
+        Arguments:
+            obj {Dataset} -- dataset to be encoded
+
+        Returns:
+            DatasetMessage -- encoded dataset
+        &#34;&#34;&#34;
+        dataset_message = DatasetMessage()
+        dataset_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        dataset_message.name = obj.name
+
+        if obj.description is not None:
+            dataset_message.description = obj.description
+        if obj.creator_id is not None:
+            dataset_message.creator_id = obj.creator_id
+        if obj.owner_id is not None:
+            dataset_message.owner_id = obj.owner_id
+
+        return dataset_message
+
+    @staticmethod
+    def from_protobuf(obj: ByteString) -&gt; &#34;Dataset&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Dataset}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Dataset -- decoded dataset
+        &#34;&#34;&#34;
+        dataset_message = DatasetMessage()
+        dataset_message.ParseFromString(obj)
+
+        return Dataset(
+            type=dataset_message.entity.type,
+            id=dataset_message.entity.id,
+            tags=dataset_message.entity.tags,
+            name=dataset_message.name,
+            description=dataset_message.description if dataset_message.HasField(&#34;description&#34;) else None,
+            creator_id=dataset_message.creator_id if dataset_message.HasField(&#34;creator_id&#34;) else None,
+            owner_id=dataset_message.owner_id if dataset_message.HasField(&#34;owner_id&#34;) else None,
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Dataset}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;Dataset&#34;:
+            return Dataset(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                name=obj[&#34;name&#34;],
+                description=obj[&#34;description&#34;],
+                creator_id=obj[&#34;creatorId&#34;],
+                owner_id=obj[&#34;ownerId&#34;],
+            )
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.Dataset.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {Dataset}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {Dataset}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;Dataset&#34;:
+        return Dataset(
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            tags=obj[&#34;tags&#34;],
+            name=obj[&#34;name&#34;],
+            description=obj[&#34;description&#34;],
+            creator_id=obj[&#34;creatorId&#34;],
+            owner_id=obj[&#34;ownerId&#34;],
+        )
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.Dataset.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: ByteString) -> <a title="dempy.datasets.Dataset" href="datasets.html#dempy.datasets.Dataset">Dataset</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {Dataset}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {ByteString} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dataset -- decoded dataset</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: ByteString) -&gt; &#34;Dataset&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {Dataset}
+
+    Arguments:
+        obj {ByteString} -- message to be decoded
+
+    Returns:
+        Dataset -- decoded dataset
+    &#34;&#34;&#34;
+    dataset_message = DatasetMessage()
+    dataset_message.ParseFromString(obj)
+
+    return Dataset(
+        type=dataset_message.entity.type,
+        id=dataset_message.entity.id,
+        tags=dataset_message.entity.tags,
+        name=dataset_message.name,
+        description=dataset_message.description if dataset_message.HasField(&#34;description&#34;) else None,
+        creator_id=dataset_message.creator_id if dataset_message.HasField(&#34;creator_id&#34;) else None,
+        owner_id=dataset_message.owner_id if dataset_message.HasField(&#34;owner_id&#34;) else None,
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.Dataset.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: Dataset) -> dempy_pb2.Dataset</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an dataset to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dataset} &ndash; dataset to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DatasetMessage -- encoded dataset</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;Dataset&#34;) -&gt; DatasetMessage:
+    &#34;&#34;&#34;Encode an dataset to a Protobuf message
+
+    Arguments:
+        obj {Dataset} -- dataset to be encoded
+
+    Returns:
+        DatasetMessage -- encoded dataset
+    &#34;&#34;&#34;
+    dataset_message = DatasetMessage()
+    dataset_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    dataset_message.name = obj.name
+
+    if obj.description is not None:
+        dataset_message.description = obj.description
+    if obj.creator_id is not None:
+        dataset_message.creator_id = obj.creator_id
+    if obj.owner_id is not None:
+        dataset_message.owner_id = obj.owner_id
+
+    return dataset_message</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="dempy.Dataset.acquisitions"><code class="name">var <span class="ident">acquisitions</span></code></dt>
+<dd>
+<div class="desc"><p>Acquisitions' API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def acquisitions(self):
+    &#34;&#34;&#34;Acquisitions&#39; API&#34;&#34;&#34;
+    class Inner:
+        _ACQUISITIONS_ENDPOINT = _ENDPOINT + &#34;{}/acquisitions/&#34;.format(self.id)
+
+        @staticmethod
+        def get(tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; List[Acquisition]:
+            &#34;&#34;&#34;Get acquisitions that belong to this dataset
+
+            Keyword Arguments:
+                tags {List[str]} -- tags of the acquisitions (default: {[]})
+                metadata {Dict[str, str]} -- metadata of the acquisitions (default: {{}})
+
+            Returns:
+                List[Acquisition] --list of acquisitions
+            &#34;&#34;&#34;
+            return _get_acquisition(dataset_id=self.id, tags=tags, metadata=metadata)
+
+        @staticmethod
+        def count() -&gt; int:
+            &#34;&#34;&#34;Get the number of acquisitions on this dataset
+
+            Returns:
+                int -- number of acquisitions
+            &#34;&#34;&#34;
+            return _api_calls.get(Inner._ACQUISITIONS_ENDPOINT + &#34;count&#34;).json()
+
+    return Inner()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.Device"><code class="flex name class">
+<span>class <span class="ident">Device</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], sync_offset: int, time_unit: str, serial_number: str, manufacturer: str, model_name: str, sensors: List[<a title="dempy.acquisitions.sensor.Sensor" href="acquisitions/sensor.html#dempy.acquisitions.sensor.Sensor">Sensor</a>])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Device class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Device(Entity):
+    &#34;&#34;&#34;Device class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], sync_offset: int, time_unit: str, serial_number: str,
+                 manufacturer: str, model_name: str, sensors: List[Sensor]):
+        super().__init__(type, id, tags, metadata)
+        self.sync_offset = sync_offset
+        self.time_unit = time_unit
+        self.serial_number = serial_number
+        self.manufacturer = manufacturer
+        self.model_name = model_name
+        self._sensors = sensors
+
+    @property
+    def sensors(self):
+        &#34;&#34;&#34;Sensors&#39; API&#34;&#34;&#34;
+        class Inner:
+            @staticmethod
+            def get(sensor_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; Union[Sensor, List[Sensor]]:
+                &#34;&#34;&#34;Get all the sensors that belong to this device
+
+                Keyword Arguments:
+                    sensor_id {str} -- id of the sensor (default: {None})
+                    tags {List[str]} -- tags of the sensor (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the sensor (default: {{}})
+
+                Raises:
+                    IndexError: sensor identified by `sensor_id` does not exist in this device
+
+                Returns:
+                    Union[Sensor, List[Sensor]] -- sensor or list of sensors
+                &#34;&#34;&#34;                
+                if sensor_id is None:
+                    if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                        return [s for s in self._sensors if
+                                len([k for k in s.metadata if k in metadata and s.metadata[k] == metadata[k]]) &gt; 0]
+
+                    return self._sensors
+                else:
+                    try:
+                        sensor = next((sensor for sensor in self._sensors if sensor.id == sensor_id))
+                    except StopIteration:
+                        raise IndexError(f&#34;sensor id {sensor_id} does not exist in acquisition id {self.id}&#34;)
+                    return sensor
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of sensors on this device
+
+                Returns:
+                    int -- number of sensors
+                &#34;&#34;&#34;
+                return len(self._sensors)
+
+        return Inner()
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Device&#34;) -&gt; DeviceMessage:
+        &#34;&#34;&#34;Encode an device to a Protobuf message
+
+        Arguments:
+            obj {Device} -- device to be encoded
+
+        Returns:
+            DeviceMessage -- encoded device
+        &#34;&#34;&#34;
+        device_message = DeviceMessage()
+        device_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        if obj.sync_offset is not None:
+            device_message.sync_offset = obj.sync_offset
+        if obj.time_unit is not None:
+            device_message.time_unit = obj.time_unit
+        if obj.serial_number is not None:
+            device_message.serial_number = obj.serial_number
+        if obj.manufacturer is not None:
+            device_message.manufacturer = obj.manufacturer
+        if obj.model_name is not None:
+            device_message.model_name = obj.model_name
+
+        device_message.sensors.extend([Sensor.to_protobuf(s) for s in obj._sensors])
+
+        return device_message
+
+    @staticmethod
+    def from_protobuf(device_message: DeviceMessage) -&gt; &#34;Device&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Device}
+
+        Arguments:
+            obj {DeviceMessage} -- message to be decoded
+
+        Returns:
+            Device -- decoded device
+        &#34;&#34;&#34;
+        return Device(
+            type=device_message.entity.type,
+            id=device_message.entity.id,
+            tags=device_message.entity.tags,
+            metadata=device_message.entity.metadata,
+            sync_offset=device_message.sync_offset if device_message.HasField(&#34;sync_offset&#34;) else None,
+            time_unit=device_message.time_unit if device_message.HasField(&#34;time_unit&#34;) else None,
+            serial_number=device_message.serial_number if device_message.HasField(&#34;serial_number&#34;) else None,
+            manufacturer=device_message.manufacturer if device_message.HasField(&#34;manufacturer&#34;) else None,
+            model_name=device_message.model_name if device_message.HasField(&#34;model_name&#34;) else None,
+            sensors=[Sensor.from_protobuf(s) for s in device_message.sensors]
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Device}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj:
+            if obj[&#34;type&#34;] == &#34;Device&#34;:
+                return Device(
+                    type=obj[&#34;type&#34;],
+                    id=obj[&#34;id&#34;],
+                    tags=obj[&#34;tags&#34;],
+                    metadata=obj[&#34;metadata&#34;],
+                    sync_offset=obj[&#34;syncOffset&#34;],
+                    time_unit=obj[&#34;timeUnit&#34;],
+                    serial_number=obj[&#34;serialNumber&#34;],
+                    manufacturer=obj[&#34;manufacturer&#34;],
+                    model_name=obj[&#34;modelName&#34;],
+                    sensors=obj[&#34;sensors&#34;],
+                )
+            elif obj[&#34;type&#34;] == &#34;Sensor&#34;:
+                return Sensor.from_json(obj)
+            else:
+                raise ValueError
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.Device.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {Device}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>unexpected object or sub-object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {Device}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Raises:
+        ValueError: unexpected object or sub-object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj:
+        if obj[&#34;type&#34;] == &#34;Device&#34;:
+            return Device(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                sync_offset=obj[&#34;syncOffset&#34;],
+                time_unit=obj[&#34;timeUnit&#34;],
+                serial_number=obj[&#34;serialNumber&#34;],
+                manufacturer=obj[&#34;manufacturer&#34;],
+                model_name=obj[&#34;modelName&#34;],
+                sensors=obj[&#34;sensors&#34;],
+            )
+        elif obj[&#34;type&#34;] == &#34;Sensor&#34;:
+            return Sensor.from_json(obj)
+        else:
+            raise ValueError
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.Device.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>device_message: dempy_pb2.Device) -> <a title="dempy.acquisitions.device.Device" href="acquisitions/device.html#dempy.acquisitions.device.Device">Device</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {Device}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {DeviceMessage} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Device -- decoded device</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(device_message: DeviceMessage) -&gt; &#34;Device&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {Device}
+
+    Arguments:
+        obj {DeviceMessage} -- message to be decoded
+
+    Returns:
+        Device -- decoded device
+    &#34;&#34;&#34;
+    return Device(
+        type=device_message.entity.type,
+        id=device_message.entity.id,
+        tags=device_message.entity.tags,
+        metadata=device_message.entity.metadata,
+        sync_offset=device_message.sync_offset if device_message.HasField(&#34;sync_offset&#34;) else None,
+        time_unit=device_message.time_unit if device_message.HasField(&#34;time_unit&#34;) else None,
+        serial_number=device_message.serial_number if device_message.HasField(&#34;serial_number&#34;) else None,
+        manufacturer=device_message.manufacturer if device_message.HasField(&#34;manufacturer&#34;) else None,
+        model_name=device_message.model_name if device_message.HasField(&#34;model_name&#34;) else None,
+        sensors=[Sensor.from_protobuf(s) for s in device_message.sensors]
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.Device.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: Device) -> dempy_pb2.Device</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an device to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Device} &ndash; device to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DeviceMessage -- encoded device</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;Device&#34;) -&gt; DeviceMessage:
+    &#34;&#34;&#34;Encode an device to a Protobuf message
+
+    Arguments:
+        obj {Device} -- device to be encoded
+
+    Returns:
+        DeviceMessage -- encoded device
+    &#34;&#34;&#34;
+    device_message = DeviceMessage()
+    device_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    if obj.sync_offset is not None:
+        device_message.sync_offset = obj.sync_offset
+    if obj.time_unit is not None:
+        device_message.time_unit = obj.time_unit
+    if obj.serial_number is not None:
+        device_message.serial_number = obj.serial_number
+    if obj.manufacturer is not None:
+        device_message.manufacturer = obj.manufacturer
+    if obj.model_name is not None:
+        device_message.model_name = obj.model_name
+
+    device_message.sensors.extend([Sensor.to_protobuf(s) for s in obj._sensors])
+
+    return device_message</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="dempy.Device.sensors"><code class="name">var <span class="ident">sensors</span></code></dt>
+<dd>
+<div class="desc"><p>Sensors' API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def sensors(self):
+    &#34;&#34;&#34;Sensors&#39; API&#34;&#34;&#34;
+    class Inner:
+        @staticmethod
+        def get(sensor_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -&gt; Union[Sensor, List[Sensor]]:
+            &#34;&#34;&#34;Get all the sensors that belong to this device
+
+            Keyword Arguments:
+                sensor_id {str} -- id of the sensor (default: {None})
+                tags {List[str]} -- tags of the sensor (default: {[]})
+                metadata {Dict[str, str]} -- metadata of the sensor (default: {{}})
+
+            Raises:
+                IndexError: sensor identified by `sensor_id` does not exist in this device
+
+            Returns:
+                Union[Sensor, List[Sensor]] -- sensor or list of sensors
+            &#34;&#34;&#34;                
+            if sensor_id is None:
+                if len(tags) &gt; 0 or len(metadata) &gt; 0:
+                    return [s for s in self._sensors if
+                            len([k for k in s.metadata if k in metadata and s.metadata[k] == metadata[k]]) &gt; 0]
+
+                return self._sensors
+            else:
+                try:
+                    sensor = next((sensor for sensor in self._sensors if sensor.id == sensor_id))
+                except StopIteration:
+                    raise IndexError(f&#34;sensor id {sensor_id} does not exist in acquisition id {self.id}&#34;)
+                return sensor
+
+        @staticmethod
+        def count() -&gt; int:
+            &#34;&#34;&#34;Get the number of sensors on this device
+
+            Returns:
+                int -- number of sensors
+            &#34;&#34;&#34;
+            return len(self._sensors)
+
+    return Inner()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.ImageSample"><code class="flex name class">
+<span>class <span class="ident">ImageSample</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str, sensor_id: str, media_type: str, image_source: str, has_rotation_metadata: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>ImageSample class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ImageSample(Entity):
+    &#34;&#34;&#34;ImageSample class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
+                 sensor_id: str, media_type: str, image_source: str, has_rotation_metadata: bool):
+        super().__init__(type, id, tags, metadata)
+        self.timestamp = timestamp
+        self.acquisition_id = acquisition_id
+        self.device_id = device_id
+        self.sensor_id = sensor_id
+        self.media_type = media_type
+        self.image_source = image_source
+        self.has_rotation_metadata = has_rotation_metadata
+
+    @staticmethod
+    def to_protobuf(obj: &#34;ImageSample&#34;) -&gt; ImageMessage:
+        &#34;&#34;&#34;Encode a image sample to a Protobuf message
+
+        Arguments:
+            obj {ImageSample} -- image sample to be encoded
+
+        Returns:
+            ImageMessage -- encoded image sample
+        &#34;&#34;&#34;
+        image_message = ImageMessage()
+        image_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        image_message.timestamp = obj.timestamp
+        image_message.acquisition_id = obj.acquisition_id
+
+        if obj.device_id is not None:
+            image_message.device_id = obj.device_id
+        if obj.sensor_id is not None:
+            image_message.sensor_id = obj.sensor_id
+
+        image_message.media_type = obj.media_type
+        image_message.image_source = obj.image_source
+        image_message.has_rotation_metadata = obj.has_rotation_metadata
+
+        return image_message
+
+    @staticmethod
+    def from_protobuf(obj: Union[ByteString, ImageMessage]) -&gt; &#34;ImageSample&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {ImageSample}
+
+        Arguments:
+            obj {Union[ByteString, ImageMessage]} -- message to be decoded
+
+        Returns:
+            ImageSample -- decoded image sample
+        &#34;&#34;&#34;
+        image_message = obj if isinstance(obj, ImageMessage) else ImageMessage().ParseFromString(obj)
+
+        return ImageSample(
+            type=image_message.entity.type,
+            id=image_message.entity.id,
+            tags=image_message.entity.tags,
+            metadata=image_message.entity.metadata,
+            timestamp=image_message.timestamp,
+            acquisition_id=image_message.acquisition_id,
+            device_id=image_message.device_id if image_message.HasField(&#34;device_id&#34;) else None,
+            sensor_id=image_message.sensor_id if image_message.HasField(&#34;sensor_id&#34;) else None,
+            media_type=image_message.media_type,
+            image_source=image_message.image_source,
+            has_rotation_metadata=image_message.has_rotation_metadata
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {ImageSample}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;ImageSample&#34;:
+            return ImageSample(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                timestamp=obj[&#34;timestamp&#34;],
+                acquisition_id=obj[&#34;acquisitionId&#34;],
+                device_id=obj[&#34;deviceId&#34;],
+                sensor_id=obj[&#34;sensorId&#34;],
+                media_type=obj[&#34;mediaType&#34;],
+                image_source=obj[&#34;imageSource&#34;],
+                has_rotation_metadata=obj[&#34;hasRotationMetadata&#34;]
+            )
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.ImageSample.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {ImageSample}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {ImageSample}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;ImageSample&#34;:
+        return ImageSample(
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            tags=obj[&#34;tags&#34;],
+            metadata=obj[&#34;metadata&#34;],
+            timestamp=obj[&#34;timestamp&#34;],
+            acquisition_id=obj[&#34;acquisitionId&#34;],
+            device_id=obj[&#34;deviceId&#34;],
+            sensor_id=obj[&#34;sensorId&#34;],
+            media_type=obj[&#34;mediaType&#34;],
+            image_source=obj[&#34;imageSource&#34;],
+            has_rotation_metadata=obj[&#34;hasRotationMetadata&#34;]
+        )
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.ImageSample.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: Union[ByteString, dempy_pb2.ImageSample]) -> <a title="dempy.acquisitions.image_sample.ImageSample" href="acquisitions/image_sample.html#dempy.acquisitions.image_sample.ImageSample">ImageSample</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {ImageSample}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Union[ByteString, ImageMessage]} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ImageSample -- decoded image sample</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: Union[ByteString, ImageMessage]) -&gt; &#34;ImageSample&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {ImageSample}
+
+    Arguments:
+        obj {Union[ByteString, ImageMessage]} -- message to be decoded
+
+    Returns:
+        ImageSample -- decoded image sample
+    &#34;&#34;&#34;
+    image_message = obj if isinstance(obj, ImageMessage) else ImageMessage().ParseFromString(obj)
+
+    return ImageSample(
+        type=image_message.entity.type,
+        id=image_message.entity.id,
+        tags=image_message.entity.tags,
+        metadata=image_message.entity.metadata,
+        timestamp=image_message.timestamp,
+        acquisition_id=image_message.acquisition_id,
+        device_id=image_message.device_id if image_message.HasField(&#34;device_id&#34;) else None,
+        sensor_id=image_message.sensor_id if image_message.HasField(&#34;sensor_id&#34;) else None,
+        media_type=image_message.media_type,
+        image_source=image_message.image_source,
+        has_rotation_metadata=image_message.has_rotation_metadata
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.ImageSample.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: ImageSample) -> dempy_pb2.ImageSample</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode a image sample to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {ImageSample} &ndash; image sample to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ImageMessage -- encoded image sample</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;ImageSample&#34;) -&gt; ImageMessage:
+    &#34;&#34;&#34;Encode a image sample to a Protobuf message
+
+    Arguments:
+        obj {ImageSample} -- image sample to be encoded
+
+    Returns:
+        ImageMessage -- encoded image sample
+    &#34;&#34;&#34;
+    image_message = ImageMessage()
+    image_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    image_message.timestamp = obj.timestamp
+    image_message.acquisition_id = obj.acquisition_id
+
+    if obj.device_id is not None:
+        image_message.device_id = obj.device_id
+    if obj.sensor_id is not None:
+        image_message.sensor_id = obj.sensor_id
+
+    image_message.media_type = obj.media_type
+    image_message.image_source = obj.image_source
+    image_message.has_rotation_metadata = obj.has_rotation_metadata
+
+    return image_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.Organization"><code class="flex name class">
+<span>class <span class="ident">Organization</span></span>
+<span>(</span><span>type: str, id: str, name: str, description: str, url: str, email: str, phone: str, users_ids: List[str])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Organization class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Organization(Entity):
+    &#34;&#34;&#34;Organization class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, name: str, description: str, url: str, email: str, phone: str, users_ids: List[str]):
+        super().__init__(type, id, list(), dict())
+        self.name = name
+        self.description = description
+        self.url = url
+        self.email = email
+        self.phone = phone
+        self._users_ids = users_ids
+
+    @property
+    def users(self):
+        &#34;&#34;&#34;Users&#39; API&#34;&#34;&#34;
+        class Inner:
+            _USERS_ENDPOINT = _ENDPOINT + &#34;{}/users/&#34;.format(self.id)
+
+            @staticmethod
+            def get() -&gt; List[User]:
+                &#34;&#34;&#34;Get all the users that belong to this organization
+
+                Returns:
+                    List[User] -- list of users
+                &#34;&#34;&#34;
+                return [_get_user(u) for u in self._users_ids]
+
+            @staticmethod
+            def count() -&gt; int:
+                &#34;&#34;&#34;Get the number of users on this organization
+
+                Returns:
+                    int -- number of users
+                &#34;&#34;&#34;
+                return len(self._users_ids)
+
+        return Inner()
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Organization&#34;) -&gt; OrganizationMessage:
+        &#34;&#34;&#34;Encode an organization to a Protobuf message
+
+        Arguments:
+            obj {Organization} -- organization to be encoded
+
+        Returns:
+            OrganizationMessage -- encoded organization
+        &#34;&#34;&#34;
+        organization_message = OrganizationMessage()
+        organization_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        organization_message.name = obj.name
+
+        if obj.description is not None:
+            organization_message.description = obj.description
+        if obj.url is not None:
+            organization_message.url = obj.url
+        if obj.email is not None:
+            organization_message.email = obj.email
+        if obj.phone is not None:
+            organization_message.phone = obj.phone
+
+        organization_message.users_ids.extend(obj._users_ids)
+
+        return organization_message
+
+    @staticmethod
+    def from_protobuf(obj: ByteString) -&gt; &#34;Organization&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Organization}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Organization -- decoded organization
+        &#34;&#34;&#34;
+        organization_message = OrganizationMessage()
+        organization_message.ParseFromString(obj)
+
+        return Organization(
+            type=organization_message.entity.type,
+            id=organization_message.entity.id,
+            name=organization_message.name,
+            description=organization_message.description if organization_message.HasField(&#34;description&#34;) else None,
+            url=organization_message.url if organization_message.HasField(&#34;url&#34;) else None,
+            email=organization_message.email if organization_message.HasField(&#34;email&#34;) else None,
+            phone=organization_message.phone if organization_message.HasField(&#34;phone&#34;) else None,
+            users_ids=organization_message.users_ids
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Organization}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;Organization&#34;:
+            return Organization(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                name=obj[&#34;name&#34;],
+                description=obj[&#34;description&#34;],
+                url=obj[&#34;url&#34;],
+                email=obj[&#34;email&#34;],
+                phone=obj[&#34;phone&#34;],
+                users_ids=obj[&#34;usersIds&#34;]
+            )
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.Organization.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {Organization}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {Organization}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;Organization&#34;:
+        return Organization(
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            name=obj[&#34;name&#34;],
+            description=obj[&#34;description&#34;],
+            url=obj[&#34;url&#34;],
+            email=obj[&#34;email&#34;],
+            phone=obj[&#34;phone&#34;],
+            users_ids=obj[&#34;usersIds&#34;]
+        )
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.Organization.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: ByteString) -> <a title="dempy.organizations.Organization" href="organizations.html#dempy.organizations.Organization">Organization</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {Organization}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {ByteString} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Organization -- decoded organization</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: ByteString) -&gt; &#34;Organization&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {Organization}
+
+    Arguments:
+        obj {ByteString} -- message to be decoded
+
+    Returns:
+        Organization -- decoded organization
+    &#34;&#34;&#34;
+    organization_message = OrganizationMessage()
+    organization_message.ParseFromString(obj)
+
+    return Organization(
+        type=organization_message.entity.type,
+        id=organization_message.entity.id,
+        name=organization_message.name,
+        description=organization_message.description if organization_message.HasField(&#34;description&#34;) else None,
+        url=organization_message.url if organization_message.HasField(&#34;url&#34;) else None,
+        email=organization_message.email if organization_message.HasField(&#34;email&#34;) else None,
+        phone=organization_message.phone if organization_message.HasField(&#34;phone&#34;) else None,
+        users_ids=organization_message.users_ids
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.Organization.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: Organization) -> dempy_pb2.Organization</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an organization to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Organization} &ndash; organization to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>OrganizationMessage -- encoded organization</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;Organization&#34;) -&gt; OrganizationMessage:
+    &#34;&#34;&#34;Encode an organization to a Protobuf message
+
+    Arguments:
+        obj {Organization} -- organization to be encoded
+
+    Returns:
+        OrganizationMessage -- encoded organization
+    &#34;&#34;&#34;
+    organization_message = OrganizationMessage()
+    organization_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    organization_message.name = obj.name
+
+    if obj.description is not None:
+        organization_message.description = obj.description
+    if obj.url is not None:
+        organization_message.url = obj.url
+    if obj.email is not None:
+        organization_message.email = obj.email
+    if obj.phone is not None:
+        organization_message.phone = obj.phone
+
+    organization_message.users_ids.extend(obj._users_ids)
+
+    return organization_message</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="dempy.Organization.users"><code class="name">var <span class="ident">users</span></code></dt>
+<dd>
+<div class="desc"><p>Users' API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def users(self):
+    &#34;&#34;&#34;Users&#39; API&#34;&#34;&#34;
+    class Inner:
+        _USERS_ENDPOINT = _ENDPOINT + &#34;{}/users/&#34;.format(self.id)
+
+        @staticmethod
+        def get() -&gt; List[User]:
+            &#34;&#34;&#34;Get all the users that belong to this organization
+
+            Returns:
+                List[User] -- list of users
+            &#34;&#34;&#34;
+            return [_get_user(u) for u in self._users_ids]
+
+        @staticmethod
+        def count() -&gt; int:
+            &#34;&#34;&#34;Get the number of users on this organization
+
+            Returns:
+                int -- number of users
+            &#34;&#34;&#34;
+            return len(self._users_ids)
+
+    return Inner()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.Sensor"><code class="flex name class">
+<span>class <span class="ident">Sensor</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], sync_offset: int, time_unit: str, serial_number: str, manufacturer: str, model_name: str, sensor_type: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sensor class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Sensor(Entity):
+    &#34;&#34;&#34;Sensor class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], sync_offset: int, time_unit: str, serial_number: str,
+                 manufacturer: str, model_name: str, sensor_type: str):
+        super().__init__(type, id, tags, metadata)
+        self.sync_offset = sync_offset
+        self.time_unit = time_unit
+        self.serial_number = serial_number
+        self.manufacturer = manufacturer
+        self.model_name = model_name
+        self.sensor_type = sensor_type
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Sensor&#34;) -&gt; SensorMessage:
+        &#34;&#34;&#34;Encode an sensor to a Protobuf message
+
+        Arguments:
+            obj {Sensor} -- sensor to be encoded
+
+        Returns:
+            SensorMessage -- encoded sensor
+        &#34;&#34;&#34;
+        sensor_message = SensorMessage()
+        sensor_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        if obj.sync_offset is not None:
+            sensor_message.sync_offset = obj.sync_offset
+        if obj.time_unit is not None:
+            sensor_message.time_unit = obj.time_unit
+        if obj.serial_number is not None:
+            sensor_message.serial_number = obj.serial_number
+        if obj.manufacturer is not None:
+            sensor_message.manufacturer = obj.manufacturer
+        if obj.model_name is not None:
+            sensor_message.model_name = obj.model_name
+        if obj.sensor_type is not None:
+            sensor_message.sensor_type = obj.sensor_type
+
+        return sensor_message
+
+    @staticmethod
+    def from_protobuf(sensor_message: SensorMessage) -&gt; &#34;Sensor&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Sensor}
+
+        Arguments:
+            obj {SensorMessage} -- message to be decoded
+
+        Returns:
+            Sensor -- decoded sensor
+        &#34;&#34;&#34;
+        return Sensor(
+            type=sensor_message.entity.type,
+            id=sensor_message.entity.id,
+            tags=sensor_message.entity.tags,
+            metadata=sensor_message.entity.metadata,
+            sync_offset=sensor_message.sync_offset if sensor_message.HasField(&#34;sync_offset&#34;) else None,
+            time_unit=sensor_message.time_unit if sensor_message.HasField(&#34;time_unit&#34;) else None,
+            serial_number=sensor_message.serial_number if sensor_message.HasField(&#34;serial_number&#34;) else None,
+            manufacturer=sensor_message.manufacturer if sensor_message.HasField(&#34;manufacturer&#34;) else None,
+            model_name=sensor_message.model_name if sensor_message.HasField(&#34;model_name&#34;) else None,
+            sensor_type=sensor_message.sensor_type if sensor_message.HasField(&#34;sensor_type&#34;) else None,
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Sensor}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;Sensor&#34;:
+            return Sensor(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                sync_offset=obj[&#34;syncOffset&#34;],
+                time_unit=obj[&#34;timeUnit&#34;],
+                serial_number=obj[&#34;serialNumber&#34;],
+                manufacturer=obj[&#34;manufacturer&#34;],
+                model_name=obj[&#34;modelName&#34;],
+                sensor_type=obj[&#34;sensorType&#34;],
+            )
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.Sensor.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {Sensor}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {Sensor}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;Sensor&#34;:
+        return Sensor(
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            tags=obj[&#34;tags&#34;],
+            metadata=obj[&#34;metadata&#34;],
+            sync_offset=obj[&#34;syncOffset&#34;],
+            time_unit=obj[&#34;timeUnit&#34;],
+            serial_number=obj[&#34;serialNumber&#34;],
+            manufacturer=obj[&#34;manufacturer&#34;],
+            model_name=obj[&#34;modelName&#34;],
+            sensor_type=obj[&#34;sensorType&#34;],
+        )
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.Sensor.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>sensor_message: dempy_pb2.Sensor) -> <a title="dempy.acquisitions.sensor.Sensor" href="acquisitions/sensor.html#dempy.acquisitions.sensor.Sensor">Sensor</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {Sensor}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {SensorMessage} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Sensor -- decoded sensor</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(sensor_message: SensorMessage) -&gt; &#34;Sensor&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {Sensor}
+
+    Arguments:
+        obj {SensorMessage} -- message to be decoded
+
+    Returns:
+        Sensor -- decoded sensor
+    &#34;&#34;&#34;
+    return Sensor(
+        type=sensor_message.entity.type,
+        id=sensor_message.entity.id,
+        tags=sensor_message.entity.tags,
+        metadata=sensor_message.entity.metadata,
+        sync_offset=sensor_message.sync_offset if sensor_message.HasField(&#34;sync_offset&#34;) else None,
+        time_unit=sensor_message.time_unit if sensor_message.HasField(&#34;time_unit&#34;) else None,
+        serial_number=sensor_message.serial_number if sensor_message.HasField(&#34;serial_number&#34;) else None,
+        manufacturer=sensor_message.manufacturer if sensor_message.HasField(&#34;manufacturer&#34;) else None,
+        model_name=sensor_message.model_name if sensor_message.HasField(&#34;model_name&#34;) else None,
+        sensor_type=sensor_message.sensor_type if sensor_message.HasField(&#34;sensor_type&#34;) else None,
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.Sensor.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: Sensor) -> dempy_pb2.Sensor</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an sensor to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Sensor} &ndash; sensor to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>SensorMessage -- encoded sensor</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;Sensor&#34;) -&gt; SensorMessage:
+    &#34;&#34;&#34;Encode an sensor to a Protobuf message
+
+    Arguments:
+        obj {Sensor} -- sensor to be encoded
+
+    Returns:
+        SensorMessage -- encoded sensor
+    &#34;&#34;&#34;
+    sensor_message = SensorMessage()
+    sensor_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    if obj.sync_offset is not None:
+        sensor_message.sync_offset = obj.sync_offset
+    if obj.time_unit is not None:
+        sensor_message.time_unit = obj.time_unit
+    if obj.serial_number is not None:
+        sensor_message.serial_number = obj.serial_number
+    if obj.manufacturer is not None:
+        sensor_message.manufacturer = obj.manufacturer
+    if obj.model_name is not None:
+        sensor_message.model_name = obj.model_name
+    if obj.sensor_type is not None:
+        sensor_message.sensor_type = obj.sensor_type
+
+    return sensor_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.Subject"><code class="flex name class">
+<span>class <span class="ident">Subject</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], birthdate_timestamp: int, description: str, first_name: str, last_name: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Subject class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Subject(Entity):
+    &#34;&#34;&#34;Subject class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], birthdate_timestamp: int, description: str,
+                 first_name: str, last_name: str):
+        super().__init__(type, id, tags, metadata)
+        self.birthdate_timestamp = birthdate_timestamp
+        self.description = description
+        self.first_name = first_name
+        self.last_name = last_name
+
+    @staticmethod
+    def to_protobuf(obj: &#34;Subject&#34;) -&gt; SubjectMessage:
+        &#34;&#34;&#34;Encode an subject to a Protobuf message
+
+        Arguments:
+            obj {Subject} -- subject to be encoded
+
+        Returns:
+            SubjectMessage -- encoded subject
+        &#34;&#34;&#34;
+        subject_message = SubjectMessage()
+        subject_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        subject_message.birthdate_timestamp = obj.birthdate_timestamp
+
+        if obj.description is not None:
+            subject_message.description = obj.description
+        if obj.first_name is not None:
+            subject_message.first_name = obj.first_name
+        if obj.last_name is not None:
+            subject_message.last_name = obj.last_name
+
+        return subject_message
+
+    @staticmethod
+    def from_protobuf(subject_message: SubjectMessage) -&gt; &#34;Subject&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {Subject}
+
+        Arguments:
+            obj {SubjectMessage} -- message to be decoded
+
+        Returns:
+            Subject -- decoded subject
+        &#34;&#34;&#34;
+        return Subject(
+            type=subject_message.entity.type,
+            id=subject_message.entity.id,
+            tags=subject_message.entity.tags,
+            metadata=subject_message.entity.metadata,
+            birthdate_timestamp=subject_message.birthdate_timestamp if subject_message.HasField(&#34;birthdate_timestamp&#34;) else None,
+            description=subject_message.description if subject_message.HasField(&#34;description&#34;) else None,
+            first_name=subject_message.first_name if subject_message.HasField(&#34;first_name&#34;) else None,
+            last_name=subject_message.last_name if subject_message.HasField(&#34;last_name&#34;) else None,
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {Subject}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;].endswith(&#34;Subject&#34;):
+            return Subject(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                tags=obj[&#34;tags&#34;],
+                birthdate_timestamp=obj[&#34;birthdateTimestamp&#34;],
+                description=obj[&#34;description&#34;],
+                first_name=obj[&#34;firstName&#34;],
+                last_name=obj[&#34;lastName&#34;]
+            )
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.Subject.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {Subject}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {Subject}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;].endswith(&#34;Subject&#34;):
+        return Subject(
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            metadata=obj[&#34;metadata&#34;],
+            tags=obj[&#34;tags&#34;],
+            birthdate_timestamp=obj[&#34;birthdateTimestamp&#34;],
+            description=obj[&#34;description&#34;],
+            first_name=obj[&#34;firstName&#34;],
+            last_name=obj[&#34;lastName&#34;]
+        )
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.Subject.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>subject_message: dempy_pb2.Subject) -> <a title="dempy.acquisitions.subject.Subject" href="acquisitions/subject.html#dempy.acquisitions.subject.Subject">Subject</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {Subject}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {SubjectMessage} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Subject -- decoded subject</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(subject_message: SubjectMessage) -&gt; &#34;Subject&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {Subject}
+
+    Arguments:
+        obj {SubjectMessage} -- message to be decoded
+
+    Returns:
+        Subject -- decoded subject
+    &#34;&#34;&#34;
+    return Subject(
+        type=subject_message.entity.type,
+        id=subject_message.entity.id,
+        tags=subject_message.entity.tags,
+        metadata=subject_message.entity.metadata,
+        birthdate_timestamp=subject_message.birthdate_timestamp if subject_message.HasField(&#34;birthdate_timestamp&#34;) else None,
+        description=subject_message.description if subject_message.HasField(&#34;description&#34;) else None,
+        first_name=subject_message.first_name if subject_message.HasField(&#34;first_name&#34;) else None,
+        last_name=subject_message.last_name if subject_message.HasField(&#34;last_name&#34;) else None,
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.Subject.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: Subject) -> dempy_pb2.Subject</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an subject to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Subject} &ndash; subject to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>SubjectMessage -- encoded subject</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;Subject&#34;) -&gt; SubjectMessage:
+    &#34;&#34;&#34;Encode an subject to a Protobuf message
+
+    Arguments:
+        obj {Subject} -- subject to be encoded
+
+    Returns:
+        SubjectMessage -- encoded subject
+    &#34;&#34;&#34;
+    subject_message = SubjectMessage()
+    subject_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    subject_message.birthdate_timestamp = obj.birthdate_timestamp
+
+    if obj.description is not None:
+        subject_message.description = obj.description
+    if obj.first_name is not None:
+        subject_message.first_name = obj.first_name
+    if obj.last_name is not None:
+        subject_message.last_name = obj.last_name
+
+    return subject_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.TimeseriesSample"><code class="flex name class">
+<span>class <span class="ident">TimeseriesSample</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str, sensor_id: str, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TimeseriesSample class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TimeseriesSample(Entity):
+    &#34;&#34;&#34;TimeseriesSample class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
+                 sensor_id: str, **kwargs):
+        super().__init__(type, id, tags, metadata)
+        self.timestamp = timestamp
+        self.acquisition_id = acquisition_id
+        self.device_id = device_id
+        self.sensor_id = sensor_id
+
+        if self.type == &#34;UniaxialSample&#34;:
+            self.x: float = kwargs.get(&#34;x&#34;)
+        elif self.type == &#34;BiaxialSample&#34;:
+            self.x: float = kwargs.get(&#34;x&#34;)
+            self.y: float = kwargs.get(&#34;y&#34;)
+        elif self.type == &#34;TriaxialSample&#34;:
+            self.x: float = kwargs.get(&#34;x&#34;)
+            self.y: float = kwargs.get(&#34;y&#34;)
+            self.z: float = kwargs.get(&#34;z&#34;)
+        elif self.type == &#34;QuadriaxialSample&#34;:
+            self.x: float = kwargs.get(&#34;x&#34;)
+            self.y: float = kwargs.get(&#34;y&#34;)
+            self.z: float = kwargs.get(&#34;z&#34;)
+            self.u: float = kwargs.get(&#34;u&#34;)
+        elif self.type == &#34;QuinqueaxialSample&#34;:
+            self.x: float = kwargs.get(&#34;x&#34;)
+            self.y: float = kwargs.get(&#34;y&#34;)
+            self.z: float = kwargs.get(&#34;z&#34;)
+            self.u: float = kwargs.get(&#34;u&#34;)
+            self.w: float = kwargs.get(&#34;w&#34;)
+        else:
+            raise ValueError
+
+    @staticmethod
+    def to_protobuf(obj: &#34;TimeseriesSample&#34;) -&gt; TimeseriesMessage:
+        &#34;&#34;&#34;Encode a timeseries sample to a Protobuf message
+
+        Arguments:
+            obj {TimeseriesSample} -- timeseries sample to be encoded
+
+        Returns:
+            TimeseriesMessage -- encoded timeseries sample
+        &#34;&#34;&#34;
+        timeseries_message = TimeseriesMessage()
+        timeseries_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        timeseries_message.timestamp = obj.timestamp
+        timeseries_message.acquisition_id = obj.acquisition_id
+
+        if obj.device_id is not None:
+            timeseries_message.device_id = obj.device_id
+        if obj.sensor_id is not None:
+            timeseries_message.sensor_id = obj.sensor_id
+
+        if obj.type == &#34;UniaxialSample&#34;:
+            timeseries_message.x = obj.x
+        elif obj.type == &#34;BiaxialSample&#34;:
+            timeseries_message.x = obj.x
+            timeseries_message.y = obj.y
+        elif obj.type == &#34;TriaxialSample&#34;:
+            timeseries_message.x = obj.x
+            timeseries_message.y = obj.y
+            timeseries_message.z = obj.z
+        elif obj.type == &#34;QuadriaxialSample&#34;:
+            timeseries_message.x = obj.x
+            timeseries_message.y = obj.y
+            timeseries_message.z = obj.z
+            timeseries_message.u = obj.u
+        elif obj.type == &#34;QuinqueaxialSample&#34;:
+            timeseries_message.x = obj.x
+            timeseries_message.y = obj.y
+            timeseries_message.z = obj.z
+            timeseries_message.u = obj.u
+            timeseries_message.w = obj.w
+        else:
+            raise ValueError
+
+        return timeseries_message
+
+    @staticmethod
+    def from_protobuf(timeseries_message: TimeseriesMessage) -&gt; &#34;TimeseriesSample&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {TimeseriesSample}
+
+        Arguments:
+            obj {TimeseriesMessage} -- message to be decoded
+
+        Returns:
+            TimeseriesSample -- decoded timeseries sample
+        &#34;&#34;&#34;
+        return TimeseriesSample(
+            type=timeseries_message.entity.type,
+            id=timeseries_message.entity.id,
+            tags=timeseries_message.entity.tags,
+            metadata=timeseries_message.entity.metadata,
+            timestamp=timeseries_message.timestamp,
+            acquisition_id=timeseries_message.acquisition_id,
+            device_id=timeseries_message.device_id if timeseries_message.HasField(&#34;device_id&#34;) else None,
+            sensor_id=timeseries_message.sensor_id if timeseries_message.HasField(&#34;sensor_id&#34;) else None,
+            x=timeseries_message.x if timeseries_message.HasField(&#34;x&#34;) else None,
+            y=timeseries_message.y if timeseries_message.HasField(&#34;y&#34;) else None,
+            z=timeseries_message.z if timeseries_message.HasField(&#34;z&#34;) else None,
+            u=timeseries_message.u if timeseries_message.HasField(&#34;u&#34;) else None,
+            w=timeseries_message.w if timeseries_message.HasField(&#34;w&#34;) else None
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {TimeseriesSample}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;].endswith(&#34;axialSample&#34;):
+            timeseries = partial(
+                TimeseriesSample,
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                timestamp=obj[&#34;timestamp&#34;],
+                acquisition_id=obj[&#34;acquisitionId&#34;],
+                device_id=obj[&#34;deviceId&#34;],
+                sensor_id=obj[&#34;sensorId&#34;],
+            )
+
+            if obj[&#34;type&#34;] == &#34;UniaxialSample&#34;:
+                return timeseries(x=obj[&#34;x&#34;])
+            elif obj[&#34;type&#34;] == &#34;BiaxialSample&#34;:
+                return timeseries(x=obj[&#34;x&#34;], y=obj[&#34;y&#34;])
+            elif obj[&#34;type&#34;] == &#34;TriaxialSample&#34;:
+                return timeseries(x=obj[&#34;x&#34;], y=obj[&#34;y&#34;], z=obj[&#34;z&#34;])
+            elif obj[&#34;type&#34;] == &#34;QuadriaxialSample&#34;:
+                return timeseries(x=obj[&#34;x&#34;], y=obj[&#34;y&#34;], z=obj[&#34;z&#34;], u=obj[&#34;u&#34;])
+            elif obj[&#34;type&#34;] == &#34;QuinqueaxialSample&#34;:
+                return timeseries(x=obj[&#34;x&#34;], y=obj[&#34;y&#34;], z=obj[&#34;z&#34;], u=obj[&#34;u&#34;], w=obj[&#34;w&#34;])
+            else:
+                raise ValueError
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.TimeseriesSample.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {TimeseriesSample}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>unexpected object or sub-object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {TimeseriesSample}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Raises:
+        ValueError: unexpected object or sub-object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;].endswith(&#34;axialSample&#34;):
+        timeseries = partial(
+            TimeseriesSample,
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            tags=obj[&#34;tags&#34;],
+            metadata=obj[&#34;metadata&#34;],
+            timestamp=obj[&#34;timestamp&#34;],
+            acquisition_id=obj[&#34;acquisitionId&#34;],
+            device_id=obj[&#34;deviceId&#34;],
+            sensor_id=obj[&#34;sensorId&#34;],
+        )
+
+        if obj[&#34;type&#34;] == &#34;UniaxialSample&#34;:
+            return timeseries(x=obj[&#34;x&#34;])
+        elif obj[&#34;type&#34;] == &#34;BiaxialSample&#34;:
+            return timeseries(x=obj[&#34;x&#34;], y=obj[&#34;y&#34;])
+        elif obj[&#34;type&#34;] == &#34;TriaxialSample&#34;:
+            return timeseries(x=obj[&#34;x&#34;], y=obj[&#34;y&#34;], z=obj[&#34;z&#34;])
+        elif obj[&#34;type&#34;] == &#34;QuadriaxialSample&#34;:
+            return timeseries(x=obj[&#34;x&#34;], y=obj[&#34;y&#34;], z=obj[&#34;z&#34;], u=obj[&#34;u&#34;])
+        elif obj[&#34;type&#34;] == &#34;QuinqueaxialSample&#34;:
+            return timeseries(x=obj[&#34;x&#34;], y=obj[&#34;y&#34;], z=obj[&#34;z&#34;], u=obj[&#34;u&#34;], w=obj[&#34;w&#34;])
+        else:
+            raise ValueError
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.TimeseriesSample.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>timeseries_message: dempy_pb2.TimeseriesSample) -> <a title="dempy.acquisitions.timeseries_sample.TimeseriesSample" href="acquisitions/timeseries_sample.html#dempy.acquisitions.timeseries_sample.TimeseriesSample">TimeseriesSample</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {TimeseriesSample}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {TimeseriesMessage} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>TimeseriesSample -- decoded timeseries sample</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(timeseries_message: TimeseriesMessage) -&gt; &#34;TimeseriesSample&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {TimeseriesSample}
+
+    Arguments:
+        obj {TimeseriesMessage} -- message to be decoded
+
+    Returns:
+        TimeseriesSample -- decoded timeseries sample
+    &#34;&#34;&#34;
+    return TimeseriesSample(
+        type=timeseries_message.entity.type,
+        id=timeseries_message.entity.id,
+        tags=timeseries_message.entity.tags,
+        metadata=timeseries_message.entity.metadata,
+        timestamp=timeseries_message.timestamp,
+        acquisition_id=timeseries_message.acquisition_id,
+        device_id=timeseries_message.device_id if timeseries_message.HasField(&#34;device_id&#34;) else None,
+        sensor_id=timeseries_message.sensor_id if timeseries_message.HasField(&#34;sensor_id&#34;) else None,
+        x=timeseries_message.x if timeseries_message.HasField(&#34;x&#34;) else None,
+        y=timeseries_message.y if timeseries_message.HasField(&#34;y&#34;) else None,
+        z=timeseries_message.z if timeseries_message.HasField(&#34;z&#34;) else None,
+        u=timeseries_message.u if timeseries_message.HasField(&#34;u&#34;) else None,
+        w=timeseries_message.w if timeseries_message.HasField(&#34;w&#34;) else None
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.TimeseriesSample.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: TimeseriesSample) -> dempy_pb2.TimeseriesSample</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode a timeseries sample to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {TimeseriesSample} &ndash; timeseries sample to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>TimeseriesMessage -- encoded timeseries sample</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;TimeseriesSample&#34;) -&gt; TimeseriesMessage:
+    &#34;&#34;&#34;Encode a timeseries sample to a Protobuf message
+
+    Arguments:
+        obj {TimeseriesSample} -- timeseries sample to be encoded
+
+    Returns:
+        TimeseriesMessage -- encoded timeseries sample
+    &#34;&#34;&#34;
+    timeseries_message = TimeseriesMessage()
+    timeseries_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    timeseries_message.timestamp = obj.timestamp
+    timeseries_message.acquisition_id = obj.acquisition_id
+
+    if obj.device_id is not None:
+        timeseries_message.device_id = obj.device_id
+    if obj.sensor_id is not None:
+        timeseries_message.sensor_id = obj.sensor_id
+
+    if obj.type == &#34;UniaxialSample&#34;:
+        timeseries_message.x = obj.x
+    elif obj.type == &#34;BiaxialSample&#34;:
+        timeseries_message.x = obj.x
+        timeseries_message.y = obj.y
+    elif obj.type == &#34;TriaxialSample&#34;:
+        timeseries_message.x = obj.x
+        timeseries_message.y = obj.y
+        timeseries_message.z = obj.z
+    elif obj.type == &#34;QuadriaxialSample&#34;:
+        timeseries_message.x = obj.x
+        timeseries_message.y = obj.y
+        timeseries_message.z = obj.z
+        timeseries_message.u = obj.u
+    elif obj.type == &#34;QuinqueaxialSample&#34;:
+        timeseries_message.x = obj.x
+        timeseries_message.y = obj.y
+        timeseries_message.z = obj.z
+        timeseries_message.u = obj.u
+        timeseries_message.w = obj.w
+    else:
+        raise ValueError
+
+    return timeseries_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.User"><code class="flex name class">
+<span>class <span class="ident">User</span></span>
+<span>(</span><span>type: str, id: str, first_name: str, last_name: str, email: str, username: str, password: str, external_reference: str, active: bool)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>User class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class User(Entity):
+    &#34;&#34;&#34;User class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, first_name: str, last_name: str, email: str, username: str, password: str,
+                 external_reference: str, active: bool):
+        super().__init__(type, id, list(), dict())
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.username = username
+        self.password = password
+        self.external_reference = external_reference
+        self.active = active
+
+    @staticmethod
+    def to_protobuf(obj: &#34;User&#34;) -&gt; UserMessage:
+        &#34;&#34;&#34;Encode an user to a Protobuf message
+
+        Arguments:
+            obj {User} -- user to be encoded
+
+        Returns:
+            UserMessage -- encoded user
+        &#34;&#34;&#34;
+        user_message = UserMessage()
+        user_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        if obj.first_name is not None:
+            user_message.first_name = obj.first_name
+        if obj.last_name is not None:
+            user_message.last_name = obj.last_name
+        if obj.email is not None:
+            user_message.email = obj.email
+
+        user_message.username = obj.username
+        user_message.password = obj.password
+
+        if obj.external_reference is not None:
+            user_message.external_reference = obj.external_reference
+
+        user_message.active = obj.active
+
+        return user_message
+
+    @staticmethod
+    def from_protobuf(obj: ByteString) -&gt; &#34;User&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {User}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            User -- decoded user
+        &#34;&#34;&#34;
+        user_message = UserMessage()
+        user_message.ParseFromString(obj)
+
+        return User(
+            type=user_message.entity.type,
+            id=user_message.entity.id,
+            first_name=user_message.first_name if user_message.HasField(&#34;first_name&#34;) else None,
+            last_name=user_message.last_name if user_message.HasField(&#34;last_name&#34;) else None,
+            email=user_message.email if user_message.HasField(&#34;email&#34;) else None,
+            username=user_message.username,
+            password=user_message.password,
+            external_reference=user_message.external_reference if user_message.HasField(&#34;external_reference&#34;) else None,
+            active=user_message.active
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {User}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;User&#34;:
+            return User(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                first_name=obj[&#34;firstName&#34;],
+                last_name=obj[&#34;lastName&#34;],
+                email=obj[&#34;email&#34;],
+                username=obj[&#34;username&#34;],
+                password=obj[&#34;password&#34;],
+                external_reference=obj[&#34;externalReference&#34;],
+                active=obj[&#34;active&#34;]
+            )
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.User.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {User}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {User}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;User&#34;:
+        return User(
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            first_name=obj[&#34;firstName&#34;],
+            last_name=obj[&#34;lastName&#34;],
+            email=obj[&#34;email&#34;],
+            username=obj[&#34;username&#34;],
+            password=obj[&#34;password&#34;],
+            external_reference=obj[&#34;externalReference&#34;],
+            active=obj[&#34;active&#34;]
+        )
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.User.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: ByteString) -> <a title="dempy.users.User" href="users.html#dempy.users.User">User</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {User}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {ByteString} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>User -- decoded user</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: ByteString) -&gt; &#34;User&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {User}
+
+    Arguments:
+        obj {ByteString} -- message to be decoded
+
+    Returns:
+        User -- decoded user
+    &#34;&#34;&#34;
+    user_message = UserMessage()
+    user_message.ParseFromString(obj)
+
+    return User(
+        type=user_message.entity.type,
+        id=user_message.entity.id,
+        first_name=user_message.first_name if user_message.HasField(&#34;first_name&#34;) else None,
+        last_name=user_message.last_name if user_message.HasField(&#34;last_name&#34;) else None,
+        email=user_message.email if user_message.HasField(&#34;email&#34;) else None,
+        username=user_message.username,
+        password=user_message.password,
+        external_reference=user_message.external_reference if user_message.HasField(&#34;external_reference&#34;) else None,
+        active=user_message.active
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.User.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: User) -> dempy_pb2.User</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode an user to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {User} &ndash; user to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>UserMessage -- encoded user</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;User&#34;) -&gt; UserMessage:
+    &#34;&#34;&#34;Encode an user to a Protobuf message
+
+    Arguments:
+        obj {User} -- user to be encoded
+
+    Returns:
+        UserMessage -- encoded user
+    &#34;&#34;&#34;
+    user_message = UserMessage()
+    user_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    if obj.first_name is not None:
+        user_message.first_name = obj.first_name
+    if obj.last_name is not None:
+        user_message.last_name = obj.last_name
+    if obj.email is not None:
+        user_message.email = obj.email
+
+    user_message.username = obj.username
+    user_message.password = obj.password
+
+    if obj.external_reference is not None:
+        user_message.external_reference = obj.external_reference
+
+    user_message.active = obj.active
+
+    return user_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="dempy.VideoSample"><code class="flex name class">
+<span>class <span class="ident">VideoSample</span></span>
+<span>(</span><span>type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str, sensor_id: str, media_type: str, video_source: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>VideoSample class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class VideoSample(Entity):
+    &#34;&#34;&#34;VideoSample class&#34;&#34;&#34;
+    def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
+                 sensor_id: str, media_type: str, video_source: str):
+        super().__init__(type, id, tags, metadata)
+        self.timestamp = timestamp
+        self.acquisition_id = acquisition_id
+        self.device_id = device_id
+        self.sensor_id = sensor_id
+        self.media_type = media_type
+        self.video_source = video_source
+
+    @staticmethod
+    def to_protobuf(obj: &#34;VideoSample&#34;) -&gt; VideoMessage:
+        &#34;&#34;&#34;Encode a video sample to a Protobuf message
+
+        Arguments:
+            obj {VideoSample} -- video sample to be encoded
+
+        Returns:
+            VideoMessage -- encoded video sample
+        &#34;&#34;&#34;
+        video_message = VideoMessage()
+        video_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+        video_message.timestamp = obj.timestamp
+        video_message.acquisition_id = obj.acquisition_id
+
+        if obj.device_id is not None:
+            video_message.device_id = obj.device_id
+        if obj.sensor_id is not None:
+            video_message.sensor_id = obj.sensor_id
+
+        video_message.media_type = obj.media_type
+        video_message.video_source = obj.video_source
+
+        return video_message
+
+    @staticmethod
+    def from_protobuf(obj: Union[ByteString, VideoMessage]) -&gt; &#34;VideoSample&#34;:
+        &#34;&#34;&#34;Decode a Protobuf message to {VideoSample}
+
+        Arguments:
+            obj {Union[ByteString, VideoMessage]} -- message to be decoded
+
+        Returns:
+            VideoSample -- decoded video sample
+        &#34;&#34;&#34;
+        video_message = obj if isinstance(obj, VideoMessage) else VideoMessage().ParseFromString(obj)
+
+        return VideoSample(
+            type=video_message.entity.type,
+            id=video_message.entity.id,
+            tags=video_message.entity.tags,
+            metadata=video_message.entity.metadata,
+            timestamp=video_message.timestamp,
+            acquisition_id=video_message.acquisition_id,
+            device_id=video_message.device_id if video_message.HasField(&#34;device_id&#34;) else None,
+            sensor_id=video_message.sensor_id if video_message.HasField(&#34;sensor_id&#34;) else None,
+            media_type=video_message.media_type,
+            video_source=video_message.video_source
+        )
+
+    @staticmethod
+    def from_json(obj: Dict[str, str]) -&gt; Any:
+        &#34;&#34;&#34;Parse a JSON dictionary to {VideoSample}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        &#34;&#34;&#34;
+        if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;VideoSample&#34;:
+            return VideoSample(
+                type=obj[&#34;type&#34;],
+                id=obj[&#34;id&#34;],
+                tags=obj[&#34;tags&#34;],
+                metadata=obj[&#34;metadata&#34;],
+                timestamp=obj[&#34;timestamp&#34;],
+                acquisition_id=obj[&#34;acquisitionId&#34;],
+                device_id=obj[&#34;deviceId&#34;],
+                sensor_id=obj[&#34;sensorId&#34;],
+                media_type=obj[&#34;mediaType&#34;],
+                video_source=obj[&#34;videoSource&#34;],
+            )
+
+        return obj</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>dempy._base.Entity</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="dempy.VideoSample.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>obj: Dict[str, str]) -> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Parse a JSON dictionary to {VideoSample}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Dict[str, str]} &ndash; JSON object</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any -- parsed object and sub-objects</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(obj: Dict[str, str]) -&gt; Any:
+    &#34;&#34;&#34;Parse a JSON dictionary to {VideoSample}
+
+    Arguments:
+        obj {Dict[str, str]} -- JSON object
+
+    Returns:
+        Any -- parsed object and sub-objects
+    &#34;&#34;&#34;
+    if &#34;type&#34; in obj and obj[&#34;type&#34;] == &#34;VideoSample&#34;:
+        return VideoSample(
+            type=obj[&#34;type&#34;],
+            id=obj[&#34;id&#34;],
+            tags=obj[&#34;tags&#34;],
+            metadata=obj[&#34;metadata&#34;],
+            timestamp=obj[&#34;timestamp&#34;],
+            acquisition_id=obj[&#34;acquisitionId&#34;],
+            device_id=obj[&#34;deviceId&#34;],
+            sensor_id=obj[&#34;sensorId&#34;],
+            media_type=obj[&#34;mediaType&#34;],
+            video_source=obj[&#34;videoSource&#34;],
+        )
+
+    return obj</code></pre>
+</details>
+</dd>
+<dt id="dempy.VideoSample.from_protobuf"><code class="name flex">
+<span>def <span class="ident">from_protobuf</span></span>(<span>obj: Union[ByteString, dempy_pb2.VideoSample]) -> <a title="dempy.acquisitions.video_sample.VideoSample" href="acquisitions/video_sample.html#dempy.acquisitions.video_sample.VideoSample">VideoSample</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decode a Protobuf message to {VideoSample}</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {Union[ByteString, VideoMessage]} &ndash; message to be decoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>VideoSample -- decoded video sample</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_protobuf(obj: Union[ByteString, VideoMessage]) -&gt; &#34;VideoSample&#34;:
+    &#34;&#34;&#34;Decode a Protobuf message to {VideoSample}
+
+    Arguments:
+        obj {Union[ByteString, VideoMessage]} -- message to be decoded
+
+    Returns:
+        VideoSample -- decoded video sample
+    &#34;&#34;&#34;
+    video_message = obj if isinstance(obj, VideoMessage) else VideoMessage().ParseFromString(obj)
+
+    return VideoSample(
+        type=video_message.entity.type,
+        id=video_message.entity.id,
+        tags=video_message.entity.tags,
+        metadata=video_message.entity.metadata,
+        timestamp=video_message.timestamp,
+        acquisition_id=video_message.acquisition_id,
+        device_id=video_message.device_id if video_message.HasField(&#34;device_id&#34;) else None,
+        sensor_id=video_message.sensor_id if video_message.HasField(&#34;sensor_id&#34;) else None,
+        media_type=video_message.media_type,
+        video_source=video_message.video_source
+    )</code></pre>
+</details>
+</dd>
+<dt id="dempy.VideoSample.to_protobuf"><code class="name flex">
+<span>def <span class="ident">to_protobuf</span></span>(<span>obj: VideoSample) -> dempy_pb2.VideoSample</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Encode a video sample to a Protobuf message</p>
+<h2 id="arguments">Arguments</h2>
+<p>obj {VideoSample} &ndash; video sample to be encoded</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>VideoMessage -- encoded video sample</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def to_protobuf(obj: &#34;VideoSample&#34;) -&gt; VideoMessage:
+    &#34;&#34;&#34;Encode a video sample to a Protobuf message
+
+    Arguments:
+        obj {VideoSample} -- video sample to be encoded
+
+    Returns:
+        VideoMessage -- encoded video sample
+    &#34;&#34;&#34;
+    video_message = VideoMessage()
+    video_message.entity.CopyFrom(Entity.to_protobuf(obj))
+
+    video_message.timestamp = obj.timestamp
+    video_message.acquisition_id = obj.acquisition_id
+
+    if obj.device_id is not None:
+        video_message.device_id = obj.device_id
+    if obj.sensor_id is not None:
+        video_message.sensor_id = obj.sensor_id
+
+    video_message.media_type = obj.media_type
+    video_message.video_source = obj.video_source
+
+    return video_message</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="dempy.acquisitions" href="acquisitions/index.html">dempy.acquisitions</a></code></li>
+<li><code><a title="dempy.cache" href="cache.html">dempy.cache</a></code></li>
+<li><code><a title="dempy.config" href="config.html">dempy.config</a></code></li>
+<li><code><a title="dempy.datasets" href="datasets.html">dempy.datasets</a></code></li>
+<li><code><a title="dempy.organizations" href="organizations.html">dempy.organizations</a></code></li>
+<li><code><a title="dempy.users" href="users.html">dempy.users</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="dempy.Acquisition" href="#dempy.Acquisition">Acquisition</a></code></h4>
+<ul class="two-column">
+<li><code><a title="dempy.Acquisition.annotations" href="#dempy.Acquisition.annotations">annotations</a></code></li>
+<li><code><a title="dempy.Acquisition.devices" href="#dempy.Acquisition.devices">devices</a></code></li>
+<li><code><a title="dempy.Acquisition.from_json" href="#dempy.Acquisition.from_json">from_json</a></code></li>
+<li><code><a title="dempy.Acquisition.from_protobuf" href="#dempy.Acquisition.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.Acquisition.image_samples" href="#dempy.Acquisition.image_samples">image_samples</a></code></li>
+<li><code><a title="dempy.Acquisition.subject" href="#dempy.Acquisition.subject">subject</a></code></li>
+<li><code><a title="dempy.Acquisition.timeseries_samples" href="#dempy.Acquisition.timeseries_samples">timeseries_samples</a></code></li>
+<li><code><a title="dempy.Acquisition.to_protobuf" href="#dempy.Acquisition.to_protobuf">to_protobuf</a></code></li>
+<li><code><a title="dempy.Acquisition.video_samples" href="#dempy.Acquisition.video_samples">video_samples</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.Annotation" href="#dempy.Annotation">Annotation</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.Annotation.from_json" href="#dempy.Annotation.from_json">from_json</a></code></li>
+<li><code><a title="dempy.Annotation.from_protobuf" href="#dempy.Annotation.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.Annotation.to_protobuf" href="#dempy.Annotation.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.Dataset" href="#dempy.Dataset">Dataset</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.Dataset.acquisitions" href="#dempy.Dataset.acquisitions">acquisitions</a></code></li>
+<li><code><a title="dempy.Dataset.from_json" href="#dempy.Dataset.from_json">from_json</a></code></li>
+<li><code><a title="dempy.Dataset.from_protobuf" href="#dempy.Dataset.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.Dataset.to_protobuf" href="#dempy.Dataset.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.Device" href="#dempy.Device">Device</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.Device.from_json" href="#dempy.Device.from_json">from_json</a></code></li>
+<li><code><a title="dempy.Device.from_protobuf" href="#dempy.Device.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.Device.sensors" href="#dempy.Device.sensors">sensors</a></code></li>
+<li><code><a title="dempy.Device.to_protobuf" href="#dempy.Device.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.ImageSample" href="#dempy.ImageSample">ImageSample</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.ImageSample.from_json" href="#dempy.ImageSample.from_json">from_json</a></code></li>
+<li><code><a title="dempy.ImageSample.from_protobuf" href="#dempy.ImageSample.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.ImageSample.to_protobuf" href="#dempy.ImageSample.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.Organization" href="#dempy.Organization">Organization</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.Organization.from_json" href="#dempy.Organization.from_json">from_json</a></code></li>
+<li><code><a title="dempy.Organization.from_protobuf" href="#dempy.Organization.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.Organization.to_protobuf" href="#dempy.Organization.to_protobuf">to_protobuf</a></code></li>
+<li><code><a title="dempy.Organization.users" href="#dempy.Organization.users">users</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.Sensor" href="#dempy.Sensor">Sensor</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.Sensor.from_json" href="#dempy.Sensor.from_json">from_json</a></code></li>
+<li><code><a title="dempy.Sensor.from_protobuf" href="#dempy.Sensor.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.Sensor.to_protobuf" href="#dempy.Sensor.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.Subject" href="#dempy.Subject">Subject</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.Subject.from_json" href="#dempy.Subject.from_json">from_json</a></code></li>
+<li><code><a title="dempy.Subject.from_protobuf" href="#dempy.Subject.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.Subject.to_protobuf" href="#dempy.Subject.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.TimeseriesSample" href="#dempy.TimeseriesSample">TimeseriesSample</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.TimeseriesSample.from_json" href="#dempy.TimeseriesSample.from_json">from_json</a></code></li>
+<li><code><a title="dempy.TimeseriesSample.from_protobuf" href="#dempy.TimeseriesSample.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.TimeseriesSample.to_protobuf" href="#dempy.TimeseriesSample.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.User" href="#dempy.User">User</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.User.from_json" href="#dempy.User.from_json">from_json</a></code></li>
+<li><code><a title="dempy.User.from_protobuf" href="#dempy.User.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.User.to_protobuf" href="#dempy.User.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="dempy.VideoSample" href="#dempy.VideoSample">VideoSample</a></code></h4>
+<ul class="">
+<li><code><a title="dempy.VideoSample.from_json" href="#dempy.VideoSample.from_json">from_json</a></code></li>
+<li><code><a title="dempy.VideoSample.from_protobuf" href="#dempy.VideoSample.from_protobuf">from_protobuf</a></code></li>
+<li><code><a title="dempy.VideoSample.to_protobuf" href="#dempy.VideoSample.to_protobuf">to_protobuf</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

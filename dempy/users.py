@@ -6,6 +6,7 @@ from dempy._protofiles import UserMessage
 
 
 class User(Entity):
+    """User class"""
     def __init__(self, type: str, id: str, first_name: str, last_name: str, email: str, username: str, password: str,
                  external_reference: str, active: bool):
         super().__init__(type, id, list(), dict())
@@ -19,6 +20,14 @@ class User(Entity):
 
     @staticmethod
     def to_protobuf(obj: "User") -> UserMessage:
+        """Encode an user to a Protobuf message
+
+        Arguments:
+            obj {User} -- user to be encoded
+
+        Returns:
+            UserMessage -- encoded user
+        """
         user_message = UserMessage()
         user_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -41,6 +50,14 @@ class User(Entity):
 
     @staticmethod
     def from_protobuf(obj: ByteString) -> "User":
+        """Decode a Protobuf message to {User}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            User -- decoded user
+        """
         user_message = UserMessage()
         user_message.ParseFromString(obj)
 
@@ -57,7 +74,15 @@ class User(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {User}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj and obj["type"] == "User":
             return User(
                 type=obj["type"],
@@ -78,6 +103,14 @@ _ENDPOINT = "api/users/"
 
 
 def get(user_id: str = None) -> Union[User, List[User]]:
+    """Get an user identified by `user_id` or a list of all users
+
+    Keyword Arguments:
+        user_id {str} -- id of the user (default: {None})
+
+    Returns:
+        Union[User, List[User]] -- user or list of users
+    """
     if user_id is None:
         users = _api_calls.get(_ENDPOINT).json(object_hook=User.from_json)
         for user in users:
@@ -93,6 +126,11 @@ def get(user_id: str = None) -> Union[User, List[User]]:
 
 
 def count() -> int:
+    """Get the number of users
+
+    Returns:
+        int -- number of users
+    """
     return _api_calls.get(_ENDPOINT + "count").json()
 
 

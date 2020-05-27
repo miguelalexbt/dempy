@@ -5,6 +5,7 @@ from dempy._protofiles import VideoMessage
 
 
 class VideoSample(Entity):
+    """VideoSample class"""
     def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
                  sensor_id: str, media_type: str, video_source: str):
         super().__init__(type, id, tags, metadata)
@@ -17,6 +18,14 @@ class VideoSample(Entity):
 
     @staticmethod
     def to_protobuf(obj: "VideoSample") -> VideoMessage:
+        """Encode a video sample to a Protobuf message
+
+        Arguments:
+            obj {VideoSample} -- video sample to be encoded
+
+        Returns:
+            VideoMessage -- encoded video sample
+        """
         video_message = VideoMessage()
         video_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -35,6 +44,14 @@ class VideoSample(Entity):
 
     @staticmethod
     def from_protobuf(obj: Union[ByteString, VideoMessage]) -> "VideoSample":
+        """Decode a Protobuf message to {VideoSample}
+
+        Arguments:
+            obj {Union[ByteString, VideoMessage]} -- message to be decoded
+
+        Returns:
+            VideoSample -- decoded video sample
+        """
         video_message = obj if isinstance(obj, VideoMessage) else VideoMessage().ParseFromString(obj)
 
         return VideoSample(
@@ -51,7 +68,15 @@ class VideoSample(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {VideoSample}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj and obj["type"] == "VideoSample":
             return VideoSample(
                 type=obj["type"],

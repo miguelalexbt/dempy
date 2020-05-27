@@ -5,6 +5,7 @@ from dempy._protofiles import SubjectMessage
 
 
 class Subject(Entity):
+    """Subject class"""
     def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], birthdate_timestamp: int, description: str,
                  first_name: str, last_name: str):
         super().__init__(type, id, tags, metadata)
@@ -15,6 +16,14 @@ class Subject(Entity):
 
     @staticmethod
     def to_protobuf(obj: "Subject") -> SubjectMessage:
+        """Encode an subject to a Protobuf message
+
+        Arguments:
+            obj {Subject} -- subject to be encoded
+
+        Returns:
+            SubjectMessage -- encoded subject
+        """
         subject_message = SubjectMessage()
         subject_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -31,6 +40,14 @@ class Subject(Entity):
 
     @staticmethod
     def from_protobuf(subject_message: SubjectMessage) -> "Subject":
+        """Decode a Protobuf message to {Subject}
+
+        Arguments:
+            obj {SubjectMessage} -- message to be decoded
+
+        Returns:
+            Subject -- decoded subject
+        """
         return Subject(
             type=subject_message.entity.type,
             id=subject_message.entity.id,
@@ -43,7 +60,15 @@ class Subject(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {Subject}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj and obj["type"].endswith("Subject"):
             return Subject(
                 type=obj["type"],
@@ -55,6 +80,7 @@ class Subject(Entity):
                 first_name=obj["firstName"],
                 last_name=obj["lastName"]
             )
+
         return obj
 
 

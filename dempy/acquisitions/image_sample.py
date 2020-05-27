@@ -5,6 +5,7 @@ from dempy._protofiles import ImageMessage
 
 
 class ImageSample(Entity):
+    """ImageSample class"""
     def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
                  sensor_id: str, media_type: str, image_source: str, has_rotation_metadata: bool):
         super().__init__(type, id, tags, metadata)
@@ -18,6 +19,14 @@ class ImageSample(Entity):
 
     @staticmethod
     def to_protobuf(obj: "ImageSample") -> ImageMessage:
+        """Encode a image sample to a Protobuf message
+
+        Arguments:
+            obj {ImageSample} -- image sample to be encoded
+
+        Returns:
+            ImageMessage -- encoded image sample
+        """
         image_message = ImageMessage()
         image_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -37,6 +46,14 @@ class ImageSample(Entity):
 
     @staticmethod
     def from_protobuf(obj: Union[ByteString, ImageMessage]) -> "ImageSample":
+        """Decode a Protobuf message to {ImageSample}
+
+        Arguments:
+            obj {Union[ByteString, ImageMessage]} -- message to be decoded
+
+        Returns:
+            ImageSample -- decoded image sample
+        """
         image_message = obj if isinstance(obj, ImageMessage) else ImageMessage().ParseFromString(obj)
 
         return ImageSample(
@@ -54,7 +71,15 @@ class ImageSample(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {ImageSample}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj and obj["type"] == "ImageSample":
             return ImageSample(
                 type=obj["type"],

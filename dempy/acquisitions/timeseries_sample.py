@@ -6,6 +6,7 @@ from dempy._protofiles import TimeseriesMessage
 
 
 class TimeseriesSample(Entity):
+    """TimeseriesSample class"""
     def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], timestamp: int, acquisition_id: str, device_id: str,
                  sensor_id: str, **kwargs):
         super().__init__(type, id, tags, metadata)
@@ -39,6 +40,14 @@ class TimeseriesSample(Entity):
 
     @staticmethod
     def to_protobuf(obj: "TimeseriesSample") -> TimeseriesMessage:
+        """Encode a timeseries sample to a Protobuf message
+
+        Arguments:
+            obj {TimeseriesSample} -- timeseries sample to be encoded
+
+        Returns:
+            TimeseriesMessage -- encoded timeseries sample
+        """
         timeseries_message = TimeseriesMessage()
         timeseries_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -77,6 +86,14 @@ class TimeseriesSample(Entity):
 
     @staticmethod
     def from_protobuf(timeseries_message: TimeseriesMessage) -> "TimeseriesSample":
+        """Decode a Protobuf message to {TimeseriesSample}
+
+        Arguments:
+            obj {TimeseriesMessage} -- message to be decoded
+
+        Returns:
+            TimeseriesSample -- decoded timeseries sample
+        """
         return TimeseriesSample(
             type=timeseries_message.entity.type,
             id=timeseries_message.entity.id,
@@ -94,7 +111,18 @@ class TimeseriesSample(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {TimeseriesSample}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj and obj["type"].endswith("axialSample"):
             timeseries = partial(
                 TimeseriesSample,

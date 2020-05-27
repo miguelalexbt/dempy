@@ -7,6 +7,7 @@ from dempy.acquisitions import Acquisition, get as _get_acquisition
 
 
 class Dataset(Entity):
+    """Dataset class"""
     def __init__(self, type: str, id: str, tags: List[str], name: str, description: str, creator_id: str, owner_id: str):
         super().__init__(type, id, tags, dict())
         self.name = name
@@ -16,21 +17,44 @@ class Dataset(Entity):
 
     @property
     def acquisitions(self):
+        """Acquisitions' API"""
         class Inner:
             _ACQUISITIONS_ENDPOINT = _ENDPOINT + "{}/acquisitions/".format(self.id)
 
             @staticmethod
-            def get(tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[Acquisition, List[Acquisition]]:
+            def get(tags: List[str] = [], metadata: Dict[str, str] = {}) -> List[Acquisition]:
+                """Get acquisitions that belong to this dataset
+
+                Keyword Arguments:
+                    tags {List[str]} -- tags of the acquisitions (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the acquisitions (default: {{}})
+
+                Returns:
+                    List[Acquisition] --list of acquisitions
+                """
                 return _get_acquisition(dataset_id=self.id, tags=tags, metadata=metadata)
 
             @staticmethod
             def count() -> int:
+                """Get the number of acquisitions on this dataset
+
+                Returns:
+                    int -- number of acquisitions
+                """
                 return _api_calls.get(Inner._ACQUISITIONS_ENDPOINT + "count").json()
 
         return Inner()
 
     @staticmethod
     def to_protobuf(obj: "Dataset") -> DatasetMessage:
+        """Encode an dataset to a Protobuf message
+
+        Arguments:
+            obj {Dataset} -- dataset to be encoded
+
+        Returns:
+            DatasetMessage -- encoded dataset
+        """
         dataset_message = DatasetMessage()
         dataset_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -47,6 +71,14 @@ class Dataset(Entity):
 
     @staticmethod
     def from_protobuf(obj: ByteString) -> "Dataset":
+        """Decode a Protobuf message to {Dataset}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Dataset -- decoded dataset
+        """
         dataset_message = DatasetMessage()
         dataset_message.ParseFromString(obj)
 
@@ -61,7 +93,15 @@ class Dataset(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {Dataset}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj and obj["type"] == "Dataset":
             return Dataset(
                 type=obj["type"],
@@ -80,6 +120,15 @@ _ENDPOINT = "api/datasets/"
 
 
 def get(dataset_id: str = None, tags: List[str] = []) -> Union[Dataset, List[Dataset]]:
+    """Get a dataset identified by `dataset_id` or a list of all the datasets
+
+    Keyword Arguments:
+        dataset_id {str} -- id of the dataset (default: {None})
+        tags {List[str]} -- tags of the datasets (default: {[]})
+
+    Returns:
+        Union[Dataset, List[Dataset]] -- dataset or list of datasets
+    """
     if dataset_id is None:
         datasets = _api_calls.get(_ENDPOINT, params={"tags": tags}).json(object_hook=Dataset.from_json)
         for dataset in datasets:
@@ -95,6 +144,11 @@ def get(dataset_id: str = None, tags: List[str] = []) -> Union[Dataset, List[Dat
 
 
 def count() -> int:
+    """Get the number of datasets
+
+    Returns:
+        int -- number of datasets
+    """
     return _api_calls.get(_ENDPOINT + "count").json()
 
 

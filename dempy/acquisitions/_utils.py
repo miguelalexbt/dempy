@@ -7,14 +7,44 @@ from dempy.acquisitions.video_sample import VideoSample
 
 
 class SampleList(list):
+    """Wrapper list class with custom methods for handling samples
+
+    Arguments:
+        list {List[Sample]} -- list of samples
+    """
     def by_device(self, device_id: str) -> "SampleList":
+        """Returns the samples of a device specified by `device_id`
+
+        Arguments:
+            device_id {str} -- id of the device
+
+        Returns:
+            SampleList -- List containing the samples
+        """
         return SampleList([i for i in self if i.device_id is not None and i.device_id == device_id])
 
+    
     def by_sensor(self, sensor_id: str) -> "SampleList":
+        """Returns the samples that use the sensor specified by `sensor_id`
+
+        Arguments:
+            sensor_id {str} -- id of the device
+
+        Returns:
+            SampleList -- List containing the samples
+        """
         return SampleList([i for i in self if i.sensor_id is not None and i.sensor_id == sensor_id])
 
     @staticmethod
     def to_protobuf(obj: "SampleList") -> SampleListMessage:
+        """Encode a sample list to a Protobuf message
+
+        Arguments:
+            obj {SampleList} -- sample list to be encoded
+
+        Returns:
+            SampleListMessage -- encoded sample list
+        """
         sample_list_message = SampleListMessage()
 
         if len(obj) > 0:
@@ -30,7 +60,15 @@ class SampleList(list):
         return sample_list_message
 
     @staticmethod
-    def from_protobuf(obj: Union[ByteString, SampleListMessage]) -> "SampleList":
+    def from_protobuf(obj: ByteString) -> "SampleList":
+        """Decode a Protobuf message to {SampleList}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            SampleList -- decoded sample list
+        """
         sample_list_message = SampleListMessage()
         sample_list_message.ParseFromString(obj)
 
@@ -43,5 +81,18 @@ class SampleList(list):
 
 
 class AnnotationList(list):
+    """Wrapper list class with custom methods for handling annotations
+
+    Arguments:
+        list {List[Annotation]} -- list of annotations
+    """
     def by_sample(self, sample_id: str) -> "AnnotationList":
+        """Returns the annotations containing a sample specified by `sample_id`
+
+        Arguments:
+            sample_id {str} -- id of the sample
+
+        Returns:
+            AnnotationList -- List containing the annotations
+        """
         return AnnotationList([i for i in self if i.annotated_sample_id == sample_id])

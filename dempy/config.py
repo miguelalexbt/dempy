@@ -10,12 +10,24 @@ _defaults = {
 }
 
 base_url = ""
+"""Base url of the REST API"""
+
 user = ""
+"""User name, if applicable"""
+
 password = ""
+"""Password, if applicable"""
+
 cache_dir = ""
+"""Cache directory"""
 
 
 def use_profile(profile_key: str) -> None:
+    """Use a profile defined in the configuration file
+
+    Arguments:
+        profile_key {str} -- key of the profile to be used
+    """
     _setup(profile_key)
 
 

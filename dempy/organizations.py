@@ -7,6 +7,7 @@ from dempy.users import User, get as _get_user
 
 
 class Organization(Entity):
+    """Organization class"""
     def __init__(self, type: str, id: str, name: str, description: str, url: str, email: str, phone: str, users_ids: List[str]):
         super().__init__(type, id, list(), dict())
         self.name = name
@@ -18,21 +19,40 @@ class Organization(Entity):
 
     @property
     def users(self):
+        """Users' API"""
         class Inner:
             _USERS_ENDPOINT = _ENDPOINT + "{}/users/".format(self.id)
 
             @staticmethod
             def get() -> List[User]:
+                """Get all the users that belong to this organization
+
+                Returns:
+                    List[User] -- list of users
+                """
                 return [_get_user(u) for u in self._users_ids]
 
             @staticmethod
             def count() -> int:
+                """Get the number of users on this organization
+
+                Returns:
+                    int -- number of users
+                """
                 return len(self._users_ids)
 
         return Inner()
 
     @staticmethod
     def to_protobuf(obj: "Organization") -> OrganizationMessage:
+        """Encode an organization to a Protobuf message
+
+        Arguments:
+            obj {Organization} -- organization to be encoded
+
+        Returns:
+            OrganizationMessage -- encoded organization
+        """
         organization_message = OrganizationMessage()
         organization_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -53,6 +73,14 @@ class Organization(Entity):
 
     @staticmethod
     def from_protobuf(obj: ByteString) -> "Organization":
+        """Decode a Protobuf message to {Organization}
+
+        Arguments:
+            obj {ByteString} -- message to be decoded
+
+        Returns:
+            Organization -- decoded organization
+        """
         organization_message = OrganizationMessage()
         organization_message.ParseFromString(obj)
 
@@ -68,7 +96,15 @@ class Organization(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {Organization}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj and obj["type"] == "Organization":
             return Organization(
                 type=obj["type"],
@@ -88,6 +124,14 @@ _ENDPOINT = "api/organizations/"
 
 
 def get(organization_id: str = None) -> Union[Organization, List[Organization]]:
+    """Get an organization identified by `organization_id` or a list of all organizations
+
+    Keyword Arguments:
+        organization_id {str} -- id of organization (default: {None})
+
+    Returns:
+        Union[Organization, List[Organization]] -- organization or list of organizations
+    """
     if organization_id is None:
         organizations = _api_calls.get(_ENDPOINT).json(object_hook=Organization.from_json)
         for organization in organizations:
@@ -103,6 +147,11 @@ def get(organization_id: str = None) -> Union[Organization, List[Organization]]:
 
 
 def count() -> int:
+    """Get the number of organizations
+
+    Returns:
+        int -- number of organizations
+    """
     return _api_calls.get(_ENDPOINT + "count").json()
 
 

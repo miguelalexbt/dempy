@@ -6,6 +6,7 @@ from dempy.acquisitions.sensor import Sensor
 
 
 class Device(Entity):
+    """Device class"""
     def __init__(self, type: str, id: str, tags: List[str], metadata: Dict[str, str], sync_offset: int, time_unit: str, serial_number: str,
                  manufacturer: str, model_name: str, sensors: List[Sensor]):
         super().__init__(type, id, tags, metadata)
@@ -18,9 +19,23 @@ class Device(Entity):
 
     @property
     def sensors(self):
+        """Sensors' API"""
         class Inner:
             @staticmethod
             def get(sensor_id: str = None, tags: List[str] = [], metadata: Dict[str, str] = {}) -> Union[Sensor, List[Sensor]]:
+                """Get all the sensors that belong to this device
+
+                Keyword Arguments:
+                    sensor_id {str} -- id of the sensor (default: {None})
+                    tags {List[str]} -- tags of the sensor (default: {[]})
+                    metadata {Dict[str, str]} -- metadata of the sensor (default: {{}})
+
+                Raises:
+                    IndexError: sensor identified by `sensor_id` does not exist in this device
+
+                Returns:
+                    Union[Sensor, List[Sensor]] -- sensor or list of sensors
+                """                
                 if sensor_id is None:
                     if len(tags) > 0 or len(metadata) > 0:
                         return [s for s in self._sensors if
@@ -36,12 +51,25 @@ class Device(Entity):
 
             @staticmethod
             def count() -> int:
+                """Get the number of sensors on this device
+
+                Returns:
+                    int -- number of sensors
+                """
                 return len(self._sensors)
 
         return Inner()
 
     @staticmethod
     def to_protobuf(obj: "Device") -> DeviceMessage:
+        """Encode an device to a Protobuf message
+
+        Arguments:
+            obj {Device} -- device to be encoded
+
+        Returns:
+            DeviceMessage -- encoded device
+        """
         device_message = DeviceMessage()
         device_message.entity.CopyFrom(Entity.to_protobuf(obj))
 
@@ -62,6 +90,14 @@ class Device(Entity):
 
     @staticmethod
     def from_protobuf(device_message: DeviceMessage) -> "Device":
+        """Decode a Protobuf message to {Device}
+
+        Arguments:
+            obj {DeviceMessage} -- message to be decoded
+
+        Returns:
+            Device -- decoded device
+        """
         return Device(
             type=device_message.entity.type,
             id=device_message.entity.id,
@@ -76,7 +112,18 @@ class Device(Entity):
         )
 
     @staticmethod
-    def from_json(obj: Dict[str, Any]) -> Any:
+    def from_json(obj: Dict[str, str]) -> Any:
+        """Parse a JSON dictionary to {Device}
+
+        Arguments:
+            obj {Dict[str, str]} -- JSON object
+
+        Raises:
+            ValueError: unexpected object or sub-object
+
+        Returns:
+            Any -- parsed object and sub-objects
+        """
         if "type" in obj:
             if obj["type"] == "Device":
                 return Device(
@@ -95,6 +142,7 @@ class Device(Entity):
                 return Sensor.from_json(obj)
             else:
                 raise ValueError
+
         return obj
 
 
