@@ -27,7 +27,7 @@ A package that simplifies access and management of datasets and their annotation
 import dempy
 
 dataset = dempy.datasets.get("123")
-acq = dataset.acquisitions.get("456")
+acq = dempy.acquisitions.get("456")
 video_samples = acq.video_samples.get()
 dev_videos = video_samples.by_device("789")
 
